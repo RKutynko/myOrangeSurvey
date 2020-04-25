@@ -1,0 +1,332 @@
+@font-face {
+    font-family: "HelveticaNeue-Bold";
+    src: url("../assets/fonts/HelveticaNeue-Bold/HelveticaNeue-Bold.eot");
+    src: url("../assets/fonts/HelveticaNeue-Bold/HelveticaNeue-Bold.eot?#iefix") format("embedded-opentype"), url("../assets/fonts/HelveticaNeue-Bold/HelveticaNeue-Bold.woff2") format("woff2"), url("../assets/fonts/HelveticaNeue-Bold/HelveticaNeue-Bold.woff") format("woff"), url("../assets/fonts/HelveticaNeue-Bold/HelveticaNeue-Bold.ttf") format("truetype"), url("../assets/fonts/HelveticaNeue-Bold/HelveticaNeue-Bold.svg#HelveticaNeue-Bold") format("svg");
+}
+
+@font-face {
+    font-family: "HelveticaNeue-55-Roman";
+    src: url("../assets/fonts/HelveticaNeue-55-Roman/HelveticaNeue-55-Roman.eot");
+    src: url("../assets/fonts/HelveticaNeue-55-Roman/HelveticaNeue-55-Roman.eot?#iefix") format("embedded-opentype"), url("../assets/fonts/HelveticaNeue-55-Roman/HelveticaNeue-55-Roman.woff2") format("woff2"), url("../assets/fonts/HelveticaNeue-55-Roman/HelveticaNeue-55-Roman.woff") format("woff"), url("../assets/fonts/HelveticaNeue-55-Roman/HelveticaNeue-55-Roman.ttf") format("truetype"), url("../assets/fonts/HelveticaNeue-55-Roman/HelveticaNeue-55-Roman.svg#HelveticaNeue-55-Roman") format("svg");
+}
+
+.greeting_text__wrapper {
+    padding: 12px;
+    background: #DDDDDD;
+    border-radius: 6px;
+    position: relative;
+    margin: 0 0 20px;
+}
+
+.greeting_text__wrapper::before {
+    position: absolute;
+    content: "";
+    right: calc(50% - 28px);
+    top: -20px;
+    width: 0;
+    height: 0;
+    border-bottom: 20px solid #DDDDDD;
+    border-right: 28px solid transparent;
+}
+
+.greeting_avatar__wrapper {
+    text-align: center;
+    margin: 12px 12px 30px;
+}
+
+.greeting_title {
+    color: #000000;
+    font-size: 18px;
+    font-family: "HelveticaNeue-Bold";
+    letter-spacing: -0.2px;
+    line-height: 20px;
+    margin: 0;
+}
+
+.greeting_text {
+    color: #000000;
+    font-family: "HelveticaNeue-55-Roman";
+    font-size: 16px;
+    letter-spacing: -0.1px;
+    line-height: 18px;
+    margin: 0;
+}
+
+.submit_btn__wrapper {
+    margin: 49px 0 0;
+}
+
+.submit_btn {
+    text-align: center;
+    width: 100%;
+    height: 40px;
+    background-color: #F16E00;
+    color: #FFFFFF;
+    font-family: "HelveticaNeue-Bold";
+    font-size: 16px;
+    letter-spacing: -0.1px;
+    line-height: 18px;
+    border: none;
+}
+
+.question_label {
+    font-family: "HelveticaNeue-Bold";
+    color: #666666;
+    font-size: 14px;
+    letter-spacing: -0.1px;
+    line-height: 16px;
+}
+
+.question_title {
+    color: #000000;
+    font-family: "HelveticaNeue-Bold";
+    font-size: 18px;
+    letter-spacing: -0.2px;
+    line-height: 20px;
+    margin: 10px 0 33px;
+}
+
+.question_checkbox {
+    margin: 0 0 15px;
+}
+
+.question_checkbox input[type=checkbox] {
+    display: none;
+}
+
+.question_checkbox_label {
+    display: inline-block;
+    min-height: 20px;
+    background: url("../assets/images/sprites/checkbox.png") no-repeat;
+    background-position: -10px -10px;
+    padding-left: 30px;
+    color: #000000;
+    font-family: "HelveticaNeue-Bold";
+    font-size: 16px;
+    letter-spacing: -0.1px;
+    line-height: 18px;
+}
+
+.question_checkbox input[type=checkbox]:checked+.question_checkbox_label {
+    background-position: -10px -50px;
+}
+
+.feedback_wrapper input[type=radio] {
+    display: none;
+}
+
+.emotions_icon {
+    background-image: url("../assets/images/sprites/emotions.png");
+    background-repeat: no-repeat;
+    display: inline-block;
+    width: 60px;
+    height: 60px;
+    cursor: pointer;
+}
+
+.emotions_icon__1 {
+    background-position: -10px -10px;
+}
+
+.emotions_icon__1:hover, .emotions_icon__1:active, .emotions_icon__1:focus {
+    background-position: -70px -10px;
+}
+
+.emotions_icon__2 {
+    background-position: -10px -90px;
+}
+
+.emotions_icon__2:hover, .emotions_icon__1:active, .emotions_icon__1:focus {
+    background-position: -70px -90px;
+}
+
+.emotions_icon__3 {
+    background-position: -10px -170px;
+}
+
+.emotions_icon__3:hover, .emotions_icon__1:active, .emotions_icon__1:focus {
+    background-position: -70px -170px;
+}
+
+.emotions_icon__4 {
+    background-position: -10px -250px;
+}
+
+.emotions_icon__4:hover, .emotions_icon__1:active, .emotions_icon__1:focus {
+    background-position: -70px -250px;
+}
+
+.emotions_icon__5 {
+    background-position: -70px -330px;
+}
+
+.emotions_icon__5:hover, .emotions_icon__1:active, .emotions_icon__1:focus {
+    background-position: -10px -330px;
+}
+
+.question_radio {
+    display: inline-block;
+}
+
+.question_radio_label {
+    color: #000000;
+    font-family: "HelveticaNeue-Bold";
+    font-size: 16px;
+    letter-spacing: -0.1px;
+    line-height: 18px;
+}
+
+input[type=range] {
+    -webkit-appearance: none;
+    width: 100%;
+    margin: 7px 0;
+  }
+  input[type=range]:focus {
+    outline: none;
+  }
+  input[type=range]::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 6px;
+    cursor: pointer;
+    background: #eeeeee;
+    border-radius: 0px;
+    border: 0px solid #eeeeee;
+  }
+  input[type=range]::-webkit-slider-thumb {
+    border: 2px solid #000000;
+    height: 20px;
+    width: 20px;
+    border-radius: 50px;
+    background: #ffffff;
+    cursor: pointer;
+    -webkit-appearance: none;
+    margin-top: -7px;
+  }
+  input[type=range]:focus::-webkit-slider-runnable-track {
+    background: #f6f6f6;
+  }
+  input[type=range]::-moz-range-track {
+    width: 100%;
+    height: 6px;
+    cursor: pointer;
+    background: #eeeeee;
+    border-radius: 0px;
+    border: 0px solid #eeeeee;
+  }
+  input[type=range]::-moz-range-thumb {
+    border: 2px solid #000000;
+    height: 20px;
+    width: 20px;
+    border-radius: 50px;
+    background: #ffffff;
+    cursor: pointer;
+  }
+  input[type=range]::-ms-track {
+    width: 100%;
+    height: 6px;
+    cursor: pointer;
+    background: transparent;
+    border-color: transparent;
+    color: transparent;
+  }
+  input[type=range]::-ms-fill-lower {
+    background: #e6e6e6;
+    border: 0px solid #eeeeee;
+    border-radius: 0px;
+  }
+  input[type=range]::-ms-fill-upper {
+    background: #eeeeee;
+    border: 0px solid #eeeeee;
+    border-radius: 0px;
+  }
+  input[type=range]::-ms-thumb {
+    border: 2px solid #000000;
+    height: 20px;
+    width: 20px;
+    border-radius: 50px;
+    background: #ffffff;
+    cursor: pointer;
+    height: 6px;
+  }
+  input[type=range]:focus::-ms-fill-lower {
+    background: #F16E00;
+  }
+  input[type=range]:focus::-ms-fill-upper {
+    background: #f6f6f6;
+  }
+  
+
+.question_input {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    width: 100%;
+    border: 2px solid #CCCCCC;
+    padding: 10px;
+    color: #000000;
+    font-family: "HelveticaNeue-55-Roman";
+    font-size: 16px;
+    letter-spacing: -0.1px;
+    line-height: 18px;
+}
+
+.question_textarea {
+    height: 110px;
+}
+
+.question_input::-webkit-input-placeholder {
+    color: #666666;
+    font-family: "HelveticaNeue-55-Roman";
+    font-size: 16px;
+    letter-spacing: -0.1px;
+    line-height: 18px;
+}
+
+.question_input:-moz-placeholder {
+    color: #666666;
+    font-family: "HelveticaNeue-55-Roman";
+    font-size: 16px;
+    letter-spacing: -0.1px;
+    line-height: 18px;
+}
+
+.question_input::-moz-placeholder {
+    color: #666666;
+    font-family: "HelveticaNeue-55-Roman";
+    font-size: 16px;
+    letter-spacing: -0.1px;
+    line-height: 18px;
+}
+
+.question_input:-ms-input-placeholder {
+    color: #666666;
+    font-family: "HelveticaNeue-55-Roman";
+    font-size: 16px;
+    letter-spacing: -0.1px;
+    line-height: 18px;
+}
+
+.question_input::placeholder {
+    color: #666666;
+    font-family: "HelveticaNeue-55-Roman";
+    font-size: 16px;
+    letter-spacing: -0.1px;
+    line-height: 18px;
+}
+
+.greeting_input__wrapper {}
+
+.greeting_input {
+    height: 40px;
+    margin: 0 0 10px;
+}
+
+.warning_block__wrapper {}
+
+.warning_block {
+    color: #000000;
+    font-family: "HelveticaNeue-Bold";
+    font-size: 14px;
+    letter-spacing: -0.1px;
+    line-height: 16px;
+}
