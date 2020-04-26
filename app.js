@@ -123,27 +123,18 @@ $(window).on("load", () => {
       //Add inputs on final page
       if(params.is_enable_goodbye_form.is_enable.text) {        
         const goodbyeInputContainer = $('<div class="message_input__wrapper" />');
-        const goodbyeInput1 = $(
-          '<input type="text" id="' + params.is_enable_goodbye_form.input_1_name.text
-         + '" name="'+ params.is_enable_goodbye_form.input_1_name.text
-         +'" placeholder="' + params.is_enable_goodbye_form.input_1_placeholder.text
-         + '" class="message_input question_input" />'
-         );
-         const goodbyeInput2 = $(
-          '<input type="text" id="' + params.is_enable_goodbye_form.input_2_name.text
-         + '" name="'+ params.is_enable_goodbye_form.input_2_name.text
-         +'" placeholder="' + params.is_enable_goodbye_form.input_2_placeholder.text
-         + '" class="message_input question_input" />'
-         );
-         goodbyeInputContainer.append(goodbyeInput1);
-         goodbyeInputContainer.append(goodbyeInput2);
 
+        _.forEach(params.is_enable_goodbye_form.inputs, (input) => {
+          const goodbyeInput = $(
+            '<input type="text" id="' + input.name.text
+           + '" name="'+ input.name.text
+           +'" placeholder="' + input.placeholder.text
+           + '" class="message_input question_input" />'
+           );
+           goodbyeInputContainer.append(goodbyeInput);
+        });      
          goodbyePage.append(goodbyeInputContainer);
       }
-
-
-
-
 
 
 
@@ -152,7 +143,6 @@ $(window).on("load", () => {
       //TODO Добавить  Question 1/3 счетчик вопросов
       const questionLabel = $('<p class="question_label">Question ' + '</p>');
       const questionTitle = $('<p class="question_title" />');
-      questionTitle.text(page.)
 
 
 
