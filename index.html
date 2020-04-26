@@ -3,27 +3,26 @@
   <head>
     <meta charset="utf-8" />
     <title>Survey InApp</title>
-    <meta name="description" content="popup survey in-app" />
+    <meta name="description" content="multiple fullscreen survey in-app" />
     <meta name="author" content="FollowAnalytics" />
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
     />
+    <link href="./css/main.css" rel="stylesheet" />
     <link href="./css/style.css" rel="stylesheet" />
-    <!-- <script type="text/javascript" src="fa-sdk.js"></script>
-    <script type="text/javascript" src="fa-params.js"></script> -->
   </head>
   <body>
-    <div id="popup">
-      <div class="greeting__wrapper">
-        <div class="greeting_avatar__wrapper">
-          <img class="greeting_avatar" src="./assets/images/Avatar.png" />
+    <div id="popup" class="multiFullcreenTemplate">
+      <div class="message__wrapper">
+        <div class="message_avatar__wrapper">
+          <img class="message_avatar" src="./assets/images/Avatar.png" />
         </div>
-        <div class="greeting_text__wrapper">
-          <p class="greeting_title">
+        <div class="message_text__wrapper">
+          <p class="message_title">
             Merci d’avoir utilisé Orange et moi !
           </p>
-          <p class="greeting_text">
+          <p class="message_text">
             Afin de faire évoluer notre application pour qu’elle réponde à tous
             vos besoins nous souhaiterions recueillir votre avis.
           </p>
@@ -37,7 +36,7 @@
 
       <br /><br />
 
-      <div>
+      <div class="question__wrapper">
         <p id="questionLabel" class="question_label">
           Question 1/3 Multiple choices
         </p>
@@ -247,33 +246,33 @@
 
       <br /><br />
 
-      <div class="greeting__wrapper">
-        <div class="greeting_avatar__wrapper">
-          <img class="greeting_avatar" src="./assets/images/Avatar.png" />
+      <div class="message__wrapper">
+        <div class="message_avatar__wrapper">
+          <img class="message_avatar" src="./assets/images/Avatar.png" />
         </div>
-        <div class="greeting_text__wrapper">
-          <p class="greeting_title">
+        <div class="message_text__wrapper">
+          <p class="message_title">
             Merci !
           </p>
-          <p class="greeting_text">
+          <p class="message_text">
             Votre avis est très important pour nous, souhaitez-vous que nos
             équipes vous recontactent ?
           </p>
         </div>
-        <div class="greeting_input__wrapper">
+        <div class="message_input__wrapper">
           <input
             type="text"
             id="name"
             name="name"
             placeholder="Prénom Nom"
-            class="greeting_input question_input"
+            class="message_input question_input"
           />
           <input
             type="text"
-            id="mobile"
-            name="mobile"
+            id="phone"
+            name="phone"
             placeholder="Numéro de mobile"
-            class="greeting_input question_input"
+            class="message_input question_input"
           />
         </div>
         <div class="submit_btn__wrapper">

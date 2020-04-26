@@ -14,7 +14,7 @@
     "author": "FollowAnalytics"
   },
   "sdk_options": {
-    "type": "popup",
+    "type": "fullscreen",
     "window": {
       "timeout": 0
     },
@@ -24,7 +24,7 @@
         "effect": "fadeIn"
       },
       "exit": {
-        "delay": 0.5,
+        "delay": 1.5,
         "effect": "fadeOut"
       }
     },
@@ -34,11 +34,252 @@
   },
   "inputs": [
     {
+      "name": "global_params",
+      "label": {
+        "en": "Global Parameters",
+        "fr": "Paramètres globaux"
+      },
+      "type": "group",
+      "inputs": [
+        {
+          "name": "image",
+          "label": "Image",
+          "type": "group",
+          "hide_label": false,
+          "size": 100,
+          "inputs": [
+            {
+              "name": "upload",
+              "label": "Upload",
+              "type": "image",
+              "hide_label": false,
+              "size": 100,
+              "default": "./assets/images/Avatar.png",
+              "max_filesize": 10000000
+            }
+          ]
+        },
+        {
+          "name": "greeting_title",
+          "label": {
+            "en": "Greeting Title",
+            "fr": "Titre"
+          },
+          "type": "group",
+          "inputs": [
+            {
+              "name": "text",
+              "label": {
+                "en": "Text",
+                "fr": "Texte"
+              },
+              "type": "string",
+              "default": "Merci d’avoir utilisé Orange et moi !",
+              "max_length": 200,
+              "lines": 2
+            }
+          ]
+        },
+        {
+          "name": "greeting_text",
+          "label": {
+            "en": "Greeting Text",
+            "fr": "Titre"
+          },
+          "type": "group",
+          "inputs": [
+            {
+              "name": "text",
+              "label": {
+                "en": "Text",
+                "fr": "Texte"
+              },
+              "type": "string",
+              "default": "Afin de faire évoluer notre application pour qu’elle réponde à tous vos besoins nous souhaiterions recueillir votre avis.",
+              "max_length": 1000,
+              "lines": 5
+            }
+          ]
+        },
+        {
+          "name": "button_text",
+          "label": {
+            "en": "Greeting Text On The Button",
+            "fr": "Titre"
+          },
+          "type": "group",
+          "inputs": [
+            {
+              "name": "text",
+              "label": {
+                "en": "Text",
+                "fr": "Texte"
+              },
+              "type": "string",
+              "default": "Répondre au sondage",
+              "max_length": 30,
+              "lines": 1
+            }
+          ]
+        },
+        {
+          "name": "goodbye_title",
+          "label": {
+            "en": "Goodbye Title",
+            "fr": "Titre"
+          },
+          "type": "group",
+          "inputs": [
+            {
+              "name": "text",
+              "label": {
+                "en": "Text",
+                "fr": "Texte"
+              },
+              "type": "string",
+              "default": "Merci !",
+              "max_length": 200,
+              "lines": 3
+            }
+          ]
+        },
+        {
+          "name": "goodbye_text",
+          "label": {
+            "en": "Goodbye Text",
+            "fr": "Titre"
+          },
+          "type": "group",
+          "inputs": [
+            {
+              "name": "text",
+              "label": {
+                "en": "Text",
+                "fr": "Texte"
+              },
+              "type": "string",
+              "default": "Votre avis est très important pour nous, souhaitez-vous que nos équipes vous recontactent ?",
+              "max_length": 1000,
+              "lines": 5
+            }
+          ]
+        },
+        {
+          "name": "is_enable_goodbye_form",
+          "label": {
+            "en": "Enable the feedback form?",
+            "fr": "Activer le formulaire de commentaires?"
+          },
+          "type": "group",
+          "inputs": [
+            {
+              "name": "is_enable",
+              "label": {
+                "en": "Is enable",
+                "fr": "Est activé"
+              },
+              "type": "boolean",
+              "default": true
+            },
+            {
+              "type": "group",
+              "label": {
+                "en": "Inputs",
+                "fr": "Entrée"
+              },
+              "inputs": [
+                {
+                  "type": "group",
+                  "label": {
+                    "en": "Input 1",
+                    "fr": "Entrée"
+                  },
+                  "inputs": [
+                    {
+                      "name": "input_1_placeholder",
+                      "label": {
+                        "en": "Placeholder",
+                        "fr": "Réservé"
+                      },
+                      "type": "string",
+                      "default": "Prénom Nom",
+                      "lines": 1
+                    },
+                    {
+                      "name": "input_1_name",
+                      "label": {
+                        "en": "Name of input",
+                        "fr": "Nom de l'entrée"
+                      },
+                      "type": "string",
+                      "default": "name",
+                      "lines": 1
+                    }
+                  ]
+                },
+                {
+                  "type": "group",
+                  "label": {
+                    "en": "Input 2",
+                    "fr": "Entrée"
+                  },
+                  "inputs": [
+                    {
+                      "name": "input_2_placeholder",
+                      "label": {
+                        "en": "Placeholder",
+                        "fr": "Réservé"
+                      },
+                      "type": "string",
+                      "default": "Numéro de mobile",
+                      "lines": 1
+                    },
+                    {
+                      "name": "input_2_name",
+                      "label": {
+                        "en": "Name of input",
+                        "fr": "Nom de l'entrée"
+                      },
+                      "type": "string",
+                      "default": "phone",
+                      "lines": 1
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "close_button",
+          "label": {
+            "en": "Close Button",
+            "fr": "Close Button"
+          },
+          "type": "group",
+          "inputs": [
+            {
+              "name": "color",
+              "label": {
+                "en": "Color",
+                "fr": "Couleur"
+              },
+              "type": "color",
+              "default": "#565656"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "name": "pages",
       "label": {
         "en": "Questionnaire Page",
         "fr": "Pages du questionnaire"
-      }
+      },
+      "type": "pages",
+      "min_pages": 1,
+      "inputs": []
     }
   ]
 }

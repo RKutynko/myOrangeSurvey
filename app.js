@@ -1,123 +1,264 @@
-import $ from 'jquery';
-import _ from 'lodash';
-import './css/main.scss';
-import './css/style.scss';
-import Assets from './assets/assets';
-import {escapeHtml, handleConsoleMessage} from './lib/utils';
-import {FollowAnalyticsWrapper} from './lib/FollowAnalyticsWrapper';
+import $ from "jquery";
+import _ from "lodash";
+import "./css/style.css";
+import Assets from "./assets/assets";
+import SwipeManager from "./lib/swiper";
+import {
+  escapeHtml,
+  getIconDimensions,
+  hexToRgb,
+  handleConsoleMessage,
+} from "./lib/utils";
+import { FollowAnalyticsWrapper } from "./lib/FollowAnalyticsWrapper";
 
-const CURRENT_PAGE_KEY = 'currentPage';
+const CURRENT_PAGE_KEY = "currentPage";
 let currentPage = 0;
-let totalPages = 0;
+let lastPage = 0;
 
 const setActivePage = (index) => {
-  $('.page').each((_idx, node) => {
-    node.removeAttribute('class');
-    node.className = 'page';
+  const templateContainer = $(".multiFullcreenTemplate");
+
+  $(".pageContainer").each((_idx, node) => {
+    node.removeAttribute("class");
+    node.className = "pageContainer";
   });
-  for (let i = 0; i < totalPages; i++) {
+  for (let i = 0; i <= lastPage; i++) {
     const page = $(`#page-${i}`);
-    if (i < index) page.addClass('page--previous');
-    if (i === index) page.addClass('page--current');
-    if (i > index) page.addClass('page--next');
+    if (i < index) page.addClass("pageContainer--previous");
+    if (i === index) page.addClass("pageContainer--current");
+    if (i > index) page.addClass("pageContainer--next");
   }
 
   currentPage = index;
-  if (typeof FollowAnalytics.CurrentCampaign.setData === 'function') {
+  if (typeof FollowAnalytics.CurrentCampaign.setData === "function") {
+    console.log(`Save page: ${index}`);
     FollowAnalytics.CurrentCampaign.setData(CURRENT_PAGE_KEY, index);
   }
-}
+};
 
-$(window).on('load', () => {
+const setUpSwipeCallbacks = (swipeManager) => {
+  swipeManager.onLeft(() => {
+    if (currentPage < lastPage) {
+      setActivePage(++currentPage);
+    }
+  });
+  swipeManager.onRight(() => {
+    if (currentPage > 0) {
+      setActivePage(--currentPage);
+    }
+  });
+  swipeManager.run();
+};
+
+$(window).on("load", () => {
   try {
     const FollowAnalytics = new FollowAnalyticsWrapper().FollowAnalytics;
-    if (typeof FollowAnalytics.CurrentCampaign.getData === 'function') {
-      const savedPage = FollowAnalytics.CurrentCampaign.getData(CURRENT_PAGE_KEY);
+    if (typeof FollowAnalytics.CurrentCampaign.getData === "function") {
+      const savedPage = FollowAnalytics.CurrentCampaign.getData(
+        CURRENT_PAGE_KEY
+      );
       currentPage = savedPage || 0;
+      if (!_.isUndefined(savedPage)) {
+        console.log(`Fetched saved page: ${savedPage}`);
+      }
     }
-    if (typeof FollowAnalyticsParams === 'undefined') {
-      throw {severity: 'warning', message: 'Missing template parameters, shutting down.'};
+    if (typeof FollowAnalyticsParams === "undefined") {
+      throw {
+        severity: "warning",
+        message: "Missing template parameters, shutting down.",
+      };
     }
 
-    // Global configs
-    const templateContainer = $('.template');
+    const templateContainer = $(".multiFullcreenTemplate");
 
-    // Total size = # of questionnaire pages + final page
-    totalPages = _.size(FollowAnalyticsParams.pages) + 1;
+    /*------------------------------------------------------------------------------------------
+      MY CONFIGS
+      -------------------------------------------------------------------------------------------*/
+
+      //Greeting Configs
+      let params = FollowAnalyticsParams.global_params;
+
+      const greetingPage = $('<div class="message__wrapper" />');
+      //TODO изменить на бэкграунд, а не имадж срк
+      const greetingAvatarContainer = $(
+        '<div class="message_avatar__wrapper" />'
+      );
+      const greetingAvatar = $('<img class="message_avatar" />');
+      greetingAvatarContainer.append(greetingAvatar);
+
+      const greetingTextContainer = $('<div class="message_text__wrapper" />');
+      const greetingTitle = $('<p class="message_title" />');
+      greetingTitle.text(params.greeting_title.text);
+      const greetingText = $('<p class="message_text" />');
+      greetingText.text(params.greeting_text.text);
+      greetingTextContainer.append(greetingTitle);
+      greetingTextContainer.append(greetingText);
+
+      const greetingButtonContainer = $('<div class="submit_btn__wrapper" />');
+      const greetingButton = $(
+        '<button class="submit_btn">' + params.button_text.text + "</button>"
+      );
+      greetingButtonContainer.append(greetingButton);
+
+      greetingPage.append(greetingAvatarContainer);
+      greetingPage.append(greetingTextContainer);
+      greetingPage.append(greetingButtonContainer);
+
+      //Goodbye Configs
+      const goodbyePage = $('<div class="message__wrapper" />');
+
+      const goodbyeTextContainer = $('<div class="message_text__wrapper" />');
+      const goodbyeTitle = $('<p class="message_title" />');
+      goodbyeTitle.text(params.goodbye_title.text);
+      const goodbyeText = $('<p class="message_text" />');
+      goodbyeText.text(params.goodbye_text.text);
+      goodbyeTextContainer.append(goodbyeTitle);
+      goodbyeTextContainer.append(goodbyeText);
+
+      greetingAvatarContainer.append(greetingAvatar);
+
+      goodbyePage.append(greetingAvatarContainer);
+      goodbyePage.append(goodbyeTextContainer);      
+      
+      //Add inputs on final page
+      if(params.is_enable_goodbye_form.is_enable.text) {        
+        const goodbyeInputContainer = $('<div class="message_input__wrapper" />');
+        const goodbyeInput1 = $(
+          '<input type="text" id="' + params.is_enable_goodbye_form.input_1_name.text
+         + '" name="'+ params.is_enable_goodbye_form.input_1_name.text
+         +'" placeholder="' + params.is_enable_goodbye_form.input_1_placeholder.text
+         + '" class="message_input question_input" />'
+         );
+         const goodbyeInput2 = $(
+          '<input type="text" id="' + params.is_enable_goodbye_form.input_2_name.text
+         + '" name="'+ params.is_enable_goodbye_form.input_2_name.text
+         +'" placeholder="' + params.is_enable_goodbye_form.input_2_placeholder.text
+         + '" class="message_input question_input" />'
+         );
+         goodbyeInputContainer.append(goodbyeInput1);
+         goodbyeInputContainer.append(goodbyeInput2);
+
+         goodbyePage.append(goodbyeInputContainer);
+      }
+
+
+
+
+
+
+
+      //Question Configs
+      const questionPage = $('<div class="question__wrapper" />');
+      //TODO Добавить  Question 1/3 счетчик вопросов
+      const questionLabel = $('<p class="question_label">Question ' + '</p>');
+      const questionTitle = $('<p class="question_title" />');
+      questionTitle.text(page.)
+
+
+
 
     // Page configs
-    const allPages = [...FollowAnalyticsParams.pages, ...FollowAnalyticsParams.final_page];
-    _.forEach(allPages, (_page, index) => {
-      const pageContainer = $(`<div id="page-${index}" class="page" />`);
-      templateContainer.append(pageContainer);
-    });
-    // Pre-set current page
-    setActivePage(currentPage);
+    lastPage = _.size(FollowAnalyticsParams.pages) - 1;
+    _.forEach(FollowAnalyticsParams.pages, (page, index) => {
+      const pageContainer = $(
+        `<div id="page-${index}" class="pageContainer" />`
+      );
+      const swipeManager = new SwipeManager(pageContainer);
+      setUpSwipeCallbacks(swipeManager);
 
-    _.forEach(allPages, (page, index) => {
-      // Background config
-      const pageContainer = $(`#page-${index}`);
-      pageContainer.css({backgroundColor: page.background.color});
+      // Background configs
+      const pageHtml = $('<div class="page" />');
+      const pageContent = $('<div class="page__contents" />');
+      pageHtml.append(pageContent);
+      /*pageHtml.css({
+        backgroundColor: page.background.color,
+        backgroundImage: `url(${page.background.image})`,
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+      });*/
 
       // Close button configs
-      const closeButtonHtml = $('<div class="page__close">');
+      const closeButtonHtml = $('<div class="closeButton">');
       closeButtonHtml.html(Assets.icoClose);
-      closeButtonHtml.find('svg').css({fill: page.close_button.color});
-      closeButtonHtml.on('click', () => {
+      closeButtonHtml.find("svg").css({ fill: page.close_button.color });
+      closeButtonHtml.on("click", () => {
         if (FollowAnalytics.CurrentCampaign.logAction) {
-          FollowAnalytics.CurrentCampaign.logAction(`Page ${index + 1}: Dismiss`);
+          FollowAnalytics.CurrentCampaign.logAction(
+            `Page ${index + 1} - Dismiss`
+          );
         }
-        $('.deeplinkFrame').removeAttr('style');
-        $('body').find('.page__close').remove();
         FollowAnalytics.CurrentCampaign.close();
+        $("#popupTemplate").removeClass("backdrop");
       });
-      pageContainer.append(closeButtonHtml);
 
-      // Uploaded image config
+      // Uploaded image configs
       if (!!page.image.upload) {
-        const imageHtml = $(`<img class="page__image" src="${page.image.upload}" alt="" />`);
-        pageContainer.append(imageHtml);
+        const imageHtml = $('<div class="page__image" />');
+        imageHtml.css({
+          backgroundImage: `url(${page.image.upload})`,
+          display: "flex",
+        });
+        pageContent.append(imageHtml);
       }
-
-      const pageInfoContainer = $('<div class="page__info" />')
 
       // Title text configs
-      const titleContainer = $('<div class="page__info__title" />');
-      const titleHtml = $('<span />');
+      const titleContainer = $('<div class="page__title" />');
+      const titleHtml = $("<span />");
       titleHtml.text(page.title.text);
-      titleHtml.css({color: page.title.color});
+      titleHtml.css({
+        fontSize: `${page.title.size}px`,
+        color: page.title.color,
+      });
       titleContainer.append(titleHtml);
-      pageInfoContainer.append(titleContainer);
+      pageContent.append(titleContainer);
 
-      // Body text configs
-      if (page.body.text !== '') {
-        const bodyContainer = $('<div class="page__info__body" />');
-        const bodyHtml = $('<span />');
-        bodyHtml.html(escapeHtml(page.body.text));
-        bodyHtml.css({color: page.body.color});
-        bodyContainer.append(bodyHtml);
-        pageInfoContainer.append(bodyContainer);
+      // Icon configs
+      if (page.icon.svg !== "none") {
+        const iconHtml = $('<div class="page__icon" />');
+        const iconDimensions = getIconDimensions(page.icon.size);
+        iconHtml.html(Assets[page.icon.svg]);
+        iconHtml.find("svg").css({
+          height: iconDimensions.height,
+          width: iconDimensions.width,
+          color: page.icon.color,
+          fill: page.icon.color,
+        });
+        pageContent.append(iconHtml);
       }
 
-      const buttonsContainer = $('<div class="page__info__buttons" />');
+      // Body text configs
+      const bodyContainer = $('<div class="page__body" />');
+      const bodyHtml = $("<span />");
+      const newlineRegex = /(?:\r\n|\r|\n)/g;
+      bodyHtml.html(escapeHtml(page.body.text).replace(newlineRegex, "<br>"));
+      bodyHtml.css({
+        fontSize: `${page.body.size}px`,
+        color: page.body.color,
+      });
+      bodyContainer.append(bodyHtml);
+      pageContent.append(bodyContainer);
+
+      const buttonsContainer = $('<div class="page__buttons buttonGrid" />');
       _.forEach(page.buttons, (btn) => {
-        const buttonHtml = $(`<div class="surveyButton"><span>${btn.text}</span></div>`);
+        const buttonWrapper = $('<div class="buttonCell"></div>');
+        const buttonHtml = $(`<div class="actionButton">${btn.text}</div>`);
         buttonHtml.css({
           backgroundColor: btn.background,
-          borderColor: btn.border,
-          color: btn.text_color,
+          color: btn.font_color,
+          fontSize: `${btn.font_size}px`,
         });
 
-        buttonHtml.on('click', (_event) => {
+        buttonHtml.on("click", (_event) => {
           if (FollowAnalytics.CurrentCampaign.logAction) {
-            FollowAnalytics.CurrentCampaign.logAction(`Page ${index + 1}: ${btn.text}`);
+            FollowAnalytics.CurrentCampaign.logAction(
+              `Page ${index + 1} - ${btn.text}`
+            );
           }
-          // Close on last page clicks
-          if (currentPage === totalPages - 1 && btn.deeplink_url !== '') {
+          if (btn.deeplink_url !== "") {
             if (FollowAnalyticsWrapper.checkMinSdkVersion(6, 3, 0)) {
               window.location.href = btn.deeplink_url;
-            }
-            else {
+            } else {
               const deeplinkIframe = $(`
                 <iframe
                   src="${btn.deeplink_url}"
@@ -126,33 +267,30 @@ $(window).on('load', () => {
                   frameborder="0">
                 </iframe>
               `);
-              deeplinkIframe.on('load', () => {
-                deeplinkIframe.css({opacity: 1});
-                // Wait for the animation of the iframe to end
-                // Before showing the close button
-                setTimeout(() => $('body').prepend(closeButtonHtml), 700);
+              deeplinkIframe.on("load", () => {
+                deeplinkIframe.css({ opacity: 1 });
+                $("body").prepend(closeButtonHtml);
               });
-              $('body').prepend(deeplinkIframe);
+              $("body").prepend(deeplinkIframe);
             }
-          }
-          else if (currentPage === totalPages - 1) {
+          } else {
             FollowAnalytics.CurrentCampaign.close();
+            $("#popupTemplate").removeClass("backdrop");
           }
-          // Otherwise go to next page
-          else setActivePage(currentPage + 1);
         });
-        buttonsContainer.append(buttonHtml);
-      });
-      pageInfoContainer.append(buttonsContainer);
-      pageContainer.append(pageInfoContainer);
 
-      // Page number config
-      const pageNumberHtml = $(`<div class="page__pageNumber">${index + 1}/${totalPages}</div>`);
-      pageNumberHtml.css({color: page.page_indicator.color});
-      pageContainer.append(pageNumberHtml);
+        buttonWrapper.append(buttonHtml);
+        buttonsContainer.append(buttonWrapper);
+      });
+      pageContent.append(buttonsContainer);
+
+      pageContainer.append(closeButtonHtml);
+      pageContainer.append(pageHtml);
+      templateContainer.append(pageContainer);
     });
-  }
-  catch (e) {
+
+    setActivePage(currentPage);
+  } catch (e) {
     handleConsoleMessage(e);
   }
 });
