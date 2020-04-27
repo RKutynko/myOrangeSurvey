@@ -145,8 +145,6 @@ $(window).on("load", () => {
       const questionTitle = $('<p class="question_title" />');
 
 
-
-
     // Page configs
     lastPage = _.size(FollowAnalyticsParams.pages) - 1;
     _.forEach(FollowAnalyticsParams.pages, (page, index) => {
@@ -192,30 +190,6 @@ $(window).on("load", () => {
         pageContent.append(imageHtml);
       }
 
-      // Title text configs
-      const titleContainer = $('<div class="page__title" />');
-      const titleHtml = $("<span />");
-      titleHtml.text(page.title.text);
-      titleHtml.css({
-        fontSize: `${page.title.size}px`,
-        color: page.title.color,
-      });
-      titleContainer.append(titleHtml);
-      pageContent.append(titleContainer);
-
-      // Icon configs
-      if (page.icon.svg !== "none") {
-        const iconHtml = $('<div class="page__icon" />');
-        const iconDimensions = getIconDimensions(page.icon.size);
-        iconHtml.html(Assets[page.icon.svg]);
-        iconHtml.find("svg").css({
-          height: iconDimensions.height,
-          width: iconDimensions.width,
-          color: page.icon.color,
-          fill: page.icon.color,
-        });
-        pageContent.append(iconHtml);
-      }
 
       // Body text configs
       const bodyContainer = $('<div class="page__body" />');

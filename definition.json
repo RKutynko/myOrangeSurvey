@@ -1,333 +1,248 @@
 {
   "$schema": "https://api.follow-apps.com/json-schemas/inapp-templates/v1_0_0.json",
   "template_options": {
-    "technical_name": "",
-    "title": {
-      "en": "Survey InApp",
-      "fr": "InApp questionnaire"
-    },
-    "description": {
-      "en": "",
-      "fr": ""
-    },
-    "version": "1.0.0",
-    "author": "FollowAnalytics"
+      "technical_name": "survey_fullscreen_template",
+      "title": {
+          "en": "Survey InApp",
+          "fr": "InApp questionnaire"
+      },
+      "description": {
+          "en": "",
+          "fr": ""
+      },
+      "version": "1.0.0",
+      "author": "FollowAnalytics"
   },
   "sdk_options": {
-    "type": "fullscreen",
-    "window": {
-      "timeout": 0
-    },
-    "animation": {
-      "entry": {
-        "delay": 0.5,
-        "effect": "fadeIn"
+      "window": {
+          "timeout": 0
       },
-      "exit": {
-        "delay": 1.5,
-        "effect": "fadeOut"
+      "animation": {
+          "entry": {
+              "delay": 0.5,
+              "effect": "fadeIn"
+          },
+          "exit": {
+              "delay": 1.5,
+              "effect": "fadeOut"
+          }
       }
-    },
-    "close_button": {
-      "appear_timeout": "never"
-    }
   },
   "inputs": [
-    {
-      "name": "global_params",
-      "label": {
-        "en": "Global Parameters",
-        "fr": "Paramètres globaux"
+      {
+          "name": "global_params",
+          "label": {
+              "en": "Start and finish pages",
+              "fr": "Pages de début et de fin"
+          },
+          "type": "group",
+          "inputs": [
+              {
+                  "name": "image",
+                  "label": {
+                      "en": "Avatar on the start page",
+                      "fr": "Avatar sur la page de démarrage"
+                  },
+                  "type": "image",
+                  "default": "./assets/images/Avatar.png"
+              },
+              {
+                  "name": "greeting_title",
+                  "label": {
+                      "en": "Title on the start page",
+                      "fr": "Titre sur la page de démarrage"
+                  },
+                  "type": "string",
+                  "default": "Merci d’avoir utilisé Orange et moi !",
+                  "max_length": 200,
+                  "lines": 2
+              },
+              {
+                  "name": "greeting_text",
+                  "label": {
+                      "en": "Text on the start page",
+                      "fr": "Texte sur la page de démarrage"
+                  },
+                  "type": "string",
+                  "default": "Afin de faire évoluer notre application pour qu’elle réponde à tous vos besoins nous souhaiterions recueillir votre avis.",
+                  "max_length": 1000,
+                  "lines": 5
+              },
+              {
+                  "name": "button_text",
+                  "label": {
+                      "en": "Name of the button on the start page",
+                      "fr": "Nom du bouton sur la page d'accueil"
+                  },
+                  "type": "string",
+                  "default": "Répondre au sondage",
+                  "max_length": 30,
+                  "lines": 1
+              },
+              {
+                  "name": "goodbye_title",
+                  "label": {
+                      "en": "Title on the finish page",
+                      "fr": "Titre sur la page de finition"
+                  },
+                  "type": "string",
+                  "default": "Merci !",
+                  "max_length": 200,
+                  "lines": 3
+              },
+              {
+                  "name": "goodbye_text",
+                  "label": {
+                      "en": "Text on the finish page",
+                      "fr": "Texte sur la page de finition"
+                  },
+                  "type": "string",
+                  "default": "Votre avis est très important pour nous, souhaitez-vous que nos équipes vous recontactent ?",
+                  "max_length": 1000,
+                  "lines": 5
+              },
+              {
+                  "name": "is_enable_goodbye_form",
+                  "label": {
+                      "en": "Enable the feedback form?",
+                      "fr": "Activer le formulaire de commentaires?"
+                  },
+                  "type": "boolean",
+                  "default": true
+              }
+          ]
       },
-      "type": "group",
-      "inputs": [
-        {
-          "name": "image",
-          "label": "Image",
-          "type": "group",
-          "hide_label": false,
-          "size": 100,
-          "inputs": [
-            {
-              "name": "upload",
-              "label": "Upload",
-              "type": "image",
-              "hide_label": false,
-              "size": 100,
-              "default": "./assets/images/Avatar.png",
-              "max_filesize": 10000000
-            }
-          ]
-        },
-        {
-          "name": "greeting_title",
+      {
+          "name": "goodbye_inputs",
           "label": {
-            "en": "Greeting Title",
-            "fr": "Titre"
+              "en": "Feedback form on the finish page",
+              "fr": "Formulaire de commentaires sur la page terminer"
           },
-          "type": "group",
+          "type": "table",
+          "min_size": 1,
+          "max_size": 3,
           "inputs": [
-            {
-              "name": "text",
-              "label": {
-                "en": "Text",
-                "fr": "Texte"
-              },
-              "type": "string",
-              "default": "Merci d’avoir utilisé Orange et moi !",
-              "max_length": 200,
-              "lines": 2
-            }
-          ]
-        },
-        {
-          "name": "greeting_text",
-          "label": {
-            "en": "Greeting Text",
-            "fr": "Titre"
-          },
-          "type": "group",
-          "inputs": [
-            {
-              "name": "text",
-              "label": {
-                "en": "Text",
-                "fr": "Texte"
-              },
-              "type": "string",
-              "default": "Afin de faire évoluer notre application pour qu’elle réponde à tous vos besoins nous souhaiterions recueillir votre avis.",
-              "max_length": 1000,
-              "lines": 5
-            }
-          ]
-        },
-        {
-          "name": "button_text",
-          "label": {
-            "en": "Greeting Text On The Button",
-            "fr": "Titre"
-          },
-          "type": "group",
-          "inputs": [
-            {
-              "name": "text",
-              "label": {
-                "en": "Text",
-                "fr": "Texte"
-              },
-              "type": "string",
-              "default": "Répondre au sondage",
-              "max_length": 30,
-              "lines": 1
-            }
-          ]
-        },
-        {
-          "name": "goodbye_title",
-          "label": {
-            "en": "Goodbye Title",
-            "fr": "Titre"
-          },
-          "type": "group",
-          "inputs": [
-            {
-              "name": "text",
-              "label": {
-                "en": "Text",
-                "fr": "Texte"
-              },
-              "type": "string",
-              "default": "Merci !",
-              "max_length": 200,
-              "lines": 3
-            }
-          ]
-        },
-        {
-          "name": "goodbye_text",
-          "label": {
-            "en": "Goodbye Text",
-            "fr": "Titre"
-          },
-          "type": "group",
-          "inputs": [
-            {
-              "name": "text",
-              "label": {
-                "en": "Text",
-                "fr": "Texte"
-              },
-              "type": "string",
-              "default": "Votre avis est très important pour nous, souhaitez-vous que nos équipes vous recontactent ?",
-              "max_length": 1000,
-              "lines": 5
-            }
-          ]
-        },
-        {
-          "name": "is_enable_goodbye_form",
-          "label": {
-            "en": "Enable the feedback form?",
-            "fr": "Activer le formulaire de commentaires?"
-          },
-          "type": "group",
-          "inputs": [
-            {
-              "name": "is_enable",
-              "label": {
-                "en": "Is enable",
-                "fr": "Est activé"
-              },
-              "type": "boolean",
-              "default": true
-            },
-            {
-              "name": "goodbye_inputs",
-              "label": {
-                "en": "Inputs",
-                "fr": "Entrée"
-              },
-              "type": "table",
-              "max_size": 2,
-              "inputs": [
-                {
+              {
                   "name": "name",
                   "label": {
-                    "en": "Name of input",
-                    "fr": "Nom de l'entrée"
+                      "en": "Name of input",
+                      "fr": "Nom de l'entrée"
                   },
                   "type": "string",
                   "default": "name",
                   "lines": 1
-                },
-                {
+              },
+              {
                   "name": "placeholder",
                   "label": {
-                    "en": "Placeholder",
-                    "fr": "Réservé"
+                      "en": "Placeholder",
+                      "fr": "Réservé"
                   },
                   "type": "string",
                   "default": "Prénom Nom",
                   "lines": 1
-                }
-              ]
-            }
+              }
           ]
-        },
-        {
-          "name": "close_button",
-          "label": {
-            "en": "Close Button",
-            "fr": "Close Button"
-          },
-          "type": "group",
-          "inputs": [
-            {
-              "name": "color",
-              "label": {
-                "en": "Color",
-                "fr": "Couleur"
-              },
-              "type": "color",
-              "default": "#565656"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "pages",
-      "label": {
-        "en": "Questionnaire Page",
-        "fr": "Pages du questionnaire"
       },
-      "type": "pages",
-      "min_pages": 1,
-      "inputs": [
-        {
-          "type": "group",
+      {
+          "name": "pages",
           "label": {
-            "en": "Question",
-            "fr": "Question"
+              "en": "Questionnaire Page",
+              "fr": "Pages du questionnaire"
           },
+          "type": "pages",
+          "min_pages": 1,
+          "max_pages": 10,
           "inputs": [
-            {
-              "name": "question",
-              "label": {
-                "en": "Text",
-                "fr": "Texte"
-              },
-              "type": "string",
-              "lines": 3
-            },
-            {
-              "name": "type",
-              "label": {
-                "en": "Type of answer",
-                "fr": "Type de réponse"
-              },
-              "type": "enum",
-              "default": "checkbox",
-              "values": [
-                {
-                  "value": "checkbox",
-                  "caption": {
-                    "en": "Multiple checkbox",
-                    "fr": "Plusieurs case"
-                  }
-                },
-                {
-                  "value": "radio",
-                  "caption": {
-                    "en": "Radio button",
-                    "fr": "Bouton Radio"
-                  }
-                },
-                {
-                  "value": "textarea",
-                  "caption": {
-                    "en": "Textarea",
-                    "fr": "Textarea"
-                  }
-                },
-                {
-                  "value": "emotions",
-                  "caption": {
-                    "en": "Emotions",
-                    "fr": "Émotion"
-                  }
-                },
-                {
-                  "value": "range",
-                  "caption": {
-                    "en": "Range",
-                    "fr": "Gamme"
-                  }
-                }
-              ]
-            },
-            {
-              "name": "options",
-              "label": {
-                "en": "Options",
-                "fr": "Options"
-              },
-              "type": "table",
-              "max_size": 6,
-              "inputs": [
-                {
-                  "name": "text",
+              {
+                  "name": "question",
+                  "type": "group",
                   "label": {
-                    "en": "Text",
-                    "fr": "Texte"
+                      "en": "Question",
+                      "fr": "Question"
                   },
-                  "type": "string"
-                }
-              ]
-            }
+                  "inputs": [
+                      {
+                          "name": "text",
+                          "label": {
+                              "en": "Text",
+                              "fr": "Texte"
+                          },
+                          "type": "string",
+                          "lines": 3
+                      },
+                      {
+                          "name": "type",
+                          "label": {
+                              "en": "Type of answer",
+                              "fr": "Type de réponse"
+                          },
+                          "tooltip": {
+                              "en": "The question types 'emotions' and 'range' don't need options",
+                              "fr": "Les types de questions 'emotions' et 'range' n'ont pas besoin d'options"
+                          },
+                          "type": "enum",
+                          "default": "checkbox",
+                          "values": [
+                              {
+                                  "value": "checkbox",
+                                  "caption": {
+                                      "en": "Multiple checkbox",
+                                      "fr": "Plusieurs case"
+                                  }
+                              },
+                              {
+                                  "value": "radio",
+                                  "caption": {
+                                      "en": "Radio button",
+                                      "fr": "Bouton Radio"
+                                  }
+                              },
+                              {
+                                  "value": "textarea",
+                                  "caption": {
+                                      "en": "Textarea",
+                                      "fr": "Textarea"
+                                  }
+                              },
+                              {
+                                  "value": "emotions",
+                                  "caption": {
+                                      "en": "Emotions",
+                                      "fr": "Émotion"
+                                  }
+                              },
+                              {
+                                  "value": "range",
+                                  "caption": {
+                                      "en": "Range",
+                                      "fr": "Gamme"
+                                  }
+                              }
+                          ]
+                      }
+                  ]
+              },
+              {
+                  "name": "options",
+                  "label": {
+                      "en": "Options",
+                      "fr": "Options"
+                  },
+                  "type": "table",
+                  "max_size": 6,
+                  "inputs": [
+                      {
+                          "name": "text",
+                          "label": {
+                              "en": "Text",
+                              "fr": "Texte"
+                          },
+                          "type": "string"
+                      }
+                  ]
+              }
           ]
-        }
-      ]
-    }
+      }
   ]
 }
