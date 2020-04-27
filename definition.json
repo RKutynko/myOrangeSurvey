@@ -189,8 +189,8 @@
                 "fr": "Type de réponse"
               },
               "tooltip": {
-                "en": "The question types 'rating' and 'range' don't need options",
-                "fr": "Les types de questions 'rating' et 'range' n'ont pas besoin d'options"
+                "en": "The question types 'textarea', 'rating' and 'range' don't need options",
+                "fr": "Les types de questions 'textarea', 'rating' et 'range' n'ont pas besoin d'options"
               },
               "type": "enum",
               "default": "checkbox",

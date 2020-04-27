@@ -103,8 +103,89 @@ $(window).on("load", () => {
     /*--------------------------END OF FINISH PAGE--------------------------*/
 
     /*--------------------------QUESTION PAGE--------------------------*/
-    lastQuestion = _.size(FollowAnalyticsParams.questions) - 1;
-    _.forEach(FollowAnalyticsParams.questions, (question, index) => {});
+    _.forEach(FollowAnalyticsParams.questions, (element, index) => {
+      const questionContainer = $('<div class="question__wrapper" />');
+      const questionLabel = $(
+        '<p class="question_label">' +
+          "Question " +
+          index +
+          "/" +
+          size(FollowAnalyticsParams.questions) +
+          "</p>"
+      );
+      const questionWrapper = $('<div id="questionWrapper" />');
+      const questionTitle = $('<p class="question_title" />');
+      questionTitle.text(element.question.text);
+      const questionBody = $('<div id="questionBody" />');
+      switch (element.question.type) {
+        case "checkbox":
+          _.forEach(
+            FollowAnalyticsParams.questions.options,
+            (option, optionIndex) => {
+              let checkboxContainer = $(
+                '<div class="question_checkbox">' +
+                  '<input type="checkbox" name="question' +
+                  index +
+                  '" id="question' +
+                  index +
+                  "_" +
+                  optionIndex +
+                  '" value="" />' +
+                  '<label for="question' +
+                  index +
+                  "_" +
+                  optionIndex +
+                  '" class="question_checkbox_label">' +
+                  option.text +
+                  "</label>" +
+                  "</div>"
+              );
+              questionBody.append(checkboxContainer);
+            }
+          );
+          break;
+        case "radio":
+          _.forEach(
+            FollowAnalyticsParams.questions.options,
+            (option, optionIndex) => {
+              let radioContainer = $(
+                '<div class="question_radio">' +
+                  '<input type="radio" name="question' +
+                  index +
+                  '" id="question' +
+                  index +
+                  "_" +
+                  optionIndex +
+                  '" value="" />' +
+                  '<label for="question' +
+                  index +
+                  "_" +
+                  optionIndex +
+                  '" class="question_radio_label">' +
+                  option.text +
+                  "</label>" +
+                  "</div>"
+              );
+              questionBody.append(radioContainer);
+            }
+          );
+          break;
+        case "textarea":
+          let textareaContainer = $(
+            '<textarea class="question_textarea question_input"' +
+              ' name="question' +
+              index +
+              '" placeholder="Saisissez ici votre réponse." maxlength="700">' +
+              "</textarea>"
+          );
+          questionBody.append(textareaContainer);
+          break;
+        case "rating":
+          break;
+        case "range":
+          break;
+      }
+    });
 
     /*--------------------------END OF QUESTION PAGE--------------------------*/
 
