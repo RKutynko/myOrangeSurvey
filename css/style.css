@@ -238,7 +238,7 @@
 
 @supports (padding: max(0px)) {
     html, body {
-        height: 100vh;
+        /* height: 100vh; */
     }
     .multiFullcreenTemplate .pageContainer {
         padding-left: env(safe-area-inset-left);
@@ -368,6 +368,11 @@
     display: none;
 }
 
+.emotions_wrapper {
+    display: flex;
+    justify-content: space-between;
+}
+
 .emotions_icon {
     background-image: url("../assets/images/sprites/emotions.png");
     background-repeat: no-repeat;
@@ -385,11 +390,19 @@
     background-position: -70px -10px;
 }
 
+.feedback_wrapper input[type=radio]:checked+.emotions_icon__1 {
+    background-position: -70px -10px;
+}
+
 .emotions_icon__2 {
     background-position: -10px -90px;
 }
 
-.emotions_icon__2:hover, .emotions_icon__1:active, .emotions_icon__1:focus {
+.emotions_icon__2:hover, .emotions_icon__3:active, .emotions_icon__3:focus {
+    background-position: -70px -90px;
+}
+
+.feedback_wrapper input[type=radio]:checked+.emotions_icon__2 {
     background-position: -70px -90px;
 }
 
@@ -397,7 +410,11 @@
     background-position: -10px -170px;
 }
 
-.emotions_icon__3:hover, .emotions_icon__1:active, .emotions_icon__1:focus {
+.emotions_icon__3:hover, .emotions_icon__3:active, .emotions_icon__3:focus {
+    background-position: -70px -170px;
+}
+
+.feedback_wrapper input[type=radio]:checked+.emotions_icon__3 {
     background-position: -70px -170px;
 }
 
@@ -405,7 +422,11 @@
     background-position: -10px -250px;
 }
 
-.emotions_icon__4:hover, .emotions_icon__1:active, .emotions_icon__1:focus {
+.emotions_icon__4:hover, .emotions_icon__4:active, .emotions_icon__4:focus {
+    background-position: -70px -250px;
+}
+
+.feedback_wrapper input[type=radio]:checked+.emotions_icon__4 {
     background-position: -70px -250px;
 }
 
@@ -413,7 +434,11 @@
     background-position: -70px -330px;
 }
 
-.emotions_icon__5:hover, .emotions_icon__1:active, .emotions_icon__1:focus {
+.emotions_icon__5:hover, .emotions_icon__5:active, .emotions_icon__5:focus {
+    background-position: -10px -330px;
+}
+
+.feedback_wrapper input[type=radio]:checked+.emotions_icon__5 {
     background-position: -10px -330px;
 }
 
@@ -430,22 +455,36 @@
 }
 
 input[type=range] {
+    border-radius: 0;
+    cursor: pointer;
     -webkit-appearance: none;
     width: 100%;
-    margin: 7px 0;
-}
-
-input[type=range]:focus {
-    outline: none;
+    margin: 7px auto;
+    height: 6px;
 }
 
 input[type=range]::-webkit-slider-runnable-track {
+    -webkit-appearance: none;
     width: 100%;
     height: 6px;
     cursor: pointer;
     background: #eeeeee;
-    border-radius: 0px;
-    border: 0px solid #eeeeee;
+}
+
+input[type=range]::-moz-range-track {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 6px;
+    cursor: pointer;
+    background: #FF7900;
+}
+
+input[type=range]::-ms-track {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 6px;
+    cursor: pointer;
+    background: #FF7900;
 }
 
 input[type=range]::-webkit-slider-thumb {
@@ -459,19 +498,6 @@ input[type=range]::-webkit-slider-thumb {
     margin-top: -7px;
 }
 
-input[type=range]:focus::-webkit-slider-runnable-track {
-    background: #f6f6f6;
-}
-
-input[type=range]::-moz-range-track {
-    width: 100%;
-    height: 6px;
-    cursor: pointer;
-    background: #eeeeee;
-    border-radius: 0px;
-    border: 0px solid #eeeeee;
-}
-
 input[type=range]::-moz-range-thumb {
     border: 2px solid #000000;
     height: 20px;
@@ -479,27 +505,8 @@ input[type=range]::-moz-range-thumb {
     border-radius: 50px;
     background: #ffffff;
     cursor: pointer;
-}
-
-input[type=range]::-ms-track {
-    width: 100%;
-    height: 6px;
-    cursor: pointer;
-    background: transparent;
-    border-color: transparent;
-    color: transparent;
-}
-
-input[type=range]::-ms-fill-lower {
-    background: #e6e6e6;
-    border: 0px solid #eeeeee;
-    border-radius: 0px;
-}
-
-input[type=range]::-ms-fill-upper {
-    background: #eeeeee;
-    border: 0px solid #eeeeee;
-    border-radius: 0px;
+    -webkit-appearance: none;
+    margin-top: -7px;
 }
 
 input[type=range]::-ms-thumb {
@@ -509,7 +516,58 @@ input[type=range]::-ms-thumb {
     border-radius: 50px;
     background: #ffffff;
     cursor: pointer;
+    -webkit-appearance: none;
+    margin-top: -7px;
+}
+
+input[type=range]::-moz-range-track {
     height: 6px;
+    background: #eeeeee;
+}
+
+input[type=range]::-ms-fill-lower {
+    background: #FF7900;
+}
+
+input[type=range]::-ms-ticks-after {
+    display: none;
+}
+
+input[type=range]::-ms-ticks-before {
+    display: none;
+}
+
+input[type=range]::-ms-track {
+    background: #eeeeee;
+    color: transparent;
+    height: 6px;
+    border: none;
+}
+
+input[type="range"]::-moz-range-progress {
+    background: #FF7900;
+    height: 6px;
+}
+
+input[type=range]::-moz-range-track {
+    background: #eeeeee;
+    height: 6px;
+}
+
+input[type=range]::-ms-fill-lower {
+    background: #FF7900;
+}
+
+input[type=range]::-ms-fill-upper {
+    background: #eeeeee;
+}
+
+input[type=range]:focus {
+    outline: none;
+}
+
+input[type=range]:focus::-webkit-slider-runnable-track {
+    background: #eeeeee;
 }
 
 input[type=range]:focus::-ms-fill-lower {
@@ -517,7 +575,46 @@ input[type=range]:focus::-ms-fill-lower {
 }
 
 input[type=range]:focus::-ms-fill-upper {
-    background: #f6f6f6;
+    background: #eeeeee;
+}
+
+.question_range_label__wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 0;
+}
+
+.question_range_label {
+    display: inline-block;
+    color: #000000;
+    font-family: "HelveticaNeue-Bold";
+    font-size: 14px;
+    letter-spacing: -0.1px;
+    line-height: 16px;
+}
+
+.question_range_number {
+    display: inline-block;
+    font-family: "HelveticaNeue-55-Roman";
+    color: #000000;
+    font-size: 14px;
+    letter-spacing: -0.1px;
+    line-height: 16px;
+}
+
+.question_range_value {
+    left: calc(50% - 13px);
+    position: relative;
+    color: #F16E00;
+    font-family: "HelveticaNeue-Bold";
+    font-size: 24px;
+    letter-spacing: -0.5px;
+    line-height: 26px;
+    display: block;
+    box-sizing: border-box;
+    width: 26px;
+    text-align: center;
 }
 
 .question_input {

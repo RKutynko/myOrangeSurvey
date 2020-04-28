@@ -20,32 +20,35 @@ $(window).on("load", () => {
       MY CONFIGS
       -------------------------------------------------------------------------------------------*/
 
-    let params = FollowAnalyticsParams.global_params;
-
-    /*--------------------------START PAGE--------------------------*/
-    const greetingPage = $('<div class="message__wrapper" />');
-
+    let global_params = FollowAnalyticsParams.global_params;
     //handling image
-    const imageContainer = $('<div class="message_avatar__wrapper" />');
-    if (!!params.image) {
+    const image = $('<div class="message_avatar" />');
+    if (!!global_params.image) {
       const image = $('<div class="message_avatar" />');
       image.css({
-        backgroundImage: `url(${params.image})`,
+        backgroundImage: `url(${global_params.image})`,
       });
     }
+
+    /*--------------------------START PAGE--------------------------*/
+    let start_params = FollowAnalyticsParams.start_params;
+    const greetingPage = $('<div class="message__wrapper" />');
+    const imageContainer = $('<div class="message_avatar__wrapper" />');
     imageContainer.append(image);
 
     const greetingTextContainer = $('<div class="message_text__wrapper" />');
     const greetingTitle = $('<p class="message_title" />');
-    greetingTitle.text(params.greeting_title);
+    greetingTitle.text(start_params.greeting_title);
     const greetingText = $('<p class="message_text" />');
-    greetingText.text(params.greeting_text);
+    greetingText.text(start_params.greeting_text);
     greetingTextContainer.append(greetingTitle);
     greetingTextContainer.append(greetingText);
 
     const greetingButtonContainer = $('<div class="submit_btn__wrapper" />');
     const greetingButton = $(
-      '<button class="submit_btn">' + params.button_text + "</button>"
+      '<button class="submit_btn">' +
+        start_params.greeting_button_text +
+        "</button>"
     );
     greetingButtonContainer.append(greetingButton);
 
@@ -55,54 +58,58 @@ $(window).on("load", () => {
     /*--------------------------END OF START PAGE--------------------------*/
 
     /*--------------------------FINISH PAGE--------------------------*/
+
+    let end_params = FollowAnalyticsParams.end_params;
+
     const goodbyePage = $('<div class="message__wrapper" />');
 
     const goodbyeTextContainer = $('<div class="message_text__wrapper" />');
     const goodbyeTitle = $('<p class="message_title" />');
-    goodbyeTitle.text(params.goodbye_title);
+    goodbyeTitle.text(end_params.goodbye_title);
     const goodbyeText = $('<p class="message_text" />');
-    goodbyeText.text(params.goodbye_text);
+    goodbyeText.text(end_params.goodbye_text);
     goodbyeTextContainer.append(goodbyeTitle);
     goodbyeTextContainer.append(goodbyeText);
 
     goodbyePage.append(imageContainer);
     goodbyePage.append(goodbyeTextContainer);
 
-    //Add inputs on final page
-    if (params.is_enable_goodbye_form.is_enable) {
-      const goodbyeInputContainer = $('<div class="message_input__wrapper" />');
+    const goodbyeInputContainer = $('<div class="message_input__wrapper" />');
+    const goodbyeInputName = $(
+      '<input type="text" id="name" name="name" placeholder="' +
+        FollowAnalyticsParams.goodbye_inputs.placeholder_name +
+        '" class="message_input question_input" />'
+    );
+    const goodbyeInputPhone = $(
+      '<input type="text" id="phone" name="phone" placeholder="' +
+        FollowAnalyticsParams.goodbye_inputs.placeholder_phone +
+        '" class="message_input question_input" />'
+    );
+    goodbyeInputContainer.append(goodbyeInputName);
+    goodbyeInputContainer.append(goodbyeInputPhone);
+    goodbyePage.append(goodbyeInputContainer);
 
-      _.forEach(FollowAnalyticsParams.goodbye_inputs, (input) => {
-        const goodbyeInput = $(
-          '<input type="text" id="' +
-            input.name +
-            '" name="' +
-            input.name +
-            '" placeholder="' +
-            input.placeholder +
-            '" class="message_input question_input" />'
-        );
-        goodbyeInputContainer.append(goodbyeInput);
-      });
-      goodbyePage.append(goodbyeInputContainer);
-      const goodbyeButtonContainer = $('<div class="submit_btn__wrapper" />');
-      const goodbyeButton = $(
-        '<button class="submit_btn">Répondre au sondage</button>'
-      );
-      goodbyeButtonContainer.append(goodbyeButton);
-      goodbyePage.append(goodbyeButtonContainer);
-    }
+    const goodbyeButtonContainer = $('<div class="submit_btn__wrapper" />');
+    const goodbyeButton = $(
+      '<button class="submit_btn">' +
+        end_params.goodbye_button_text +
+        "</button>"
+    );
+    goodbyeButtonContainer.append(goodbyeButton);
+    goodbyePage.append(goodbyeButtonContainer);
 
     const goodbyeWarningBlockContainer = $(
       '<div class="warning_block__wrapper" />'
     );
     const goodbyeWarningText = $('<p class="warning_block" />');
-    goodbyeWarningText.text(params.warning_text);
+    goodbyeWarningText.text(end_params.warning_text);
     goodbyeWarningBlockContainer.append(goodbyeWarningText);
     goodbyePage.append(goodbyeWarningBlockContainer);
+
     /*--------------------------END OF FINISH PAGE--------------------------*/
 
     /*--------------------------QUESTION PAGE--------------------------*/
+    
     _.forEach(FollowAnalyticsParams.questions, (element, index) => {
       const questionContainer = $('<div class="question__wrapper" />');
       const questionLabel = $(
@@ -185,15 +192,21 @@ $(window).on("load", () => {
         case "range":
           break;
       }
+
+      questionWrapper.append(questionTitle);
+      questionWrapper.append(questionBody);
+      const submitButton = $(
+        '<div class="submit_btn__wrapper">' +
+          '<input type="submit" value="Suivant" class="submit_btn" />' +
+          "</div>"
+      );
+      questionWrapper.append(submitButton);
+
+      questionContainer.append(questionLabel);
+      questionContainer.append(questionWrapper);
     });
 
     /*--------------------------END OF QUESTION PAGE--------------------------*/
-
-    //Question Configs
-    const questionPage = $('<div class="question__wrapper" />');
-    //TODO Добавить  Question 1/3 счетчик вопросов
-    const questionLabel = $('<p class="question_label">Question ' + "</p>");
-    const questionTitle = $('<p class="question_title" />');
   } catch (e) {
     handleConsoleMessage(e);
   }

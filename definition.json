@@ -32,11 +32,29 @@
     {
       "name": "global_params",
       "label": {
-        "en": "Start and finish pages",
-        "fr": "Pages de début et de fin"
+        "en": "Global params",
+        "fr": "Mondial params"
       },
       "type": "group",
       "inputs": [
+        {
+          "name": "font_size",
+          "label": {
+            "en": "Font size",
+            "fr": "Taille de la police"
+          },
+          "type": "string",
+          "default": ""
+        },
+        {
+          "name": "font_color",
+          "label": {
+            "en": "Color of the font",
+            "fr": "Couleur de la police"
+          },
+          "type": "color",
+          "default": "#000000"
+        },
         {
           "name": "image",
           "label": {
@@ -46,6 +64,36 @@
           "type": "image",
           "default": "./assets/images/Avatar.png"
         },
+        {
+          "name": "next_button_text",
+          "label": {
+            "en": "Name of the 'next' button on the question page",
+            "fr": "Nom du bouton 'Suivant' sur la page de question"
+          },
+          "type": "string",
+          "default": "Suivant",
+          "max_length": 30,
+          "lines": 1
+        },
+        {
+          "name": "next_button_color",
+          "label": {
+            "en": "Color of the 'next' button",
+            "fr": "La couleur du bouton 'suivant'"
+          },
+          "type": "color",
+          "default": "#F16E00"
+        }
+      ]
+    },
+    {
+      "name": "start_params",
+      "label": {
+        "en": "Start survey",
+        "fr": "Début de l'enquête"
+      },
+      "type": "group",
+      "inputs": [
         {
           "name": "greeting_title",
           "label": {
@@ -69,7 +117,7 @@
           "lines": 5
         },
         {
-          "name": "button_text",
+          "name": "greeting_button_text",
           "label": {
             "en": "Name of the button on the start page",
             "fr": "Nom du bouton sur la page d'accueil"
@@ -78,7 +126,17 @@
           "default": "Répondre au sondage",
           "max_length": 30,
           "lines": 1
-        },
+        }
+      ]
+    },
+    {
+      "name": "end_params",
+      "label": {
+        "en": "End survey",
+        "fr": "Fin de l'enquête"
+      },
+      "type": "group",
+      "inputs": [
         {
           "name": "goodbye_title",
           "label": {
@@ -102,24 +160,26 @@
           "lines": 5
         },
         {
+          "name": "goodbye_button_text",
+          "label": {
+            "en": "Name of the button on the end page",
+            "fr": "Nom du bouton sur la page de fin"
+          },
+          "type": "string",
+          "default": "Fin du sondage",
+          "max_length": 30,
+          "lines": 1
+        },
+        {
           "name": "warning_text",
           "label": {
-            "en": "Warning block on the finish page",
-            "fr": "Bloc d'avertissement sur la page de finition"
+            "en": "Legal mentions on the finish page",
+            "fr": "Mentions légales sur la page terminer"
           },
           "type": "string",
           "default": "Mentions légales lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. ?",
           "max_length": 500,
           "lines": 5
-        },
-        {
-          "name": "is_enable_goodbye_form",
-          "label": {
-            "en": "Enable the feedback form?",
-            "fr": "Activer le formulaire de commentaires?"
-          },
-          "type": "boolean",
-          "default": true
         }
       ]
     },
@@ -129,28 +189,26 @@
         "en": "Feedback form on the finish page",
         "fr": "Formulaire de commentaires sur la page terminer"
       },
-      "type": "table",
-      "min_size": 1,
-      "max_size": 3,
+      "type": "group",
       "inputs": [
         {
-          "name": "name",
+          "name": "placeholder_name",
           "label": {
-            "en": "Name of input",
-            "fr": "Nom de l'entrée"
-          },
-          "type": "string",
-          "default": "name",
-          "lines": 1
-        },
-        {
-          "name": "placeholder",
-          "label": {
-            "en": "Placeholder",
-            "fr": "Réservé"
+            "en": "Placeholder for input 'name'",
+            "fr": "Espace réservé pour l'entrée 'nom'"
           },
           "type": "string",
           "default": "Prénom Nom",
+          "lines": 1
+        },
+        {
+          "name": "placeholder_phone",
+          "label": {
+            "en": "Placeholder for input 'mobile'",
+            "fr": "Espace réservé pour l'entrée 'mobile'"
+          },
+          "type": "string",
+          "default": "Numéro de mobile",
           "lines": 1
         }
       ]
@@ -231,32 +289,6 @@
                   }
                 }
               ]
-            },
-            {
-              "name": "parent_index",
-              "label": {
-                "en": "Show after question #",
-                "fr": "Montrer Après question #"
-              },
-              "tooltip": {
-                "en": "This question will appear after the specified question",
-                "fr": "Cette question apparaîtra après la question déterminée"
-              },
-              "type": "string",
-              "lines": 1
-            },
-            {
-              "name": "option_index",
-              "label": {
-                "en": "To bind to the option #",
-                "fr": "De se lier à l'option #"
-              },
-              "tooltip": {
-                "en": "This question is linked to answer #",
-                "fr": "Cette question est liée à la réponse #"
-              },
-              "type": "string",
-              "lines": 1
             }
           ]
         },
@@ -278,6 +310,115 @@
               "type": "string"
             }
           ]
+        }
+      ]
+    },
+    {
+      "name": "question_1",
+      "label": {
+        "en": "Question 1",
+        "fr": "Question 1"
+      },
+      "type": "pages",
+      "min_pages": 1,
+      "max_pages": 1,
+      "inputs": [
+        {
+          "name": "text",
+          "label": {
+            "en": "Text",
+            "fr": "Texte"
+          },
+          "type": "string",
+          "lines": 3
+        },
+        {
+          "name": "options",
+          "label": {
+            "en": "Options",
+            "fr": "Options"
+          },
+          "type": "table",
+          "max_size": 6,
+          "inputs": [
+            {
+              "name": "text",
+              "label": {
+                "en": "Text",
+                "fr": "Texte"
+              },
+              "type": "string"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "question_2",
+      "label": {
+        "en": "Question 2 (yes/no question)",
+        "fr": "Question 2 (oui/non question)"
+      },
+      "type": "pages",
+      "min_pages": 1,
+      "max_pages": 1,
+      "inputs": [
+        {
+          "name": "text",
+          "label": {
+            "en": "Text",
+            "fr": "Texte"
+          },
+          "type": "string",
+          "lines": 3
+        },
+        {
+          "name": "text_rating_positive",
+          "label": {
+            "en": "Question for rating (positive flow)",
+            "fr": "Question pour l'évaluation (flux positif)"
+          },
+          "type": "string",
+          "lines": 3
+        },
+        {
+          "name": "text_range_positive",
+          "label": {
+            "en": "Question for range (positive flow)",
+            "fr": "Question pour la gamme (flux positif)"
+          },
+          "type": "string",
+          "lines": 3
+        },
+        {
+          "name": "text_textarea_negative",
+          "label": {
+            "en": "Question for textarea (negative flow)",
+            "fr": "Question pour textarea (flux négatif)"
+          },
+          "type": "string",
+          "lines": 3
+        }
+      ]
+    },
+    {
+      "name": "question_3",
+      "label": {
+        "en": "Question 3",
+        "fr": "Question 3"
+      },
+      "type": "pages",
+      "min_pages": 1,
+      "max_pages": 1,
+      "inputs": [
+        {
+          "name": "text",
+          "label": {
+            "en": "Text",
+            "fr": "Texte"
+          },
+          "type": "string",
+          "lines": 3
         }
       ]
     }
