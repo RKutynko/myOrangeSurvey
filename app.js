@@ -21,6 +21,7 @@ $(window).on("load", () => {
       -------------------------------------------------------------------------------------------*/
 
     let global_params = FollowAnalyticsParams.global_params;
+
     //handling image
     const image = $('<div class="message_avatar" />');
     if (!!global_params.image) {
@@ -108,8 +109,79 @@ $(window).on("load", () => {
 
     /*--------------------------END OF FINISH PAGE--------------------------*/
 
+    /*-----------------------QUESTION FOR YES/NO ANSWERS------------------------*/
+    const yesContainer = $('<div id="yesAnswer" />');
+    const ratingWrapper = $('<div class="rating__wrapper" />');
+    const ratingTitle = $('<p class="question_title" />');
+    ratingTitle.text(
+      FollowAnalyticsParams.feedback_question.text_rating_positive
+    );
+    const ratingContainer = $(
+      ' <div class="feedback_wrapper emotions_wrapper ">' +
+        '<div><input type="radio" name="questionYesEmotions" id="emotions1" value="1" />' +
+        '<label for="emotions1" class="emotions_icon emotions_icon__1"></label></div>' +
+        '<div><input type="radio" name="questionYesEmotions" id="emotions2" value="2" />' +
+        '<label for="emotions2" class="emotions_icon emotions_icon__2"></label></div>' +
+        '<div><input type="radio" name="questionYesEmotions" id="emotions3" value="3" />' +
+        '<label for="emotions3" class="emotions_icon emotions_icon__3"></label></div>' +
+        '<div><input type="radio" name="questionYesEmotions" id="emotions4" value="4" />' +
+        '<label for="emotions4" class="emotions_icon emotions_icon__4"></label></div>' +
+        '<div><input type="radio" name="questionYesEmotions" id="emotions5" value="5" />' +
+        '<label for="emotions5" class="emotions_icon emotions_icon__5"></label></div>'
+    );
+    ratingWrapper.append(ratingTitle);
+    ratingWrapper.append(ratingContainer);
+    const rangeWrapper = $('<div class="range__wrapper" />');
+    const rangeTitle = $('<p class="question_title" />');
+    rangeTitle.text(
+      FollowAnalyticsParams.feedback_question.text_range_positive
+    );
+    const rangeContainer = $(
+      '<div class="feedback_wrapper range_wrapper">' +
+        '<div class="question_range_label__wrapper">' +
+        '<span class="question_range_number">0</span>' +
+        '<span class="question_range_number">10</span>' +
+        "</div>" +
+        '<div class="question_range__wrapper">' +
+        '<label id="rangeValue" class="question_range_value">5</label>' +
+        '<input type="range" min="0" max="10" value="5" name="questionYesRange" class="question_range" id="rangeSlider" />' +
+        "</div>" +
+        '<div class="question_range_label__wrapper">' +
+        '<span class="question_range_label">' +
+        FollowAnalyticsParams.feedback_question.text_range_label_from +
+        "</span>" +
+        '<span class="question_range_label">' +
+        FollowAnalyticsParams.feedback_question.text_range_label_to +
+        "</span>" +
+        "</div>" +
+        "</div>"
+    );
+    rangeWrapper.append(rangeTitle);
+    rangeWrapper.append(rangeContainer);
+
+    yesContainer.append(ratingWrapper);
+    yesContainer.append(rangeWrapper);
+
+    const noContainer = $('<div id="noAnswer" />');
+    const textareaTitle = $('<p class="question_title" />');
+    textareaTitle.text(
+      FollowAnalyticsParams.feedback_question.text_textarea_negative
+    );
+    const textareaContainer = $(
+      '<div class="feedback_wrapper">' +
+        '<textarea class="question_textarea question_input"' +
+        'name="questionNo" placeholder="' +
+        global_params.textarea_placeholder +
+        '"' +
+        'maxlength="700" ></textarea>' +
+        "</div>"
+    );
+    noContainer.append(textareaTitle);
+    noContainer.append(textareaContainer);
+    /*-----------------------END OF QUESTION FOR YES/NO ANSWERS--------------------*/
+
     /*--------------------------QUESTION PAGE--------------------------*/
-    
+
     _.forEach(FollowAnalyticsParams.questions, (element, index) => {
       const questionContainer = $('<div class="question__wrapper" />');
       const questionLabel = $(
@@ -123,7 +195,8 @@ $(window).on("load", () => {
       const questionWrapper = $('<div id="questionWrapper" />');
       const questionTitle = $('<p class="question_title" />');
       questionTitle.text(element.question.text);
-      const questionBody = $('<div id="questionBody" />');
+      const questionBody = $('<div id="questionBody' + index + '" />');
+
       switch (element.question.type) {
         case "checkbox":
           _.forEach(
@@ -182,25 +255,35 @@ $(window).on("load", () => {
             '<textarea class="question_textarea question_input"' +
               ' name="question' +
               index +
-              '" placeholder="Saisissez ici votre réponse." maxlength="700">' +
+              '" placeholder="' +
+              global_params.textarea_placeholder +
+              '" maxlength="700">' +
               "</textarea>"
           );
           questionBody.append(textareaContainer);
-          break;
-        case "rating":
-          break;
-        case "range":
           break;
       }
 
       questionWrapper.append(questionTitle);
       questionWrapper.append(questionBody);
-      const submitButton = $(
-        '<div class="submit_btn__wrapper">' +
-          '<input type="submit" value="Suivant" class="submit_btn" />' +
-          "</div>"
+
+      if (element.question.type == "radio") {
+        questionWrapper.append(yesContainer);
+        questionWrapper.append(noContainer);
+      }
+
+      const nextBtnContainer = $(
+        '<div class="submit_btn__wrapper"><input type="submit"' +
+          'data-qid="' +
+          index +
+          '"' +
+          ' value="' +
+          global_params.next_button_text +
+          '" class="submit_btn" /></div>'
       );
-      questionWrapper.append(submitButton);
+
+      //TODO добавить обработчик
+      questionWrapper.append(nextBtnContainer);
 
       questionContainer.append(questionLabel);
       questionContainer.append(questionWrapper);

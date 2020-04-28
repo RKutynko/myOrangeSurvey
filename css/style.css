@@ -360,6 +360,14 @@
     line-height: 18px;
 }
 
+#yesAnswer {
+    display: none;
+}
+
+#noAnswer {
+    display: none;
+}
+
 .question_checkbox input[type=checkbox]:checked+.question_checkbox_label {
     background-position: -10px -50px;
 }

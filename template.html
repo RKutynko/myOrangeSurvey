@@ -14,8 +14,6 @@
   </head>
   <body>
     <div id="popup" class="multiFullcreenTemplate">
-
-      
       <div class="message__wrapper">
         <div class="message_avatar__wrapper">
           <div class="message_avatar"></div>
@@ -46,7 +44,7 @@
           <p id="questionTitle" class="question_title">
             Pouvez-vous nous préciser le ou les motif(s) de votre visite ?
           </p>
-          <div id="questionBody">
+          <div id="questionBody1">
             <div class="question_checkbox">
               <input
                 type="checkbox"
@@ -114,7 +112,7 @@
               </label>
             </div>
             <div class="submit_btn__wrapper">
-              <input type="submit" value="Suivant" class="submit_btn" />
+              <input type="submit" data-qid="1" value="Suivant" class="submit_btn" />
             </div>
           </div>
         </div>
@@ -131,56 +129,96 @@
             Avez-vous réussi à effectuer la tâche que vous souhaitiez accomplir
             ?
           </p>
-          <div id="questionBody">
+          <div id="questionBody2">
             <div class="question_radio">
-              <input type="radio" name="question2" id="question2_1" value="" />
+              <input type="radio" name="question2" id="question2_1" value="yes" />
               <label for="question2_1" class="question_radio_label"> Oui</label>
             </div>
             <div class="question_radio">
-              <input type="radio" name="question2" id="question2_2" value="" />
+              <input type="radio" name="question2" id="question2_2" value="no" />
               <label for="question2_2" class="question_radio_label">Non</label>
             </div>
             <div class="submit_btn__wrapper">
-              <input type="submit" value="Suivant" class="submit_btn" />
+              <input type="submit" data-qid="2" value="Suivant" class="submit_btn" />
             </div>
           </div>
           <br /><br />
           <div id="yesAnswer">
-            <div>
+            <div class="rating__wrapper">
               <p id="questionTitle" class="question_title">
                 Comment évaluez-vous la facilité avec laquelle vous avez
                 accompli votre tâche ?
               </p>
-              <div class="feedback_wrapper emotions_wrapper ">
+              <div class="feedback_wrapper emotions_wrapper">
                 <div>
-                  <input type="radio" name="question2YesEmotions" id="emotions1" value="1" />
-                  <label for="emotions1" class="emotions_icon emotions_icon__1"></label>
+                  <input
+                    type="radio"
+                    name="question2YesEmotions"
+                    id="emotions1"
+                    value="1"
+                  />
+                  <label
+                    for="emotions1"
+                    class="emotions_icon emotions_icon__1"
+                  ></label>
                 </div>
                 <div>
-                  <input type="radio" name="question2YesEmotions" id="emotions2" value="2" />
-                  <label for="emotions2" class="emotions_icon emotions_icon__2"></label>
+                  <input
+                    type="radio"
+                    name="question2YesEmotions"
+                    id="emotions2"
+                    value="2"
+                  />
+                  <label
+                    for="emotions2"
+                    class="emotions_icon emotions_icon__2"
+                  ></label>
                 </div>
                 <div>
-                  <input type="radio" name="question2YesEmotions" id="emotions3" value="3" />
-                  <label for="emotions3" class="emotions_icon emotions_icon__3"></label>
+                  <input
+                    type="radio"
+                    name="question2YesEmotions"
+                    id="emotions3"
+                    value="3"
+                  />
+                  <label
+                    for="emotions3"
+                    class="emotions_icon emotions_icon__3"
+                  ></label>
                 </div>
                 <div>
-                  <input type="radio" name="question2YesEmotions" id="emotions4" value="4" />
-                  <label for="emotions4" class="emotions_icon emotions_icon__4"></label>
+                  <input
+                    type="radio"
+                    name="question2YesEmotions"
+                    id="emotions4"
+                    value="4"
+                  />
+                  <label
+                    for="emotions4"
+                    class="emotions_icon emotions_icon__4"
+                  ></label>
                 </div>
                 <div>
-                  <input type="radio" name="question2YesEmotions" id="emotions5" value="5" />
-                  <label for="emotions5" class="emotions_icon emotions_icon__5"></label>
+                  <input
+                    type="radio"
+                    name="question2YesEmotions"
+                    id="emotions5"
+                    value="5"
+                  />
+                  <label
+                    for="emotions5"
+                    class="emotions_icon emotions_icon__5"
+                  ></label>
                 </div>
               </div>
             </div>
 
-            <div>
+            <div class="range__wrapper">
               <p id="questionTitle" class="question_title">
                 Sur une échelle de 1 à 10, quelle serait la probabilité que vous
                 recommandiez Orange à vos proches ou à vos amis ?
               </p>
-              <div class="feedback_wrapper">
+              <div class="feedback_wrapper range_wrapper">
                 <div class="question_range_label__wrapper">
                   <span class="question_range_number">0</span>
                   <span class="question_range_number">10</span>
@@ -205,7 +243,7 @@
             </div>
 
             <div class="submit_btn__wrapper">
-              <input type="submit" value="Suivant" class="submit_btn" />
+              <input type="submit" data-qid="2" value="Suivant" class="submit_btn" />
             </div>
           </div>
 
@@ -223,7 +261,7 @@
               ></textarea>
             </div>
             <div class="submit_btn__wrapper">
-              <input type="submit" value="Suivant" class="submit_btn" />
+              <input type="submit" data-qid="2" value="Suivant" class="submit_btn" />
             </div>
           </div>
         </div>
@@ -240,7 +278,7 @@
             Merci ! Pouvez-vous nous préciser pour quelles raisons vous
             recommanderiez Orange ?
           </p>
-          <div id="questionBody">
+          <div id="questionBody3">
             <textarea
               class="question_textarea question_input"
               name="question3"
@@ -248,7 +286,7 @@
               maxlength="700"
             ></textarea>
             <div class="submit_btn__wrapper">
-              <input type="submit" value="Suivant" class="submit_btn" />
+              <input type="submit" data-qid="3" value="Suivant" class="submit_btn" />
             </div>
           </div>
         </div>
@@ -303,5 +341,7 @@
       </div>
     </div>
   </body>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script type="text/javascript" src="fa-sdk.js"></script>
   <script src="./js/script.js"></script>
 </html>
