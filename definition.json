@@ -40,7 +40,7 @@
       "size": 100,
       "inputs": [
         {
-          "name": "font_size_title",
+          "name": "size",
           "label": {
             "en": "Size",
             "fr": "Taille"
@@ -54,7 +54,7 @@
           "max": 32
         },
         {
-          "name": "font_color_title",
+          "name": "color",
           "label": {
             "en": "Color",
             "fr": "Couleur"

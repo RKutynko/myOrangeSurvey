@@ -1,9 +1,13 @@
 $(document).ready(function () {
   $(".question_checkbox input").change(function () {
     if ($(".question_checkbox input:checked").length) {
-      $(".question_checkbox").siblings(".submit_btn__wrapper").addClass("active");
+      $(".question_checkbox")
+        .siblings(".submit_btn__wrapper")
+        .addClass("active");
     } else {
-      $(".question_checkbox").siblings(".submit_btn__wrapper").removeClass("active");
+      $(".question_checkbox")
+        .siblings(".submit_btn__wrapper")
+        .removeClass("active");
     }
   });
 
@@ -11,10 +15,19 @@ $(document).ready(function () {
     if ($(".question_radio input:checked").length) {
       $(".question_radio").siblings(".submit_btn__wrapper").addClass("active");
     } else {
-      $(".question_radio").siblings(".submit_btn__wrapper").removeClass("active");
+      $(".question_radio")
+        .siblings(".submit_btn__wrapper")
+        .removeClass("active");
     }
   });
 
+  $(".question_textarea").change(function () {
+    if ($(this).val().length > 0) {
+      $(this).siblings(".submit_btn__wrapper").addClass("active");
+    } else {
+      $(this).siblings(".submit_btn__wrapper").removeClass("active");
+    }
+  });
 
   //handling answers by click on the Suivant button
   $('input[type="submit"]').click(function () {
@@ -109,17 +122,5 @@ $(document).ready(function () {
     onChange: function (data) {
       $("#questionRangeValue").val(data.from);
     },
-  });
-
-  $('.question_radio input[type="radio"]').click(function () {
-    let val = $(this).attr("value").toLowerCase();
-    if (val == "yes" || val == "oui") {
-      $("#noAnswer").hide("slow");
-      $("#yesAnswer").show("slow");
-    }
-    if (val == "no" || val == "non") {
-      $("#yesAnswer").hide("slow");
-      $("#noAnswer").show("slow");
-    }
   });
 });

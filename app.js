@@ -29,6 +29,8 @@ const setActivePage = (index) => {
 };
 
 //handling answers by click on the Suivant button
+//TODO переделать
+//TODO добавить обработчик на кнопки на стартовой и финишной странице
 $('input[type="submit"]').click(function () {
   let question_id = $(this).data("qid");
   let question_type = $(this).data("qtype");
@@ -137,20 +139,18 @@ $(window).on("load", () => {
     const templateContainer = $(".multiFullcreenTemplate");
 
     /*----------------------------GENERAL CONFIGS-----------------------------*/
-    let general_params = FollowAnalyticsParams.general_params;
-
     //handling image
     const image = $('<div class="message_avatar" />');
-    if (!!general_params.image) {
+    if (!!FollowAnalyticsParams.general_image.image) {
       const image = $('<div class="message_avatar" />');
       image.css({
-        backgroundImage: `url(${general_params.image})`,
+        backgroundImage: `url(${FollowAnalyticsParams.general_image.image})`,
       });
     }
 
     /*--------------------------START PAGE--------------------------*/
     let start_params = FollowAnalyticsParams.start_params;
-    const startPageContainer = $('<div class="pageContainer" />');
+    const startPageContainer = $('<div class="pageContainer" id="page-1" />');
     const greetingPage = $('<div class="message__wrapper" />');
     const imageContainer = $('<div class="message_avatar__wrapper" />');
     imageContainer.append(image);
@@ -159,19 +159,21 @@ $(window).on("load", () => {
     const greetingTitle = $('<p class="message_title" />');
     greetingTitle.text(start_params.greeting_title);
     greetingTitle.css({
-      fontSize: general_params.font_size_title,
-      color: general_params.font_color_title,
+      fontSize: FollowAnalyticsParams.general_title.size,
+      color: FollowAnalyticsParams.general_title.color,
     });
     const greetingText = $('<p class="message_text" />');
     greetingText.text(start_params.greeting_text);
     greetingText.css({
-      fontSize: general_params.font_size_body,
-      color: general_params.font_color_body,
+      fontSize: FollowAnalyticsParams.general_body.size,
+      color: FollowAnalyticsParams.general_body.color,
     });
     greetingTextContainer.append(greetingTitle);
     greetingTextContainer.append(greetingText);
 
-    const greetingButtonContainer = $('<div class="submit_btn__wrapper" />');
+    const greetingButtonContainer = $(
+      '<div class="submit_btn__wrapper active" />'
+    );
     const greetingButton = $(
       '<button class="submit_btn">' +
         start_params.greeting_button_text +
@@ -188,82 +190,11 @@ $(window).on("load", () => {
     templateContainer.append(startPageContainer);
     /*--------------------------END OF START PAGE--------------------------*/
 
-    /*-----------------------QUESTION FOR YES/NO ANSWERS------------------------*/
-    const yesContainer = $('<div id="yesAnswer" />');
-    const ratingWrapper = $('<div class="rating__wrapper" />');
-    const ratingTitle = $('<p class="question_title" />');
-    ratingTitle.text(
-      FollowAnalyticsParams.feedback_question.text_rating_positive
-    );
-    const ratingContainer = $(
-      ' <div class="feedback_wrapper emotions_wrapper ">' +
-        '<div><input type="radio" name="questionYesEmotions" id="emotions1" value="1" />' +
-        '<label for="emotions1" class="emotions_icon emotions_icon__1"></label></div>' +
-        '<div><input type="radio" name="questionYesEmotions" id="emotions2" value="2" />' +
-        '<label for="emotions2" class="emotions_icon emotions_icon__2"></label></div>' +
-        '<div><input type="radio" name="questionYesEmotions" id="emotions3" value="3" />' +
-        '<label for="emotions3" class="emotions_icon emotions_icon__3"></label></div>' +
-        '<div><input type="radio" name="questionYesEmotions" id="emotions4" value="4" />' +
-        '<label for="emotions4" class="emotions_icon emotions_icon__4"></label></div>' +
-        '<div><input type="radio" name="questionYesEmotions" id="emotions5" value="5" />' +
-        '<label for="emotions5" class="emotions_icon emotions_icon__5"></label></div>'
-    );
-    ratingWrapper.append(ratingTitle);
-    ratingWrapper.append(ratingContainer);
-    const rangeWrapper = $('<div class="range__wrapper" />');
-    const rangeTitle = $('<p class="question_title" />');
-    rangeTitle.text(
-      FollowAnalyticsParams.feedback_question.text_range_positive
-    );
-    const rangeContainer = $(
-      '<div class="feedback_wrapper range_wrapper">' +
-        '<div class="question_range_label__wrapper">' +
-        '<span class="question_range_number">0</span>' +
-        '<span class="question_range_number">10</span>' +
-        "</div>" +
-        '<div class="question_range__wrapper">' +
-        '<label id="rangeValue" class="question_range_value">5</label>' +
-        '<input type="range" min="0" max="10" value="5" name="questionYesRange" class="question_range" id="rangeSlider" />' +
-        "</div>" +
-        '<div class="question_range_label__wrapper">' +
-        '<span class="question_range_label">' +
-        FollowAnalyticsParams.feedback_question.text_range_label_from +
-        "</span>" +
-        '<span class="question_range_label">' +
-        FollowAnalyticsParams.feedback_question.text_range_label_to +
-        "</span>" +
-        "</div>" +
-        "</div>"
-    );
-    rangeWrapper.append(rangeTitle);
-    rangeWrapper.append(rangeContainer);
-
-    yesContainer.append(ratingWrapper);
-    yesContainer.append(rangeWrapper);
-
-    const noContainer = $('<div id="noAnswer" />');
-    const textareaTitle = $('<p class="question_title" />');
-    textareaTitle.text(
-      FollowAnalyticsParams.feedback_question.text_textarea_negative
-    );
-    const textareaContainer = $(
-      '<div class="feedback_wrapper">' +
-        '<textarea class="question_textarea question_input"' +
-        'name="questionNo" placeholder="' +
-        general_params.textarea_placeholder +
-        '"' +
-        'maxlength="700" ></textarea>' +
-        "</div>"
-    );
-    noContainer.append(textareaTitle);
-    noContainer.append(textareaContainer);
-    /*-----------------------END OF QUESTION FOR YES/NO ANSWERS--------------------*/
-
     /*--------------------------QUESTION PAGE--------------------------*/
 
     _.forEach(FollowAnalyticsParams.questions, (element, index) => {
       const pageContainer = $(
-        `<div id="page-${index}" class="pageContainer" />`
+        `<div id="page-${index + 1}" class="pageContainer" />`
       );
       const questionContainer = $('<div class="question__wrapper" />');
       const questionLabel = $(
@@ -307,6 +238,7 @@ $(window).on("load", () => {
           );
           break;
         case "radio":
+          // TODO сделать развилку да-нет, positive и negative flow
           _.forEach(
             FollowAnalyticsParams.questions.options,
             (option, optionIndex) => {
@@ -342,11 +274,50 @@ $(window).on("load", () => {
               ' name="question' +
               index +
               '" placeholder="' +
-              general_params.textarea_placeholder +
+              FollowAnalyticsParams.general_params_for_inputs
+                .textarea_placeholder +
               '" maxlength="700">' +
               "</textarea>"
           );
           questionBody.append(textareaContainer);
+          break;
+        case "rating":
+          let ratingContainer = $(
+            ' <div class="feedback_wrapper emotions_wrapper ">' +
+              '<div><input type="radio" name="questionYesEmotions" id="emotions1" value="1" />' +
+              '<label for="emotions1" class="emotions_icon emotions_icon__1"></label></div>' +
+              '<div><input type="radio" name="questionYesEmotions" id="emotions2" value="2" />' +
+              '<label for="emotions2" class="emotions_icon emotions_icon__2"></label></div>' +
+              '<div><input type="radio" name="questionYesEmotions" id="emotions3" value="3" />' +
+              '<label for="emotions3" class="emotions_icon emotions_icon__3"></label></div>' +
+              '<div><input type="radio" name="questionYesEmotions" id="emotions4" value="4" />' +
+              '<label for="emotions4" class="emotions_icon emotions_icon__4"></label></div>' +
+              '<div><input type="radio" name="questionYesEmotions" id="emotions5" value="5" />' +
+              '<label for="emotions5" class="emotions_icon emotions_icon__5"></label></div>'
+          );
+          questionBody.append(ratingContainer);
+          break;
+        case "range":
+          let rangeContainer = $(
+            '<div class="feedback_wrapper range_wrapper">' +
+              '<div class="question_range__wrapper">' +
+              '<input type="text" class="js-range-slider question_range"' +
+              'name="my_range" value="" />' +
+              '<input type="text" value="5" id="questionRangeValue" />' +
+              "</div>" +
+              '<div class="question_range_label__wrapper">' +
+              '<span class="question_range_label">' +
+              FollowAnalyticsParams.general_params_for_inputs
+                .text_range_label_from +
+              "</span>" +
+              '<span class="question_range_label">' +
+              FollowAnalyticsParams.general_params_for_inputs
+                .text_range_label_to +
+              "</span>" +
+              "</div>" +
+              "</div>"
+          );
+          questionBody.append(rangeContainer);
           break;
       }
 
@@ -385,7 +356,9 @@ $(window).on("load", () => {
 
     let end_params = FollowAnalyticsParams.end_params;
 
-    const endPageContainer = $('<div class="pageContainer" />');
+    const endPageContainer = $(
+      '<div class=pageContainer" id="page-' + lastPage + '" />'
+    );
     const goodbyePage = $('<div class="message__wrapper" />');
 
     const goodbyeTextContainer = $('<div class="message_text__wrapper" />');

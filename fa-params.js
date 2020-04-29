@@ -3,7 +3,7 @@
 // It is only useful for offline development. Please do not add anything
 // except test values for the parameters here.
 //
-
+//TODO переделать
 FollowAnalyticsParams = {
   global_params: {
     font_size: "",
