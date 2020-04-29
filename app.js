@@ -1,25 +1,143 @@
 import $ from "jquery";
 import _ from "lodash";
 import "./css/style.css";
-import Assets from "./assets/assets";
-import SwipeManager from "./lib/swiper";
-import {
-  escapeHtml,
-  getIconDimensions,
-  hexToRgb,
-  handleConsoleMessage,
-} from "./lib/utils";
+import { handleConsoleMessage } from "./lib/utils";
 import { FollowAnalyticsWrapper } from "./lib/FollowAnalyticsWrapper";
+
+const CURRENT_PAGE_KEY = "currentPage";
+let currentPage = 0;
+let lastPage = 0;
+
+const setActivePage = (index) => {
+  $(".pageContainer").each((_idx, node) => {
+    node.removeAttribute("class");
+    node.className = "pageContainer";
+  });
+
+  for (let i = 0; i <= lastPage; i++) {
+    const page = $(`#page-${i}`);
+    if (i < index) page.addClass("pageContainer--previous");
+    if (i === index) page.addClass("pageContainer--current");
+    if (i > index) page.addClass("pageContainer--next");
+  }
+
+  currentPage = index;
+  if (typeof FollowAnalytics.CurrentCampaign.setData === "function") {
+    console.log(`Save page: ${index}`);
+    FollowAnalytics.CurrentCampaign.setData(CURRENT_PAGE_KEY, index);
+  }
+};
+
+//handling answers by click on the Suivant button
+$('input[type="submit"]').click(function () {
+  let question_id = $(this).data("qid");
+  let question_type = $(this).data("qtype");
+  let log = {};
+
+  switch (question_type) {
+    case "checkbox":
+      $("#questionBody" + question_id + " input")
+        .not('input[type="submit"]')
+        .each(function () {
+          let label = $('label[for="' + $(this).attr("id") + '"]')
+            .text()
+            .trim();
+          let key = "Q" + question_id + "-" + label;
+          let val;
+          if ($(this).is(":checked")) {
+            val = "True";
+          } else {
+            val = "False";
+          }
+          log[key] = val;
+        });
+
+      break;
+    case "radio":
+      const positiveFlowSymbol = "A";
+      const negativeFlowSymbol = "B";
+      let flag;
+      $("#questionBody" + question_id + " .question_radio input").each(
+        function () {
+          let key = "Q" + question_id + ".1";
+          let val;
+
+          if ($(this).is(":checked")) {
+            val = $(this).val();
+            log[key] = val;
+
+            if (val.toLowerCase() == "yes" || val.toLowerCase() == "oui") {
+              flag = true;
+            } else {
+              flag = false;
+            }
+          }
+        }
+      );
+
+      if (flag) {
+        //positive flow
+        //handling rating
+        $(
+          "#questionBody" + question_id + " #yesAnswer .emotions_wrapper input"
+        ).each(function () {
+          let key = "Q" + question_id + ".2" + positiveFlowSymbol;
+          let val;
+          if ($(this).is(":checked")) {
+            val = $(this).val();
+            log[key] = val;
+          }
+        });
+
+        //handling range
+        let key = "Q" + question_id + ".3" + positiveFlowSymbol;
+        let val = $(
+          "#questionBody" + question_id + " #yesAnswer .range_wrapper input"
+        ).val();
+        log[key] = val;
+      } else {
+        //negative flow
+        let key = "Q" + question_id + ".2" + negativeFlowSymbol;
+        let val = $(
+          "#questionBody" + question_id + " #noAnswer textarea"
+        ).val();
+        log[key] = val;
+      }
+      break;
+    case "textarea":
+      let key = "Q" + question_id;
+      let val = $("#questionBody" + question_id + " textarea").val();
+      log[key] = val;
+      break;
+  }
+
+  FollowAnalytics.logEvent("Survey_Analytics", log);
+  setActivePage(++currentPage);
+});
 
 $(window).on("load", () => {
   try {
     const FollowAnalytics = new FollowAnalyticsWrapper().FollowAnalytics;
+    if (typeof FollowAnalytics.CurrentCampaign.getData === "function") {
+      const savedPage = FollowAnalytics.CurrentCampaign.getData(
+        CURRENT_PAGE_KEY
+      );
+      currentPage = savedPage || 0;
+      if (!_.isUndefined(savedPage)) {
+        console.log(`Fetched saved page: ${savedPage}`);
+      }
+    }
+    if (typeof FollowAnalyticsParams === "undefined") {
+      throw {
+        severity: "warning",
+        message: "Missing template parameters, shutting down.",
+      };
+    }
+    lastPage = _.size(FollowAnalyticsParams.questions) + 1; // because size(FollowAnalyticsParams.questions) - 1 + start page + finish page
+
     const templateContainer = $(".multiFullcreenTemplate");
 
-    /*------------------------------------------------------------------------------------------
-      MY CONFIGS
-      -------------------------------------------------------------------------------------------*/
-
+    /*----------------------------GLOBAL CONFIGS-----------------------------*/
     let global_params = FollowAnalyticsParams.global_params;
 
     //handling image
@@ -33,6 +151,7 @@ $(window).on("load", () => {
 
     /*--------------------------START PAGE--------------------------*/
     let start_params = FollowAnalyticsParams.start_params;
+    const startPageContainer = $('<div class="pageContainer" />');
     const greetingPage = $('<div class="message__wrapper" />');
     const imageContainer = $('<div class="message_avatar__wrapper" />');
     imageContainer.append(image);
@@ -56,58 +175,11 @@ $(window).on("load", () => {
     greetingPage.append(imageContainer);
     greetingPage.append(greetingTextContainer);
     greetingPage.append(greetingButtonContainer);
+
+    startPageContainer.append(greetingPage);
+
+    templateContainer.append(startPageContainer);
     /*--------------------------END OF START PAGE--------------------------*/
-
-    /*--------------------------FINISH PAGE--------------------------*/
-
-    let end_params = FollowAnalyticsParams.end_params;
-
-    const goodbyePage = $('<div class="message__wrapper" />');
-
-    const goodbyeTextContainer = $('<div class="message_text__wrapper" />');
-    const goodbyeTitle = $('<p class="message_title" />');
-    goodbyeTitle.text(end_params.goodbye_title);
-    const goodbyeText = $('<p class="message_text" />');
-    goodbyeText.text(end_params.goodbye_text);
-    goodbyeTextContainer.append(goodbyeTitle);
-    goodbyeTextContainer.append(goodbyeText);
-
-    goodbyePage.append(imageContainer);
-    goodbyePage.append(goodbyeTextContainer);
-
-    const goodbyeInputContainer = $('<div class="message_input__wrapper" />');
-    const goodbyeInputName = $(
-      '<input type="text" id="name" name="name" placeholder="' +
-        FollowAnalyticsParams.goodbye_inputs.placeholder_name +
-        '" class="message_input question_input" />'
-    );
-    const goodbyeInputPhone = $(
-      '<input type="text" id="phone" name="phone" placeholder="' +
-        FollowAnalyticsParams.goodbye_inputs.placeholder_phone +
-        '" class="message_input question_input" />'
-    );
-    goodbyeInputContainer.append(goodbyeInputName);
-    goodbyeInputContainer.append(goodbyeInputPhone);
-    goodbyePage.append(goodbyeInputContainer);
-
-    const goodbyeButtonContainer = $('<div class="submit_btn__wrapper" />');
-    const goodbyeButton = $(
-      '<button class="submit_btn">' +
-        end_params.goodbye_button_text +
-        "</button>"
-    );
-    goodbyeButtonContainer.append(goodbyeButton);
-    goodbyePage.append(goodbyeButtonContainer);
-
-    const goodbyeWarningBlockContainer = $(
-      '<div class="warning_block__wrapper" />'
-    );
-    const goodbyeWarningText = $('<p class="warning_block" />');
-    goodbyeWarningText.text(end_params.warning_text);
-    goodbyeWarningBlockContainer.append(goodbyeWarningText);
-    goodbyePage.append(goodbyeWarningBlockContainer);
-
-    /*--------------------------END OF FINISH PAGE--------------------------*/
 
     /*-----------------------QUESTION FOR YES/NO ANSWERS------------------------*/
     const yesContainer = $('<div id="yesAnswer" />');
@@ -183,6 +255,9 @@ $(window).on("load", () => {
     /*--------------------------QUESTION PAGE--------------------------*/
 
     _.forEach(FollowAnalyticsParams.questions, (element, index) => {
+      const pageContainer = $(
+        `<div id="page-${index}" class="pageContainer" />`
+      );
       const questionContainer = $('<div class="question__wrapper" />');
       const questionLabel = $(
         '<p class="question_label">' +
@@ -288,9 +363,66 @@ $(window).on("load", () => {
 
       questionContainer.append(questionLabel);
       questionContainer.append(questionWrapper);
+
+      pageContainer.append(questionContainer);
+
+      templateContainer.append(pageContainer);
     });
 
     /*--------------------------END OF QUESTION PAGE--------------------------*/
+    /*--------------------------FINISH PAGE--------------------------*/
+
+    let end_params = FollowAnalyticsParams.end_params;
+
+    const endPageContainer = $('<div class="pageContainer" />');
+    const goodbyePage = $('<div class="message__wrapper" />');
+
+    const goodbyeTextContainer = $('<div class="message_text__wrapper" />');
+    const goodbyeTitle = $('<p class="message_title" />');
+    goodbyeTitle.text(end_params.goodbye_title);
+    const goodbyeText = $('<p class="message_text" />');
+    goodbyeText.text(end_params.goodbye_text);
+    goodbyeTextContainer.append(goodbyeTitle);
+    goodbyeTextContainer.append(goodbyeText);
+
+    goodbyePage.append(imageContainer);
+    goodbyePage.append(goodbyeTextContainer);
+
+    const goodbyeInputContainer = $('<div class="message_input__wrapper" />');
+    const goodbyeInputName = $(
+      '<input type="text" id="name" name="name" placeholder="' +
+        FollowAnalyticsParams.goodbye_inputs.placeholder_name +
+        '" class="message_input question_input" />'
+    );
+    const goodbyeInputPhone = $(
+      '<input type="text" id="phone" name="phone" placeholder="' +
+        FollowAnalyticsParams.goodbye_inputs.placeholder_phone +
+        '" class="message_input question_input" />'
+    );
+    goodbyeInputContainer.append(goodbyeInputName);
+    goodbyeInputContainer.append(goodbyeInputPhone);
+    goodbyePage.append(goodbyeInputContainer);
+
+    const goodbyeButtonContainer = $('<div class="submit_btn__wrapper" />');
+    const goodbyeButton = $(
+      '<button class="submit_btn">' +
+        end_params.goodbye_button_text +
+        "</button>"
+    );
+    goodbyeButtonContainer.append(goodbyeButton);
+    goodbyePage.append(goodbyeButtonContainer);
+
+    const goodbyeWarningBlockContainer = $(
+      '<div class="warning_block__wrapper" />'
+    );
+    const goodbyeWarningText = $('<p class="warning_block" />');
+    goodbyeWarningText.text(end_params.warning_text);
+    goodbyeWarningBlockContainer.append(goodbyeWarningText);
+    goodbyePage.append(goodbyeWarningBlockContainer);
+    endPageContainer.append(goodbyePage);
+    templateContainer.append(endPageContainer);
+    /*--------------------------END OF FINISH PAGE--------------------------*/
+    setActivePage(currentPage);
   } catch (e) {
     handleConsoleMessage(e);
   }

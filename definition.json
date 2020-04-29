@@ -124,7 +124,7 @@
           },
           "type": "string",
           "default": "Afin de faire évoluer notre application pour qu’elle réponde à tous vos besoins nous souhaiterions recueillir votre avis.",
-          "max_length": 1000,
+          "max_length": 500,
           "lines": 5
         },
         {

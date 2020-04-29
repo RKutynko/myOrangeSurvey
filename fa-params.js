@@ -5,54 +5,84 @@
 //
 
 FollowAnalyticsParams = {
-    global_params: {
-        image: "./assets/images/Avatar.png",
-        greeting_title: "Generally, JavaScript code can go inside of the document",
-        greeting_text: "However, if your script needs to run at a certain point within a page’s layout — like when using document.write to generate content.",
-        button_text: "Go",
-        goodbye_title: "You can add JavaScript code in an HTML",
-        goodbye_text: "In order to achieve this, we will add a <script> tag along with some JavaScript code into the HTML file.",
-        warning_text: "To begin with, we’ll add the JavaScript code between the <head> tags, signalling the browser to run the JavaScript script before loading in the rest of the page.",
-        is_enable_goodbye_form: true
-    },
-    goodbye_inputs: {
-        
-    }
-};
-
-window.FollowAnalyticsParams = {
-  background: { color: "#EFF4F7" },
-  icon: { svg: "icoGrowth", size: "medium", color: "#5f7384" },
-  title: {
-    text: "Your title here!",
-    font: "Open Sans",
-    size: 24,
-    color: "#5f7384",
+  global_params: {
+    font_size: "",
+    font_color: "#000000",
+    image: "./assets/images/Avatar.png",
+    next_button_text: "Suivant",
+    next_button_color: "#F16E00",
+    textarea_placeholder: "Saisissez ici votre réponse.",
   },
-  body: {
-    text:
-      "Lorem ipsum dolor sit amet, vel libris scripta et, iudico detracto consetetur et duo. Te bonorum facilis vix. Ut est legere insolens adipisci, sed ubique aliquam no. In habeo harum duo.",
-    font: "Open Sans",
-    size: 15,
-    color: "#5f7384",
+  start_params: {
+    greeting_title: "Merci d’avoir utilisé Orange et moi !",
+    greeting_text:
+      " Afin de faire évoluer notre application pour qu’elle réponde à tous vos besoins nous souhaiterions recueillir votre avis.",
+    greeting_button_text: "Répondre au sondage",
   },
-  close: { color: "#5f7384" },
-  buttons: [
+  end_params: {
+    goodbye_title: "Merci !",
+    goodbye_text:
+      "Votre avis est très important pour nous, souhaitez-vous que nos équipes vous recontactent ?",
+    goodbye_button_text: "Répondre au sondage",
+    warning_text:
+      "Mentions légales lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+  },
+  goodbye_inputs: {
+    placeholder_name: "Prénom Nom",
+    placeholder_phone: "Numéro de mobile",
+  },
+  questions: [
     {
-      text: "Button 1",
-      font_family: "Open Sans",
-      font_size: 17,
-      font_color: "#FFFFFF",
-      background: "#5f7384",
-      deeplink_url: "",
+      text: "Pouvez-vous nous préciser le ou les motif(s) de votre visite ?",
+      type: "checkbox",
+      options: [
+        {
+          text: "Suivre ma consommation",
+        },
+        {
+          text: "Payez vos factures ou Recharger du crédit",
+        },
+        {
+          text: "Souscrire, gérer, résilier une option",
+        },
+        {
+          text: "Modifier vos données personnelles / mot de passe",
+        },
+        {
+          text: "Trouver de l'aide ou déposer une réclamation",
+        },
+        {
+          text: "Autres",
+        },
+      ],
     },
     {
-      text: "Button 2",
-      font_family: "Open Sans",
-      font_size: 17,
-      font_color: "#5f7384",
-      background: "#FFFFFF",
-      deeplink_url: "",
+      text: "",
+      type: "radio",
+      options: [
+        {
+          text: "Oui",
+        },
+        {
+          text: "Non",
+        },
+      ],
+    },
+    {
+      text:
+        "Merci ! Pouvez-vous nous préciser pour quelles raisons vous recommanderiez Orange ?",
+      type: "textarea",
+      options: [],
     },
   ],
+  feedback_question: {
+    text_rating_positive:
+      "Comment évaluez-vous la facilité avec laquelle vous avez accompli votre tâche ?",
+    text_range_positive:
+      "Sur une échelle de 1 à 10, quelle serait la probabilité que vous recommandiez Orange à vos proches ou à vos amis ?",
+    text_range_label_from: "Quasi nulle",
+    text_range_label_to: "Très probable",
+    text_textarea_negative:
+      "Nous sommes désolés, pourriez-vous nous dire ce qui n’a pas fonctionné ?",
+  },
 };
