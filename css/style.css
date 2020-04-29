@@ -319,13 +319,19 @@
     text-align: center;
     width: 100%;
     height: 40px;
-    background-color: #F16E00;
     color: #FFFFFF;
     font-family: "HelveticaNeue-Bold";
     font-size: 16px;
     letter-spacing: -0.1px;
     line-height: 18px;
     border: none;
+    background-color: #CCCCCC;
+    pointer-events: none;
+}
+
+.active .submit_btn {
+    background-color: #F16E00;
+    pointer-events: auto;
 }
 
 .question_label {
@@ -382,12 +388,15 @@
 .feedback_wrapper input[type=radio] {
     display: none;
 }
+
 .rating__wrapper {
     padding: 10px 0 14px 0;
 }
+
 .range_wrapper {
     padding: 23px 0 15px 0;
 }
+
 .emotions_wrapper {
     display: flex;
     justify-content: space-between;
@@ -484,6 +493,7 @@
     line-height: 16px;
     margin-top: -7px;
 }
+
 .irs--flat .irs-from, .irs--flat .irs-to, .irs--flat .irs-single {
     margin-top: -16px;
     color: #F16E00;
@@ -498,18 +508,22 @@
     letter-spacing: -0.5px;
     line-height: 26px;
 }
+
 .irs--flat .irs-from:before, .irs--flat .irs-to:before, .irs--flat .irs-single:before {
     display: none;
 }
+
 .irs--flat .irs-line {
     height: 6px;
     background-color: #eeeeee;
     border-radius: 0;
 }
+
 .irs--flat .irs-bar {
     height: 6px;
     background-color: #F16E00;
 }
+
 .irs--flat .irs-handle {
     border: 2px solid #000000;
     height: 20px;
@@ -519,6 +533,7 @@
     cursor: pointer;
     margin-top: -5px;
 }
+
 .irs--flat .irs-handle>i:first-child {
     display: none;
     background-color: transparent;
@@ -531,6 +546,10 @@
     padding: 9px 0;
 }
 
+#questionRangeValue {
+    display: none;
+}
+
 .question_range_label {
     display: inline-block;
     color: #000000;
@@ -539,7 +558,6 @@
     letter-spacing: -0.1px;
     line-height: 16px;
 }
-
 
 .question_range_number {
     display: inline-block;

@@ -30,20 +30,24 @@
   },
   "inputs": [
     {
-      "name": "general_params",
+      "name": "general_title",
       "label": {
-        "en": "General params",
-        "fr": "Général params"
+        "en": "Title",
+        "fr": "Title"
       },
       "type": "group",
+      "hide_label": false,
+      "size": 100,
       "inputs": [
         {
           "name": "font_size_title",
           "label": {
-            "en": "Title font size",
-            "fr": "Taille de la police de titre"
+            "en": "Size",
+            "fr": "Taille"
           },
           "type": "number",
+          "hide_label": false,
+          "size": 50,
           "default": 18,
           "precision": 0,
           "min": 12,
@@ -52,19 +56,35 @@
         {
           "name": "font_color_title",
           "label": {
-            "en": "Title font color",
-            "fr": "Couleur de la police de titre"
+            "en": "Color",
+            "fr": "Couleur"
           },
           "type": "color",
+          "hide_label": false,
+          "size": 50,
           "default": "#000000"
-        },
+        }
+      ]
+    },
+    {
+      "name": "general_body",
+      "label": {
+        "en": "Body",
+        "fr": "Contenu"
+      },
+      "type": "group",
+      "hide_label": false,
+      "size": 100,
+      "inputs": [
         {
           "name": "font_size_body",
           "label": {
-            "en": "Body font size",
-            "fr": "Taille de la police du corps"
+            "en": "Size",
+            "fr": "Taille"
           },
           "type": "number",
+          "hide_label": false,
+          "size": 50,
           "default": 16,
           "precision": 0,
           "min": 12,
@@ -73,46 +93,84 @@
         {
           "name": "font_color_body",
           "label": {
-            "en": "Body font color",
-            "fr": "Couleur de la police du corps"
+            "en": "Color",
+            "fr": "Couleur"
           },
           "type": "color",
+          "hide_label": false,
+          "size": 50,
           "default": "#000000"
-        },
+        }
+      ]
+    },
+    {
+      "name": "general_image",
+      "label": {
+        "en": "Avatar",
+        "fr": "Avatar"
+      },
+      "type": "group",
+      "inputs": [
         {
           "name": "image",
           "label": {
-            "en": "Avatar on the start page",
-            "fr": "Avatar sur la page de démarrage"
+            "en": "Image",
+            "fr": "Image"
           },
           "type": "image",
           "default": "./assets/images/Avatar.png"
-        },
+        }
+      ]
+    },
+    {
+      "name": "general_next_button",
+      "label": {
+        "en": "The 'next' button on the question page",
+        "fr": "Le bouton 'Suivant' sur la page de question"
+      },
+      "type": "group",
+      "hide_label": false,
+      "size": 100,
+      "inputs": [
         {
-          "name": "next_button_text",
+          "name": "text",
           "label": {
-            "en": "Name of the 'next' button on the question page",
-            "fr": "Nom du bouton 'Suivant' sur la page de question"
+            "en": "Name",
+            "fr": "Nom"
           },
           "type": "string",
+          "hide_label": false,
+          "size": 65,
           "default": "Suivant",
           "max_length": 30,
           "lines": 1
         },
         {
-          "name": "next_button_color",
+          "name": "color",
           "label": {
-            "en": "Color of the 'next' button",
-            "fr": "La couleur du bouton 'suivant'"
+            "en": "Color",
+            "fr": "La couleur "
           },
           "type": "color",
+          "hide_label": false,
+          "size": 35,
           "default": "#F16E00"
-        },
+        }
+      ]
+    },
+    {
+      "name": "general_params_for_inputs",
+      "label": {
+        "en": "Params for inputs",
+        "fr": "Params pour les entrées"
+      },
+      "type": "group",
+      "inputs": [
         {
           "name": "textarea_placeholder",
           "label": {
-            "en": "Placeholder for 'textarea' input",
-            "fr": "Espace réservé pour l'entrée 'textarea'"
+            "en": "Placeholder for textarea",
+            "fr": "Espace réservé pour textarea"
           },
           "type": "string",
           "default": "Saisissez ici votre réponse.",
@@ -122,8 +180,8 @@
         {
           "name": "text_range_label_from",
           "label": {
-            "en": "Legend for 'from' label on the range input",
-            "fr": "Légende pour l'étiquette 'from' sur l'entrée de plage"
+            "en": "Legend for 'from' label",
+            "fr": "La légende de 'de' l'étiquette"
           },
           "type": "string",
           "default": "Quasi nulle",
@@ -132,8 +190,8 @@
         {
           "name": "text_range_label_to",
           "label": {
-            "en": "Legend for 'to' label on the range input",
-            "fr": "Légende pour l'étiquette ' to ' sur l'entrée de plage"
+            "en": "Legend for 'to' label",
+            "fr": "La légende de 'à' étiquette"
           },
           "type": "string",
           "default": "Très probable",
@@ -152,8 +210,8 @@
         {
           "name": "greeting_title",
           "label": {
-            "en": "Title on the start page",
-            "fr": "Titre sur la page de démarrage"
+            "en": "Title",
+            "fr": "Titre"
           },
           "type": "string",
           "default": "Merci d’avoir utilisé Orange et moi !",
@@ -163,8 +221,8 @@
         {
           "name": "greeting_text",
           "label": {
-            "en": "Text on the start page",
-            "fr": "Texte sur la page de démarrage"
+            "en": "Text",
+            "fr": "Texte"
           },
           "type": "string",
           "default": "Afin de faire évoluer notre application pour qu’elle réponde à tous vos besoins nous souhaiterions recueillir votre avis.",
@@ -174,8 +232,8 @@
         {
           "name": "greeting_button_text",
           "label": {
-            "en": "Name of the button on the start page",
-            "fr": "Nom du bouton sur la page d'accueil"
+            "en": "Name of the button",
+            "fr": "Nom du bouton"
           },
           "type": "string",
           "default": "Répondre au sondage",
@@ -195,8 +253,8 @@
         {
           "name": "goodbye_title",
           "label": {
-            "en": "Title on the finish page",
-            "fr": "Titre sur la page de finition"
+            "en": "Title",
+            "fr": "Titre"
           },
           "type": "string",
           "default": "Merci !",
@@ -206,8 +264,8 @@
         {
           "name": "goodbye_text",
           "label": {
-            "en": "Text on the finish page",
-            "fr": "Texte sur la page de finition"
+            "en": "Text",
+            "fr": "Texte"
           },
           "type": "string",
           "default": "Votre avis est très important pour nous, souhaitez-vous que nos équipes vous recontactent ?",
@@ -217,8 +275,8 @@
         {
           "name": "goodbye_button_text",
           "label": {
-            "en": "Name of the button on the end page",
-            "fr": "Nom du bouton sur la page de fin"
+            "en": "Name of the button",
+            "fr": "Nom du bouton"
           },
           "type": "string",
           "default": "Fin du sondage",
@@ -228,8 +286,8 @@
         {
           "name": "warning_text",
           "label": {
-            "en": "Legal mentions on the finish page",
-            "fr": "Mentions légales sur la page terminer"
+            "en": "Legal mentions",
+            "fr": "Mentions légales"
           },
           "type": "string",
           "default": "Mentions légales lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. ?",
@@ -249,8 +307,8 @@
         {
           "name": "placeholder_name",
           "label": {
-            "en": "Placeholder for input 'name'",
-            "fr": "Espace réservé pour l'entrée 'nom'"
+            "en": "Placeholder 1",
+            "fr": "Réservé 1"
           },
           "type": "string",
           "default": "Prénom Nom",
@@ -259,8 +317,8 @@
         {
           "name": "placeholder_phone",
           "label": {
-            "en": "Placeholder for input 'mobile'",
-            "fr": "Espace réservé pour l'entrée 'mobile'"
+            "en": "Placeholder 2",
+            "fr": "Réservé 2"
           },
           "type": "string",
           "default": "Numéro de mobile",
@@ -307,15 +365,15 @@
                 {
                   "value": "checkbox",
                   "caption": {
-                    "en": "Multiple checkbox",
-                    "fr": "Plusieurs case"
+                    "en": "Multiple choice",
+                    "fr": "Plusieurs choix"
                   }
                 },
                 {
                   "value": "radio",
                   "caption": {
-                    "en": "Yes/No question",
-                    "fr": "Oui / Non question"
+                    "en": "Yes/No",
+                    "fr": "Oui / Non"
                   }
                 },
                 {
@@ -323,6 +381,20 @@
                   "caption": {
                     "en": "Textarea",
                     "fr": "Textarea"
+                  }
+                },
+                {
+                  "value": "rating",
+                  "caption": {
+                    "en": "Rating",
+                    "fr": "Évaluation"
+                  }
+                },
+                {
+                  "value": "range",
+                  "caption": {
+                    "en": "Range",
+                    "fr": "Gamme"
                   }
                 }
               ]
@@ -336,8 +408,8 @@
             "fr": "Options"
           },
           "tooltip": {
-            "en": "The 'textarea' question type doesn't need any options",
-            "fr": "Le type de question 'textarea' n'a pas besoin d'options"
+            "en": "The 'textarea', 'rating' and 'range' question type doesn't need any options",
+            "fr": "Le type de question 'textarea', 'note' et 'range' n'a pas besoin d'options"
           },
           "type": "table",
           "max_size": 6,
@@ -393,15 +465,15 @@
                 {
                   "value": "checkbox",
                   "caption": {
-                    "en": "Multiple checkbox",
-                    "fr": "Plusieurs case"
+                    "en": "Multiple choice",
+                    "fr": "Plusieurs choix"
                   }
                 },
                 {
                   "value": "radio",
                   "caption": {
-                    "en": "Yes/No question",
-                    "fr": "Oui / Non question"
+                    "en": "Yes/No",
+                    "fr": "Oui / Non"
                   }
                 },
                 {
@@ -436,8 +508,8 @@
             "fr": "Options"
           },
           "tooltip": {
-            "en": "The 'textarea', 'rating' and 'range' question types doesn't need any options",
-            "fr": "Les types de questions 'textarea',' rating ' et 'range' n'ont pas besoin d'options"
+            "en": "The 'textarea', 'rating' and 'range' question type doesn't need any options",
+            "fr": "Le type de question 'textarea', 'note' et 'range' n'a pas besoin d'options"
           },
           "type": "table",
           "max_size": 6,
@@ -493,15 +565,15 @@
                 {
                   "value": "checkbox",
                   "caption": {
-                    "en": "Multiple checkbox",
-                    "fr": "Plusieurs case"
+                    "en": "Multiple choice",
+                    "fr": "Plusieurs choix"
                   }
                 },
                 {
                   "value": "radio",
                   "caption": {
-                    "en": "Yes/No question",
-                    "fr": "Oui / Non question"
+                    "en": "Yes/No",
+                    "fr": "Oui / Non"
                   }
                 },
                 {
@@ -536,8 +608,8 @@
             "fr": "Options"
           },
           "tooltip": {
-            "en": "The 'textarea', 'rating' and 'range' question types doesn't need any options",
-            "fr": "Les types de questions 'textarea',' rating ' et 'range' n'ont pas besoin d'options"
+            "en": "The 'textarea', 'rating' and 'range' question type doesn't need any options",
+            "fr": "Le type de question 'textarea', 'note' et 'range' n'a pas besoin d'options"
           },
           "type": "table",
           "max_size": 6,

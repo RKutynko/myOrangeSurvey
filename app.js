@@ -91,9 +91,7 @@ $('input[type="submit"]').click(function () {
 
         //handling range
         let key = "Q" + question_id + ".3" + positiveFlowSymbol;
-        let val = $(
-          "#questionBody" + question_id + " #yesAnswer .range_wrapper input"
-        ).val();
+        let val = $("#questionRangeValue").val();
         log[key] = val;
       } else {
         //negative flow
@@ -111,6 +109,7 @@ $('input[type="submit"]').click(function () {
       break;
   }
 
+  console.log(log);
   FollowAnalytics.logEvent("Survey_Analytics", log);
   setActivePage(++currentPage);
 });
@@ -148,7 +147,6 @@ $(window).on("load", () => {
         backgroundImage: `url(${general_params.image})`,
       });
     }
-    
 
     /*--------------------------START PAGE--------------------------*/
     let start_params = FollowAnalyticsParams.start_params;
@@ -276,7 +274,7 @@ $(window).on("load", () => {
           size(FollowAnalyticsParams.questions) +
           "</p>"
       );
-      const questionWrapper = $('<div id="questionWrapper" />');
+      const questionWrapper = $('<div class="" />');
       const questionTitle = $('<p class="question_title" />');
       questionTitle.text(element.question.text);
       const questionBody = $('<div id="questionBody' + index + '" />');
@@ -353,7 +351,9 @@ $(window).on("load", () => {
       }
 
       const nextBtnContainer = $(
-        '<div class="submit_btn__wrapper"><input type="submit"' +
+        '<div class="submit_btn__wrapper' +
+          (element.question.type == "textarea" ? "active" : "") +
+          '"><input type="submit"' +
           'data-qid="' +
           index +
           '"' +
@@ -422,7 +422,9 @@ $(window).on("load", () => {
     goodbyeInputContainer.append(goodbyeInputPhone);
     goodbyePage.append(goodbyeInputContainer);
 
-    const goodbyeButtonContainer = $('<div class="submit_btn__wrapper" />');
+    const goodbyeButtonContainer = $(
+      '<div class="submit_btn__wrapper active" />'
+    );
     const goodbyeButton = $(
       '<button class="submit_btn">' +
         end_params.goodbye_button_text +
