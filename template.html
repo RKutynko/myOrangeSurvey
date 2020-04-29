@@ -9,6 +9,7 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
     />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/css/ion.rangeSlider.min.css"/>
     <!-- <link href="./css/main.css" rel="stylesheet" /> -->
     <link href="./css/style.css" rel="stylesheet" />
   </head>
@@ -230,12 +231,12 @@
                   vous recommandiez Orange à vos proches ou à vos amis ?
                 </p>
                 <div class="feedback_wrapper range_wrapper">
-                  <div class="question_range_label__wrapper">
+                  <!-- <div class="question_range_label__wrapper">
                     <span class="question_range_number">0</span>
                     <span class="question_range_number">10</span>
-                  </div>
+                  </div> -->
                   <div class="question_range__wrapper">
-                    <label id="rangeValue" class="question_range_value"
+                    <!-- <label id="rangeValue" class="question_range_value"
                       >5</label
                     >
                     <input
@@ -246,7 +247,8 @@
                       name="question2YesRange"
                       class="question_range"
                       id="rangeSlider"
-                    />
+                    /> -->
+                    <input type="text" class="js-range-slider question_range" name="my_range" value="" />
                   </div>
                   <div class="question_range_label__wrapper">
                     <span class="question_range_label">Quasi nulle</span>
@@ -364,6 +366,7 @@
     </div>
   </body>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/js/ion.rangeSlider.min.js"></script>
   <script type="text/javascript" src="fa-sdk.js"></script>
   <script src="./js/script.js"></script>
 </html>

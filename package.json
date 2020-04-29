@@ -25,6 +25,7 @@
     "webpack-cli": "^3.3.11"
   },
   "dependencies": {
+    "ion-rangeslider": "^2.3.1",
     "jquery": "^3.5.0",
     "lodash": "^4.17.15",
     "zip-a-folder": "0.0.12"

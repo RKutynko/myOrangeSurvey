@@ -1,5 +1,5 @@
 $(document).ready(function () {
-  let rangeSlider = document.getElementById("rangeSlider");
+  /*let rangeSlider = document.getElementById("rangeSlider");
   let rangeBullet = document.getElementById("rangeValue");
   rangeSlider.addEventListener("input", showSliderValue, false);
 
@@ -10,7 +10,13 @@ $(document).ready(function () {
     console.log(rangeSlider.offsetWidth);
 
     rangeBullet.style.left = (bulletPosition * (rangeSlider.offsetWidth - 22)) + "px";
-  }
+  }*/
+
+  $(".js-range-slider").ionRangeSlider({
+    min: 0,
+    max: 10,
+    from: 5
+});
 
   $('.question_radio input[type="radio"]').click(function () {
     let val = $(this).attr("value").toLowerCase();
