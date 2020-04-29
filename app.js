@@ -236,7 +236,9 @@ $(window).on("load", () => {
                   index +
                   "_" +
                   optionIndex +
-                  '" value="" />' +
+                  '" value="' +
+                  option.text +
+                  '" />' +
                   '<label for="question' +
                   index +
                   "_" +
@@ -247,6 +249,8 @@ $(window).on("load", () => {
                   "</div>"
               );
               questionBody.append(radioContainer);
+              questionBody.append(yesContainer);
+              questionBody.append(noContainer);
             }
           );
           break;
@@ -264,26 +268,23 @@ $(window).on("load", () => {
           break;
       }
 
-      questionWrapper.append(questionTitle);
-      questionWrapper.append(questionBody);
-
-      if (element.question.type == "radio") {
-        questionWrapper.append(yesContainer);
-        questionWrapper.append(noContainer);
-      }
-
       const nextBtnContainer = $(
         '<div class="submit_btn__wrapper"><input type="submit"' +
           'data-qid="' +
           index +
+          '"' +
+          'data-qtype="' +
+          element.question.type +
           '"' +
           ' value="' +
           global_params.next_button_text +
           '" class="submit_btn" /></div>'
       );
 
-      //TODO добавить обработчик
-      questionWrapper.append(nextBtnContainer);
+      questionBody.append(nextBtnContainer);
+
+      questionWrapper.append(questionTitle);
+      questionWrapper.append(questionBody);
 
       questionContainer.append(questionLabel);
       questionContainer.append(questionWrapper);
