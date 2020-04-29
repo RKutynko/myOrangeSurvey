@@ -30,27 +30,51 @@
   },
   "inputs": [
     {
-      "name": "global_params",
+      "name": "general_params",
       "label": {
-        "en": "Global params",
-        "fr": "Mondial params"
+        "en": "General params",
+        "fr": "Général params"
       },
       "type": "group",
       "inputs": [
         {
-          "name": "font_size",
+          "name": "font_size_title",
           "label": {
-            "en": "Font size",
-            "fr": "Taille de la police"
+            "en": "Title font size",
+            "fr": "Taille de la police de titre"
           },
-          "type": "string",
-          "default": ""
+          "type": "number",
+          "default": 18,
+          "precision": 0,
+          "min": 12,
+          "max": 32
         },
         {
-          "name": "font_color",
+          "name": "font_color_title",
           "label": {
-            "en": "Color of the font",
-            "fr": "Couleur de la police"
+            "en": "Title font color",
+            "fr": "Couleur de la police de titre"
+          },
+          "type": "color",
+          "default": "#000000"
+        },
+        {
+          "name": "font_size_body",
+          "label": {
+            "en": "Body font size",
+            "fr": "Taille de la police du corps"
+          },
+          "type": "number",
+          "default": 16,
+          "precision": 0,
+          "min": 12,
+          "max": 32
+        },
+        {
+          "name": "font_color_body",
+          "label": {
+            "en": "Body font color",
+            "fr": "Couleur de la police du corps"
           },
           "type": "color",
           "default": "#000000"
@@ -93,6 +117,26 @@
           "type": "string",
           "default": "Saisissez ici votre réponse.",
           "max_length": 100,
+          "lines": 1
+        },
+        {
+          "name": "text_range_label_from",
+          "label": {
+            "en": "Legend for 'from' label on the range input",
+            "fr": "Légende pour l'étiquette 'from' sur l'entrée de plage"
+          },
+          "type": "string",
+          "default": "Quasi nulle",
+          "lines": 1
+        },
+        {
+          "name": "text_range_label_to",
+          "label": {
+            "en": "Legend for 'to' label on the range input",
+            "fr": "Légende pour l'étiquette ' to ' sur l'entrée de plage"
+          },
+          "type": "string",
+          "default": "Très probable",
           "lines": 1
         }
       ]
@@ -311,59 +355,202 @@
       ]
     },
     {
-      "name": "feedback_question",
+      "name": "positive_questions",
       "label": {
-        "en": "Questions for yes/no answers",
-        "fr": "Questions pour les réponses oui/non"
+        "en": "Positive flow questions",
+        "fr": "Questions de flux positif"
       },
-      "type": "group",
+      "type": "pages",
+      "min_pages": 1,
+      "max_pages": 10,
       "inputs": [
         {
-          "name": "text_rating_positive",
+          "name": "question",
+          "type": "group",
           "label": {
-            "en": "Question for rating (positive flow)",
-            "fr": "Question pour l'évaluation (flux positif)"
+            "en": "Question",
+            "fr": "Question"
           },
-          "type": "string",
-          "lines": 3
+          "inputs": [
+            {
+              "name": "text",
+              "label": {
+                "en": "Text",
+                "fr": "Texte"
+              },
+              "type": "string",
+              "lines": 3
+            },
+            {
+              "name": "type",
+              "label": {
+                "en": "Type of answer",
+                "fr": "Type de réponse"
+              },
+              "type": "enum",
+              "default": "checkbox",
+              "values": [
+                {
+                  "value": "checkbox",
+                  "caption": {
+                    "en": "Multiple checkbox",
+                    "fr": "Plusieurs case"
+                  }
+                },
+                {
+                  "value": "radio",
+                  "caption": {
+                    "en": "Yes/No question",
+                    "fr": "Oui / Non question"
+                  }
+                },
+                {
+                  "value": "textarea",
+                  "caption": {
+                    "en": "Textarea",
+                    "fr": "Textarea"
+                  }
+                },
+                {
+                  "value": "rating",
+                  "caption": {
+                    "en": "Rating",
+                    "fr": "Évaluation"
+                  }
+                },
+                {
+                  "value": "range",
+                  "caption": {
+                    "en": "Range",
+                    "fr": "Gamme"
+                  }
+                }
+              ]
+            }
+          ]
         },
         {
-          "name": "text_range_positive",
+          "name": "options",
           "label": {
-            "en": "Question for range (positive flow)",
-            "fr": "Question pour la gamme (flux positif)"
+            "en": "Options",
+            "fr": "Options"
           },
-          "type": "string",
-          "lines": 3
+          "tooltip": {
+            "en": "The 'textarea', 'rating' and 'range' question types doesn't need any options",
+            "fr": "Les types de questions 'textarea',' rating ' et 'range' n'ont pas besoin d'options"
+          },
+          "type": "table",
+          "max_size": 6,
+          "inputs": [
+            {
+              "name": "text",
+              "label": {
+                "en": "Text",
+                "fr": "Texte"
+              },
+              "type": "string"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "negative_questions",
+      "label": {
+        "en": "Negative flow questions",
+        "fr": "Questions de flux négatif"
+      },
+      "type": "pages",
+      "min_pages": 1,
+      "max_pages": 10,
+      "inputs": [
+        {
+          "name": "question",
+          "type": "group",
+          "label": {
+            "en": "Question",
+            "fr": "Question"
+          },
+          "inputs": [
+            {
+              "name": "text",
+              "label": {
+                "en": "Text",
+                "fr": "Texte"
+              },
+              "type": "string",
+              "lines": 3
+            },
+            {
+              "name": "type",
+              "label": {
+                "en": "Type of answer",
+                "fr": "Type de réponse"
+              },
+              "type": "enum",
+              "default": "checkbox",
+              "values": [
+                {
+                  "value": "checkbox",
+                  "caption": {
+                    "en": "Multiple checkbox",
+                    "fr": "Plusieurs case"
+                  }
+                },
+                {
+                  "value": "radio",
+                  "caption": {
+                    "en": "Yes/No question",
+                    "fr": "Oui / Non question"
+                  }
+                },
+                {
+                  "value": "textarea",
+                  "caption": {
+                    "en": "Textarea",
+                    "fr": "Textarea"
+                  }
+                },
+                {
+                  "value": "rating",
+                  "caption": {
+                    "en": "Rating",
+                    "fr": "Évaluation"
+                  }
+                },
+                {
+                  "value": "range",
+                  "caption": {
+                    "en": "Range",
+                    "fr": "Gamme"
+                  }
+                }
+              ]
+            }
+          ]
         },
         {
-          "name": "text_range_label_from",
+          "name": "options",
           "label": {
-            "en": "Legend for 'from' label on the range input",
-            "fr": "Légende pour l'étiquette 'from' sur l'entrée de plage"
+            "en": "Options",
+            "fr": "Options"
           },
-          "type": "string",
-          "default": "Quasi nulle",
-          "lines": 1
-        },
-        {
-          "name": "text_range_label_to",
-          "label": {
-            "en": "Legend for 'to' label on the range input",
-            "fr": "Légende pour l'étiquette ' to ' sur l'entrée de plage"
+          "tooltip": {
+            "en": "The 'textarea', 'rating' and 'range' question types doesn't need any options",
+            "fr": "Les types de questions 'textarea',' rating ' et 'range' n'ont pas besoin d'options"
           },
-          "type": "string",
-          "default": "Très probable",
-          "lines": 1
-        },
-        {
-          "name": "text_textarea_negative",
-          "label": {
-            "en": "Question for textarea (negative flow)",
-            "fr": "Question pour textarea (flux négatif)"
-          },
-          "type": "string",
-          "lines": 3
+          "type": "table",
+          "max_size": 6,
+          "inputs": [
+            {
+              "name": "text",
+              "label": {
+                "en": "Text",
+                "fr": "Texte"
+              },
+              "type": "string"
+            }
+          ]
         }
       ]
     }

@@ -1,12 +1,15 @@
 $(document).ready(function () {
-
   let rangeSlider = document.getElementById("rangeSlider");
   let rangeBullet = document.getElementById("rangeValue");
   rangeSlider.addEventListener("input", showSliderValue, false);
+
   function showSliderValue() {
     rangeBullet.innerHTML = rangeSlider.value;
     let bulletPosition = rangeSlider.value / rangeSlider.max;
-    rangeBullet.style.left = bulletPosition * rangeSlider.offsetWidth + "px";
+
+    console.log(rangeSlider.offsetWidth);
+
+    rangeBullet.style.left = (bulletPosition * (rangeSlider.offsetWidth - 22)) + "px";
   }
 
   $('.question_radio input[type="radio"]').click(function () {

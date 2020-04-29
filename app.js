@@ -137,17 +137,18 @@ $(window).on("load", () => {
 
     const templateContainer = $(".multiFullcreenTemplate");
 
-    /*----------------------------GLOBAL CONFIGS-----------------------------*/
-    let global_params = FollowAnalyticsParams.global_params;
+    /*----------------------------GENERAL CONFIGS-----------------------------*/
+    let general_params = FollowAnalyticsParams.general_params;
 
     //handling image
     const image = $('<div class="message_avatar" />');
-    if (!!global_params.image) {
+    if (!!general_params.image) {
       const image = $('<div class="message_avatar" />');
       image.css({
-        backgroundImage: `url(${global_params.image})`,
+        backgroundImage: `url(${general_params.image})`,
       });
     }
+    
 
     /*--------------------------START PAGE--------------------------*/
     let start_params = FollowAnalyticsParams.start_params;
@@ -159,8 +160,16 @@ $(window).on("load", () => {
     const greetingTextContainer = $('<div class="message_text__wrapper" />');
     const greetingTitle = $('<p class="message_title" />');
     greetingTitle.text(start_params.greeting_title);
+    greetingTitle.css({
+      fontSize: general_params.font_size_title,
+      color: general_params.font_color_title,
+    });
     const greetingText = $('<p class="message_text" />');
     greetingText.text(start_params.greeting_text);
+    greetingText.css({
+      fontSize: general_params.font_size_body,
+      color: general_params.font_color_body,
+    });
     greetingTextContainer.append(greetingTitle);
     greetingTextContainer.append(greetingText);
 
@@ -243,7 +252,7 @@ $(window).on("load", () => {
       '<div class="feedback_wrapper">' +
         '<textarea class="question_textarea question_input"' +
         'name="questionNo" placeholder="' +
-        global_params.textarea_placeholder +
+        general_params.textarea_placeholder +
         '"' +
         'maxlength="700" ></textarea>' +
         "</div>"
@@ -335,7 +344,7 @@ $(window).on("load", () => {
               ' name="question' +
               index +
               '" placeholder="' +
-              global_params.textarea_placeholder +
+              general_params.textarea_placeholder +
               '" maxlength="700">' +
               "</textarea>"
           );
@@ -352,8 +361,10 @@ $(window).on("load", () => {
           element.question.type +
           '"' +
           ' value="' +
-          global_params.next_button_text +
-          '" class="submit_btn" /></div>'
+          general_params.next_button_text +
+          '" class="submit_btn" style="background-color: ' +
+          general_params.next_button_color +
+          ';" /></div>'
       );
 
       questionBody.append(nextBtnContainer);
@@ -380,8 +391,16 @@ $(window).on("load", () => {
     const goodbyeTextContainer = $('<div class="message_text__wrapper" />');
     const goodbyeTitle = $('<p class="message_title" />');
     goodbyeTitle.text(end_params.goodbye_title);
+    goodbyeTitle.css({
+      fontSize: general_params.font_size_title,
+      color: general_params.font_color_title,
+    });
     const goodbyeText = $('<p class="message_text" />');
     goodbyeText.text(end_params.goodbye_text);
+    goodbyeText.css({
+      fontSize: general_params.font_size_body,
+      color: general_params.font_color_body,
+    });
     goodbyeTextContainer.append(goodbyeTitle);
     goodbyeTextContainer.append(goodbyeText);
 

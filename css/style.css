@@ -617,9 +617,12 @@ input[type=range]:focus::-ms-fill-upper {
     line-height: 16px;
 }
 
+.question_range__wrapper {}
+
 .question_range_value {
-    left: calc(50% - 13px);
+    left: 50%;
     position: relative;
+    transform-origin: center center;
     color: #F16E00;
     font-family: "HelveticaNeue-Bold";
     font-size: 24px;
@@ -628,7 +631,9 @@ input[type=range]:focus::-ms-fill-upper {
     display: block;
     box-sizing: border-box;
     width: 26px;
+    height: 26px;
     text-align: center;
+    margin-left: -3px;
 }
 
 .question_input {
