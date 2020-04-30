@@ -2,10 +2,11 @@ const path = require("path");
 const buildOutputPath = path.join(__dirname, "dist");
 const _ = require("lodash");
 const webpack = require("webpack");
+const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
-const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
+
+const OptimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 
 module.exports = {
   context: `${__dirname}`,
@@ -22,12 +23,19 @@ module.exports = {
     minimizer: [
       new UglifyJsPlugin({
         cache: true,
-        parallel: true,
-        sourceMap: true,
       }),
-      new OptimizeCSSAssetsPlugin({}),
     ],
   },
+  // optimization: {
+  //   minimizer: [
+  //     new UglifyJsPlugin({
+  //       cache: true,
+  //       parallel: true,
+  //       sourceMap: true,
+  //     }),
+  //     new OptimizeCSSAssetsPlugin({}),
+  //   ],
+  // },
   plugins: [
     new webpack.ProvidePlugin({
       $: "jquery",
@@ -42,6 +50,14 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: "[name].css",
       chunkFilename: "[id].[hash].css",
+    }),
+    new OptimizeCssAssetsPlugin({
+      assetNameRegExp: /\.optimize\.css$/g,
+      cssProcessor: require("cssnano"),
+      cssProcessorPluginOptions: {
+        preset: ["default", { discardComments: { removeAll: true } }],
+      },
+      canPrint: true,
     }),
   ],
   module: {
@@ -58,24 +74,26 @@ module.exports = {
       },
       {
         test: /\.css$/i,
-        use: [MiniCssExtractPlugin.loader, 'css-loader'],
+        use: [MiniCssExtractPlugin.loader, "css-loader"],
       },
       {
-        test: /\.(woff|woff2|eot|ttf|otf)$/,
+        test: /\.(ttf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
         use: {
           loader: "file-loader",
           options: {
-            outputPath: "assets/fonts",
+            esModule : false,
+            // outputPath: "assets/fonts",
             name: "[hash].[ext]",
           },
         },
       },
       {
-        test: /\.(jp(e)?g|png|gif)$/,
+        test: /\.(jp(e)?g|png|gif)(\?[a-z0-9]+)?$/,
         use: {
           loader: "file-loader",
           options: {
-            outputPath: "assets/images",
+            esModule : false,
+            // outputPath: "assets/images",
             name: "[name].[ext]",
           },
         },
@@ -85,7 +103,8 @@ module.exports = {
         use: {
           loader: "file-to-string-loader",
           options: {
-            outputPath: "assets/images",
+            esModule : false,
+            // outputPath: "assets/images",
             name: "[hash].[ext]",
             limit: 1000,
           },

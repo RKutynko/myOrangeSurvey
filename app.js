@@ -1,7 +1,11 @@
 import $ from "jquery";
 import _ from "lodash";
 import "ion-rangeslider";
-// import './css/style.css';
+import "./css/main.css";
+import "./css/style.css";
+import "./js/range/ion.rangeSlider.min.css";
+import "./js/range/ion.rangeSlider.min.js";
+import "./js/script.js";
 import { handleConsoleMessage } from "./lib/utils";
 import { FollowAnalyticsWrapper } from "./lib/FollowAnalyticsWrapper";
 
@@ -20,7 +24,7 @@ const setActivePage = (index) => {
   for (let i = 0; i <= lastPage; i++) {
     const page = $(`#page-${i}`);
     if (i < index) page.addClass("pageContainer--previous");
-    if (i === index) page.addClass("pageContainer--current");
+    if (i == index) page.addClass("pageContainer--current");
     if (i > index) page.addClass("pageContainer--next");
   }
 
@@ -30,68 +34,6 @@ const setActivePage = (index) => {
     FollowAnalytics.CurrentCampaign.setData(CURRENT_PAGE_KEY, index);
   }
 };
-
-//handling answers by click on the Suivant button
-$('input[type="submit"]').click(function () {
-  let question_id = $(this).data("qid");
-  let question_type = $(this).data("qtype");
-
-  let key = "Q" + $(this).data("qid") + $(this).data("qflow");
-  let log = {};
-  switch (question_type) {
-    case "checkbox":
-      let answers = [];
-      $("#questionBody" + question_id + ' input[type="checkbox"]').each(
-        function () {
-          let label = $('label[for="' + $(this).attr("id") + '"]')
-            .text()
-            .trim();
-          if ($(this).is(":checked")) {
-            answers.push(label);
-          }
-        }
-      );
-      log["question_page"] = key;
-      log["answer"] = answers;
-      break;
-    case "radio":
-      $("#questionBody" + question_id + " .question_radio input").each(
-        function () {
-          if ($(this).is(":checked")) {
-            log["question_page"] = key;
-            log["answer"] = $(this).val();
-          }
-        }
-      );
-      break;
-
-    case "textarea":
-      log["question_page"] = key;
-      log["answer"] = $("#questionBody" + question_id + " textarea").val();
-      break;
-
-    case "rating":
-      $("#questionBody" + question_id + ' input[type="radio"]').each(
-        function () {
-          if ($(this).is(":checked")) {
-            log["question_page"] = key;
-            log["answer"] = $(this).val();
-          }
-        }
-      );
-      break;
-
-    case "range":
-      log["question_page"] = key;
-      log["answer"] = $(
-        "#questionBody" + question_id + " #questionRangeValue"
-      ).val();
-      break;
-  }
-  console.log(log);
-  FollowAnalytics.logEvent("Survey_Analytics", log);
-  setActivePage(++currentPage);
-});
 
 $(window).on("load", () => {
   try {
@@ -114,25 +56,25 @@ $(window).on("load", () => {
     lastPage =
       _.size(FollowAnalyticsParams.questions) +
       _.size(FollowAnalyticsParams.positive_questions) +
-      _.size(FollowAnalyticsParams.negative_questions) -
-      1;
+      _.size(FollowAnalyticsParams.negative_questions) +
+      2;
+    console.log("lastPage", lastPage);
 
     /*----------------------------GENERAL CONFIGS-----------------------------*/
     //handling image
+    const imageContainer = $('<div class="message_avatar__wrapper" />');
     const image = $('<div class="message_avatar" />');
     if (!!FollowAnalyticsParams.general_image.image) {
-      const image = $('<div class="message_avatar" />');
       image.css({
         backgroundImage: `url(${FollowAnalyticsParams.general_image.image})`,
       });
     }
+    imageContainer.append(image);
 
     /*--------------------------START PAGE--------------------------*/
     let start_params = FollowAnalyticsParams.start_params;
     const startPageContainer = $('<div class="pageContainer" id="page-1" />');
     const greetingPage = $('<div class="message__wrapper" />');
-    const imageContainer = $('<div class="message_avatar__wrapper" />');
-    imageContainer.append(image);
 
     const greetingTextContainer = $('<div class="message_text__wrapper" />');
     const greetingTitle = $('<p class="message_title" />');
@@ -170,18 +112,13 @@ $(window).on("load", () => {
     startPageContainer.append(greetingPage);
 
     templateContainer.append(startPageContainer);
-    /*--------------------------END OF START PAGE--------------------------*/
-    console.log("до вопросов");
-    /*--------------------------QUESTION PAGE--------------------------*/
+
     questionPageGenerator(FollowAnalyticsParams.questions, "");
-    /*--------------------------END OF QUESTION PAGE--------------------------*/
-    console.log("после  вопросов");
-    /*--------------------------FINISH PAGE--------------------------*/
 
     let end_params = FollowAnalyticsParams.end_params;
 
     const endPageContainer = $(
-      '<div class=pageContainer" id="page-' + counter + '" />'
+      '<div class="pageContainer" id="page-' + lastPage + '" />'
     );
     const goodbyePage = $('<div class="message__wrapper" />');
 
@@ -232,10 +169,6 @@ $(window).on("load", () => {
         name: $("input#name").val(),
         mobile: $("input#phone").val(),
       });
-      console.log("Survey_Analytics", {
-        name: $("input#name").val(),
-        mobile: $("input#phone").val(),
-      });
     });
     goodbyeButtonContainer.append(goodbyeButton);
     goodbyePage.append(goodbyeButtonContainer);
@@ -258,33 +191,35 @@ $(window).on("load", () => {
 
 function questionPageGenerator(questions, typeFlow) {
   _.forEach(questions, (element, index) => {
-    console.log("counter", counter);
+    console.log("typeFlow", typeFlow);
     const pageContainer = $(
-      `<div id="page-${counter}" class="pageContainer ${typeFlow}" />`
+      `<div id="page-${counter}" class="pageContainer" data-flow=${typeFlow} />`
     );
     const questionContainer = $('<div class="question__wrapper" />');
     const questionLabel = $(
-      '<p class="question_label">' + "Question " + index + "</p>"
+      //TODO добавить какой-то счетчик, чтобы все вопросы шли по порядку
+      '<p class="question_label">' + "Question " + "</p>"
     );
     const questionBlock = $('<div class="" />');
     const questionTitle = $('<p class="question_title" />');
     questionTitle.text(element.question.text);
-    const questionBody = $('<div id="questionBody' + counter + '" />');
+    const questionBody = $('<div id="questionBody' + index + typeFlow + '" />');
 
     switch (element.question.type) {
       case "checkbox":
-        _.forEach(questions.options, (option, optionIndex) => {
+        console.log("element.options", element.options);
+        _.forEach(element.options, (option, optionIndex) => {
           let checkboxContainer = $(
             '<div class="question_checkbox">' +
               '<input type="checkbox" name="question' +
-              counter +
+              index +
               '" id="question' +
-              counter +
+              index +
               "_" +
               optionIndex +
               '" value="" />' +
               '<label for="question' +
-              counter +
+              index +
               "_" +
               optionIndex +
               '" class="question_checkbox_label">' +
@@ -296,27 +231,59 @@ function questionPageGenerator(questions, typeFlow) {
         });
         break;
       case "radio":
-        _.forEach(questions.options, (option, optionIndex) => {
-          let radioContainer = $(
-            '<div class="question_radio">' +
-              '<input type="radio" name="question' +
-              counter +
+        _.forEach(element.options, (option, optionIndex) => {
+          let radioContainer = $('<div class="question_radio" />');
+          let radioInput = $(
+            '<input type="radio" name="question' +
+              index +
               '" id="question' +
-              counter +
+              index +
               "_" +
               optionIndex +
               '" value="' +
-              option.text +
-              '" />' +
-              '<label for="question' +
-              counter +
+              optionIndex +
+              '" />'
+          );
+          const radioLabel = $(
+            '<label for="question' +
+              index +
               "_" +
               optionIndex +
               '" class="question_radio_label">' +
               option.text +
-              "</label>" +
-              "</div>"
+              "</label>"
           );
+          // этот странный код "развилка" для positive и negative flow, также перестраивает структуру шаблона 
+          radioInput.on("change", (_event) => {
+            console.log("click on radio", _event.target.value == 0);
+            console.log("lastPage", lastPage);
+            // if positive flow
+            let newSizePages = lastPage;
+            if (_event.target.value == 0) {
+              $('.pageContainer[data-flow="B"]').remove();
+              newSizePages =
+                _.size(FollowAnalyticsParams.questions) +
+                _.size(FollowAnalyticsParams.positive_questions) +
+                2;
+            } else {
+              $('.pageContainer[data-flow="A"]').remove();
+              newSizePages =
+                _.size(FollowAnalyticsParams.questions) +
+                _.size(FollowAnalyticsParams.negative_questions) +
+                2;
+            }
+            console.log("newSizePages", newSizePages);
+            $(`#page-${lastPage}`).attr("id", `#page-${newSizePages}`);
+            lastPage = newSizePages;
+            let newPageNumber = 1;
+            $(".pageContainer").each(function () {
+              $(this).attr("id", `page-${newPageNumber}`);
+              console.log("newPageNumber", newPageNumber);
+              newPageNumber++;
+            });
+          });
+          radioContainer.append(radioInput);
+          radioContainer.append(radioLabel);
           questionBody.append(radioContainer);
         });
         break;
@@ -344,7 +311,7 @@ function questionPageGenerator(questions, typeFlow) {
             '<label for="emotions3" class="emotions_icon emotions_icon__3"></label></div>' +
             '<div><input type="radio" name="questionYesEmotions" id="emotions4" value="4" />' +
             '<label for="emotions4" class="emotions_icon emotions_icon__4"></label></div>' +
-            '<div><input type="radio" name="questionYesEmotions" id="emotions5" value="5" />' +
+            '<div><input type="radio" name="questionYesEmotions" id="emotions5" value="5" checked />' +
             '<label for="emotions5" class="emotions_icon emotions_icon__5"></label></div>'
         );
         questionBody.append(ratingContainer);
@@ -353,10 +320,10 @@ function questionPageGenerator(questions, typeFlow) {
         let rangeContainer = $(
           '<div class="feedback_wrapper range_wrapper">' +
             '<div class="question_range__wrapper">' +
+            "</div>" +
             '<input type="text" class="js-range-slider question_range"' +
             'name="my_range" value="" />' +
             '<input type="text" value="5" id="questionRangeValue" />' +
-            "</div>" +
             '<div class="question_range_label__wrapper">' +
             '<span class="question_range_label">' +
             FollowAnalyticsParams.general_params_for_inputs
@@ -377,23 +344,75 @@ function questionPageGenerator(questions, typeFlow) {
       '<div class="submit_btn__wrapper' +
         (element.question.type == "checkbox" || element.question.type == "radio"
           ? ""
-          : "active") +
+          : " active") +
         '"><input type="submit"' +
-        ' data-qid="' +
-        index +
-        '"' +
-        ' data-qtype="' +
-        element.question.type +
-        '"' +
-        ' data-qtype="' +
-        typeFlow +
-        '"' +
         ' value="' +
         FollowAnalyticsParams.general_next_button.text +
         '" class="submit_btn" style="background-color: ' +
         FollowAnalyticsParams.general_next_button.color +
         ';" /></div>'
     );
+
+    nextBtnContainer.on("click", (_event) => {
+      let key = "Q" + index + typeFlow;
+      let log = {};
+      switch (element.question.type) {
+        case "checkbox":
+          let answers = [];
+          $(
+            "#questionBody" + index + typeFlow + ' input[type="checkbox"]'
+          ).each(function () {
+            let label = $('label[for="' + $(this).attr("id") + '"]')
+              .text()
+              .trim();
+            if ($(this).is(":checked")) {
+              answers.push(label);
+            }
+          });
+
+          log["question_page"] = key;
+          log["answer"] = answers;
+          break;
+        case "radio":
+          $("#questionBody" + index + typeFlow + " .question_radio input").each(
+            function () {
+              if ($(this).is(":checked")) {
+                log["question_page"] = key;
+                log["answer"] = $(this).val();
+              }
+            }
+          );
+          break;
+
+        case "textarea":
+          log["question_page"] = key;
+          log["answer"] = $(
+            "#questionBody" + index + typeFlow + " textarea"
+          ).val();
+          break;
+
+        case "rating":
+          $("#questionBody" + index + typeFlow + ' input[type="radio"]').each(
+            function () {
+              if ($(this).is(":checked")) {
+                log["question_page"] = key;
+                log["answer"] = $(this).val();
+              }
+            }
+          );
+          break;
+
+        case "range":
+          log["question_page"] = key;
+          log["answer"] = $(
+            "#questionBody" + index + typeFlow + " #questionRangeValue"
+          ).val();
+          break;
+      }
+      console.log(log);
+      FollowAnalytics.logEvent("Survey_Analytics", log);
+      setActivePage(++currentPage);
+    });
 
     questionBody.append(nextBtnContainer);
 
@@ -414,36 +433,3 @@ function questionPageGenerator(questions, typeFlow) {
     }
   });
 }
-
-$(document).ready(function () {
-  $(".question_checkbox input").change(function () {
-    if ($(".question_checkbox input:checked").length) {
-      $(".question_checkbox")
-        .siblings(".submit_btn__wrapper")
-        .addClass("active");
-    } else {
-      $(".question_checkbox")
-        .siblings(".submit_btn__wrapper")
-        .removeClass("active");
-    }
-  });
-
-  $(".question_radio input").change(function () {
-    if ($(".question_radio input:checked").length) {
-      $(".question_radio").siblings(".submit_btn__wrapper").addClass("active");
-    } else {
-      $(".question_radio")
-        .siblings(".submit_btn__wrapper")
-        .removeClass("active");
-    }
-  });
-
-  /*$(".js-range-slider").ionRangeSlider({
-    min: 0,
-    max: 10,
-    from: 5,
-    onChange: function (data) {
-      $("#questionRangeValue").val(data.from);
-    },
-  });*/
-});

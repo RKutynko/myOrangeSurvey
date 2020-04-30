@@ -117,8 +117,7 @@
             "en": "Image",
             "fr": "Image"
           },
-          "type": "image",
-          "default": "./assets/images/Avatar.png"
+          "type": "image"
         }
       ]
     },
@@ -333,7 +332,6 @@
         "fr": "Pages du questionnaire"
       },
       "type": "pages",
-      "min_pages": 1,
       "max_pages": 10,
       "inputs": [
         {
@@ -433,7 +431,6 @@
         "fr": "Questions de flux positif"
       },
       "type": "pages",
-      "min_pages": 1,
       "max_pages": 10,
       "inputs": [
         {
@@ -533,7 +530,6 @@
         "fr": "Questions de flux négatif"
       },
       "type": "pages",
-      "min_pages": 1,
       "max_pages": 10,
       "inputs": [
         {

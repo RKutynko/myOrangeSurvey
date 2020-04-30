@@ -1,0 +1,35 @@
+body {
+    display: flex;
+    flex-direction: column;
+    line-height: 1;
+    height: 100vh;
+    width: 100vw;
+    -webkit-font-smoothing: auto;
+    margin: 0;
+}
+.multiFullcreenTemplate {
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    position: relative;    
+    background-color: #ffffff;
+}
+.pageContainer  {
+    box-sizing: border-box;
+    display: flex;
+    min-height: 100vh;
+    width: 100vw;
+    opacity: 0;
+    position: absolute;
+    padding: 44px 10px 10px;
+}
+.pageContainer--current {
+    opacity: 1;
+    transform: translateX(0);
+}
+.pageContainer--next {
+    transform: translateX(300vw);
+}
+.pageContainer--previous {
+    transform: translateX(-300vw);
+}
