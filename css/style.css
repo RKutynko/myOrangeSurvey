@@ -173,8 +173,6 @@
     width: 20px;
 }
 
-/* Small devices (portrait tablets and large phones, 600px and up) */
-
 @media only screen and (min-width: 600px) {
     .defaultTemplate .defaultTemplate__title, .defaultTemplate .defaultTemplate__body {
         margin-top: 1.5em;
@@ -184,76 +182,6 @@
     }
 }
 
-/* Medium devices (landscape tablets, 768px and up) */
-
-/* Large devices (laptops/desktops, 992px and up) */
-
-/* Extra large devices (large laptops and desktops, 1200px and up) */
-
-@supports (-webkit-overflow-scrolling: touch) {
-    /* Medium devices (tablets, 768px and up) */
-    @media only screen and (orientation: portrait) {
-        .closeButton {
-            top: 1.5em;
-        }
-    }
-    @media only screen and (min-device-width: 768px) {
-        .closeButton {
-            top: 1.5em;
-        }
-    }
-}
-
-@supports (padding-top: constant(safe-area-inset-top)) {
-    html, body {
-        height: 100vh;
-    }
-    .multiFullcreenTemplate .pageContainer {
-        padding-left: constant(safe-area-inset-left);
-        padding-right: constant(safe-area-inset-right);
-        padding-top: constant(safe-area-inset-top);
-        padding-bottom: constant(safe-area-inset-bottom);
-    }
-    @media only screen and (orientation: portrait) {
-        .closeButton {
-            top: constant(safe-area-inset-top);
-        }
-    }
-    @media only screen and (device-height: 812px) and (device-width: 375px) {
-        .multiFullcreenTemplate .pageContainer .pageSelector {
-            height: calc(1em + constant(safe-area-inset-bottom));
-        }
-    }
-    @media only screen and (device-height: 812px) and (device-width: 375px) and (orientation: portrait) {
-        .closeButton {
-            right: calc(1em + constant(safe-area-inset-right));
-        }
-    }
-    @media only screen and (device-height: 812px) and (device-width: 375px) and (orientation: landscape) {
-        .closeButton {
-            right: constant(safe-area-inset-right);
-        }
-    }
-}
-
-@supports (padding: max(0px)) {
-    html, body {
-        /* height: 100vh; */
-    }
-    .multiFullcreenTemplate .pageContainer {
-        padding-left: env(safe-area-inset-left);
-        padding-right: env(safe-area-inset-right);
-        padding-top: env(safe-area-inset-top);
-        padding-bottom: env(safe-area-inset-bottom);
-    }
-    .multiFullcreenTemplate .pageContainer .pageSelector {
-        height: max(30px, calc(1em + env(safe-area-inset-bottom)));
-    }
-    .closeButton {
-        right: max(1em, env(safe-area-inset-right));
-        top: max(0.5em, env(safe-area-inset-top));
-    }
-}
 
 .message__wrapper {
     min-height: 100vh;
@@ -373,15 +301,33 @@
     line-height: 18px;
 }
 
-#yesAnswer {
-    display: none;
-}
-
-#noAnswer {
-    display: none;
-}
-
 .question_checkbox input[type=checkbox]:checked+.question_checkbox_label {
+    background-position: -10px -50px;
+}
+
+.question_radio {
+    display: inline-block;
+    margin: 0 15px 0 0;
+}
+
+.question_radio input[type=radio] {
+    display: none;
+}
+
+.question_radio_label {
+    color: #000000;
+    font-family: "HelveticaNeue-Bold";
+    font-size: 16px;
+    letter-spacing: -0.1px;
+    line-height: 18px;
+    min-height: 20px;
+    background: url("../assets/images/sprites/radio.png") no-repeat;
+    background-position: -10px -10px;
+    padding-left: 30px;
+    display: inline-block;
+}
+
+.question_radio input[type=radio]:checked+.question_radio_label {
     background-position: -10px -50px;
 }
 
@@ -469,18 +415,6 @@
 
 .feedback_wrapper input[type=radio]:checked+.emotions_icon__5 {
     background-position: -10px -330px;
-}
-
-.question_radio {
-    display: inline-block;
-}
-
-.question_radio_label {
-    color: #000000;
-    font-family: "HelveticaNeue-Bold";
-    font-size: 16px;
-    letter-spacing: -0.1px;
-    line-height: 18px;
 }
 
 .irs--flat .irs-min, .irs--flat .irs-max {

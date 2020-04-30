@@ -90,7 +90,16 @@ $(document).ready(function () {
 
     console.log(log);
   });
-
+  $("#goodbyeButton").click(function () {
+    FollowAnalytics.logEvent("Survey_Analytics", {
+      name: $("input#name").val(),
+      mobile: $("input#phone").val(),
+    });
+    console.log("Survey_Analytics", {
+      name: $("input#name").val(),
+      mobile: $("input#phone").val(),
+    });
+  });
   $(".js-range-slider").ionRangeSlider({
     min: 0,
     max: 10,
