@@ -34,83 +34,59 @@ const setActivePage = (index) => {
 $('input[type="submit"]').click(function () {
   let question_id = $(this).data("qid");
   let question_type = $(this).data("qtype");
-  let log = {};
 
+  let key = "Q" + $(this).data("qid") + $(this).data("qflow");
+  let log = {};
   switch (question_type) {
     case "checkbox":
-      $("#questionBody" + question_id + " input")
-        .not('input[type="submit"]')
-        .each(function () {
+      let answers = [];
+      $("#questionBody" + question_id + ' input[type="checkbox"]').each(
+        function () {
           let label = $('label[for="' + $(this).attr("id") + '"]')
             .text()
             .trim();
-          let key = "Q" + question_id + "-" + label;
-          let val;
           if ($(this).is(":checked")) {
-            val = "True";
-          } else {
-            val = "False";
-          }
-          log[key] = val;
-        });
-
-      break;
-    case "radio":
-      const positiveFlowSymbol = "A";
-      const negativeFlowSymbol = "B";
-      let flag;
-      $("#questionBody" + question_id + " .question_radio input").each(
-        function () {
-          let key = "Q" + question_id + ".1";
-          let val;
-
-          if ($(this).is(":checked")) {
-            val = $(this).val();
-            log[key] = val;
-
-            if (val.toLowerCase() == "yes" || val.toLowerCase() == "oui") {
-              flag = true;
-            } else {
-              flag = false;
-            }
+            answers.push(label);
           }
         }
       );
-
-      if (flag) {
-        //positive flow
-        //handling rating
-        $(
-          "#questionBody" + question_id + " #yesAnswer .emotions_wrapper input"
-        ).each(function () {
-          let key = "Q" + question_id + ".2" + positiveFlowSymbol;
-          let val;
-          if ($(this).is(":checked")) {
-            val = $(this).val();
-            log[key] = val;
-          }
-        });
-
-        //handling range
-        let key = "Q" + question_id + ".3" + positiveFlowSymbol;
-        let val = $("#questionRangeValue").val();
-        log[key] = val;
-      } else {
-        //negative flow
-        let key = "Q" + question_id + ".2" + negativeFlowSymbol;
-        let val = $(
-          "#questionBody" + question_id + " #noAnswer textarea"
-        ).val();
-        log[key] = val;
-      }
+      log["question_page"] = key;
+      log["answer"] = answers;
       break;
+    case "radio":
+      $("#questionBody" + question_id + " .question_radio input").each(
+        function () {
+          if ($(this).is(":checked")) {
+            log["question_page"] = key;
+            log["answer"] = $(this).val();
+          }
+        }
+      );
+      break;
+
     case "textarea":
-      let key = "Q" + question_id;
-      let val = $("#questionBody" + question_id + " textarea").val();
-      log[key] = val;
+      log["question_page"] = key;
+      log["answer"] = $("#questionBody" + question_id + " textarea").val();
+      break;
+
+    case "rating":
+      $("#questionBody" + question_id + ' input[type="radio"]').each(
+        function () {
+          if ($(this).is(":checked")) {
+            log["question_page"] = key;
+            log["answer"] = $(this).val();
+          }
+        }
+      );
+      break;
+
+    case "range":
+      log["question_page"] = key;
+      log["answer"] = $(
+        "#questionBody" + question_id + " #questionRangeValue"
+      ).val();
       break;
   }
-
   console.log(log);
   FollowAnalytics.logEvent("Survey_Analytics", log);
   setActivePage(++currentPage);

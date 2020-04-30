@@ -120,6 +120,7 @@
                 type="submit"
                 data-qid="1"
                 data-qtype="checkbox"
+                data-qflow=""
                 value="Suivant"
                 class="submit_btn"
               />
@@ -161,8 +162,9 @@
             <div class="submit_btn__wrapper">
               <input
                 type="submit"
-                data-qid="1"
-                data-qtype="checkbox"
+                data-qid="2"
+                data-qtype="radio"
+                data-qflow=""
                 value="Suivant"
                 class="submit_btn"
               />
@@ -248,7 +250,8 @@
               <input
                 type="submit"
                 data-qid="3"
-                data-qtype="textarea"
+                data-qtype="rating"
+                data-qflow="A"
                 value="Suivant"
                 class="submit_btn"
               />
@@ -266,7 +269,7 @@
             Sur une échelle de 1 à 10, quelle serait la probabilité que vous
             recommandiez Orange à vos proches ou à vos amis ?
           </p>
-          <div id="questionBody3">
+          <div id="questionBody4">
             <div class="feedback_wrapper range_wrapper">
               <div class="question_range__wrapper">
                 <input
@@ -285,8 +288,9 @@
             <div class="submit_btn__wrapper active">
               <input
                 type="submit"
-                data-qid="3"
-                data-qtype="textarea"
+                data-qid="4"
+                data-qtype="range"
+                data-qflow="A"
                 value="Suivant"
                 class="submit_btn"
               />
@@ -304,18 +308,19 @@
             Nous sommes désolés, pourriez-vous nous dire ce qui n’a pas
             fonctionné ?
           </p>
-          <div id="questionBody3">
+          <div id="questionBody5">
             <textarea
               class="question_textarea question_input"
               name="question3"
               placeholder="Saisissez ici votre réponse."
               maxlength="700"
             ></textarea>
-            <div class="submit_btn__wrapper">
+            <div class="submit_btn__wrapper active">
               <input
                 type="submit"
-                data-qid="3"
+                data-qid="5"
                 data-qtype="textarea"
+                data-qflow="B"
                 value="Suivant"
                 class="submit_btn"
               />
@@ -328,25 +333,57 @@
 
       <div class="question__wrapper">
         <p id="questionLabel" class="question_label">
-          Question 3/3 Text Area
+          Question 3/3 Text Area Yes
         </p>
         <div id="questionWrapper">
           <p id="questionTitle" class="question_title">
             Merci ! Pouvez-vous nous préciser pour quelles raisons vous
             recommanderiez Orange ?
           </p>
-          <div id="questionBody3">
+          <div id="questionBody6">
             <textarea
               class="question_textarea question_input"
               name="question3"
               placeholder="Saisissez ici votre réponse."
               maxlength="700"
             ></textarea>
-            <div class="submit_btn__wrapper">
+            <div class="submit_btn__wrapper active">
               <input
                 type="submit"
-                data-qid="3"
+                data-qid="6"
                 data-qtype="textarea"
+                data-qflow="A"
+                value="Suivant"
+                class="submit_btn"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <br />
+      <br />
+      <div class="question__wrapper">
+        <p id="questionLabel" class="question_label">
+          Question 3/3 Text Area No
+        </p>
+        <div id="questionWrapper">
+          <p id="questionTitle" class="question_title">
+            Merci ! Pouvez-vous nous préciser pour quelles raisons vous
+            recommanderiez Orange ?
+          </p>
+          <div id="questionBody7">
+            <textarea
+              class="question_textarea question_input"
+              name="question3"
+              placeholder="Saisissez ici votre réponse."
+              maxlength="700"
+            ></textarea>
+            <div class="submit_btn__wrapper active">
+              <input
+                type="submit"
+                data-qid="7"
+                data-qtype="textarea"
+                data-qflow="B"
                 value="Suivant"
                 class="submit_btn"
               />
