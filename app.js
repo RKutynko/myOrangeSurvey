@@ -58,7 +58,6 @@ $(window).on("load", () => {
       _.size(FollowAnalyticsParams.positive_questions) +
       _.size(FollowAnalyticsParams.negative_questions) +
       2;
-    console.log("lastPage", lastPage);
 
     /*----------------------------GENERAL CONFIGS-----------------------------*/
     //handling image
@@ -197,8 +196,8 @@ function questionPageGenerator(questions, typeFlow) {
     );
     const questionContainer = $('<div class="question__wrapper" />');
     const questionLabel = $(
-      //TODO добавить какой-то счетчик, чтобы все вопросы шли по порядку
-      '<p class="question_label">' + "Question " + "</p>"
+      //переделать , неправильно выводит
+      `<p class="question_label">Question ${counter - 1} / ${lastPage - 2}</p>`
     );
     const questionBlock = $('<div class="" />');
     const questionTitle = $('<p class="question_title" />');
@@ -207,7 +206,6 @@ function questionPageGenerator(questions, typeFlow) {
 
     switch (element.question.type) {
       case "checkbox":
-        console.log("element.options", element.options);
         _.forEach(element.options, (option, optionIndex) => {
           let checkboxContainer = $(
             '<div class="question_checkbox">' +
@@ -253,7 +251,7 @@ function questionPageGenerator(questions, typeFlow) {
               option.text +
               "</label>"
           );
-          // этот странный код "развилка" для positive и negative flow, также перестраивает структуру шаблона 
+          // этот странный код - "развилка" для positive и negative flow, также перестраивает структуру шаблона
           radioInput.on("change", (_event) => {
             console.log("click on radio", _event.target.value == 0);
             console.log("lastPage", lastPage);
@@ -272,14 +270,17 @@ function questionPageGenerator(questions, typeFlow) {
                 _.size(FollowAnalyticsParams.negative_questions) +
                 2;
             }
-            console.log("newSizePages", newSizePages);
             $(`#page-${lastPage}`).attr("id", `#page-${newSizePages}`);
             lastPage = newSizePages;
             let newPageNumber = 1;
             $(".pageContainer").each(function () {
               $(this).attr("id", `page-${newPageNumber}`);
-              console.log("newPageNumber", newPageNumber);
               newPageNumber++;
+            });
+            let newQuestionNumber = 1;
+            $(".question_label").each(function () {
+              $(this).text(`Question ${newQuestionNumber}/${lastPage - 2}`);
+              newQuestionNumber++;
             });
           });
           radioContainer.append(radioInput);
