@@ -110,5 +110,11 @@ FollowAnalyticsParams = {
       type: "textarea",
       options: [],
     },
+    {
+      text:
+        "Que devrions-nous faire évoluer pour que vous recommandiez Orange ?",
+      type: "textarea",
+      options: [],
+    },
   ],
 };

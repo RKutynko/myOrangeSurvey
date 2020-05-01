@@ -415,7 +415,7 @@ function questionPageGenerator(questions, typeFlow) {
     const nextBtnContainer = $(
       '<div data-bgcolor="' +
         FollowAnalyticsParams.general_next_button.color +
-        '" class="submit_btn__wrapper' +
+        '" class="submit_btn__wrapper ' +
         (element.question.type == "rating" || element.question.type == "range"
           ? "active"
           : "") +
