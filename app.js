@@ -1,11 +1,9 @@
 import $ from "jquery";
 import _ from "lodash";
 import "ion-rangeslider";
+import "ion-rangeslider/css/ion.rangeSlider.min.css"
 import "./css/main.css";
 import "./css/style.css";
-// import "./js/range/ion.rangeSlider.min.css";
-// import "./js/range/ion.rangeSlider.min.js";
-// import "./js/script.js";
 import { handleConsoleMessage } from "./lib/utils";
 import { FollowAnalyticsWrapper } from "./lib/FollowAnalyticsWrapper";
 
@@ -33,6 +31,17 @@ const setActivePage = (index) => {
     console.log(`Save page: ${index}`);
     FollowAnalytics.CurrentCampaign.setData(CURRENT_PAGE_KEY, index);
   }
+};
+
+const createSlider = () => {
+  $(".js-range-slider").ionRangeSlider({
+    min: 0,
+    max: 10,
+    from: 5,
+    onChange: function (data) {
+      $("#questionRangeValue").val(data.from);
+    },
+  });
 };
 
 $(window).on("load", () => {
@@ -105,10 +114,12 @@ $(window).on("load", () => {
     }
     imageGreetingContainer.append(imageGreeting);
     //for flex displaying
-    const greetingImageMessageContainer = $('<div class="message_image__wrapper" />');
+    const greetingImageMessageContainer = $(
+      '<div class="message_image__wrapper" />'
+    );
     greetingImageMessageContainer.append(imageGreetingContainer);
     greetingImageMessageContainer.append(greetingTextContainer);
-    
+
     greetingPage.append(greetingImageMessageContainer);
     greetingPage.append(greetingButtonContainer);
 
@@ -123,7 +134,9 @@ $(window).on("load", () => {
     const endPageContainer = $(
       '<div class="pageContainer" id="page-' + lastPage + '" />'
     );
-    const goodbyePage = $('<div class="message__wrapper message__wrapper__block" />');
+    const goodbyePage = $(
+      '<div class="message__wrapper message__wrapper__block" />'
+    );
 
     const goodbyeTextContainer = $('<div class="message_text__wrapper" />');
     const goodbyeTitle = $('<p class="message_title" />');
@@ -197,8 +210,9 @@ $(window).on("load", () => {
     goodbyePage.append(goodbyeWarningBlockContainer);
     endPageContainer.append(goodbyePage);
     templateContainer.append(endPageContainer);
-    /*--------------------------END OF FINISH PAGE--------------------------*/
+
     setActivePage(currentPage);
+    createSlider();
   } catch (e) {
     handleConsoleMessage(e);
   }
@@ -374,14 +388,6 @@ function questionPageGenerator(questions, typeFlow) {
           '<input type="text" class="js-range-slider question_range"' +
             'name="my_range" value="" />'
         );
-        rangeSlider.ionRangeSlider({
-          min: 0,
-          max: 10,
-          from: 5,
-          onChange: function (data) {
-            $("#questionRangeValue").val(data.from);
-          },
-        });
 
         let rangeInput = $(
           '<input type="text" value="5" id="questionRangeValue" />'
@@ -481,7 +487,7 @@ function questionPageGenerator(questions, typeFlow) {
           ).val();
           break;
       }
-      console.log(log);
+      
       FollowAnalytics.logEvent("Survey_Analytics", log);
       setActivePage(++currentPage);
     });

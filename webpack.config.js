@@ -26,16 +26,6 @@ module.exports = {
       }),
     ],
   },
-  // optimization: {
-  //   minimizer: [
-  //     new UglifyJsPlugin({
-  //       cache: true,
-  //       parallel: true,
-  //       sourceMap: true,
-  //     }),
-  //     new OptimizeCSSAssetsPlugin({}),
-  //   ],
-  // },
   plugins: [
     new webpack.ProvidePlugin({
       $: "jquery",
@@ -82,7 +72,6 @@ module.exports = {
           loader: "file-loader",
           options: {
             esModule: false,
-            // outputPath: "assets/fonts",
             name: "[hash].[ext]",
           },
         },
@@ -93,7 +82,6 @@ module.exports = {
           loader: "file-loader",
           options: {
             esModule: false,
-            // outputPath: "assets/images",
             name: "[name].[ext]",
           },
         },
@@ -104,7 +92,6 @@ module.exports = {
           loader: "file-to-string-loader",
           options: {
             esModule: false,
-            // outputPath: "assets/images",
             name: "[hash].[ext]",
             limit: 1000,
           },
