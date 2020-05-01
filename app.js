@@ -249,19 +249,14 @@ function questionPageGenerator(questions, typeFlow) {
               optionIndex +
               '" value="" />'
           );
+
           // make "next" button disable if not checked
           checkboxInput.on("change", (_event) => {
             if (_event.target.checked) {
-              $(".question_checkbox")
-                .siblings(".submit_btn__wrapper")
-                .addClass("active");
-              $(".question_checkbox")
-                .siblings(".submit_btn__wrapper")
-                .find(".submit_btn")
-                .css(
-                  "background-color",
-                  FollowAnalyticsParams.general_next_button.color
-                );
+              let submitButton = _event.target.parentNode.parentNode.lastChild;
+              submitButton.classList.add("active");
+              submitButton.children[0].style.backgroundColor =
+                FollowAnalyticsParams.general_next_button.color;
             }
           });
           let checkboxLabel = $(
@@ -304,17 +299,10 @@ function questionPageGenerator(questions, typeFlow) {
           // этот странный код - "развилка" для positive и negative flow, также перестраивает структуру шаблона
           radioInput.on("change", (_event) => {
             // make "next" button able if checked
-
-            $(".question_radio")
-              .siblings(".submit_btn__wrapper")
-              .addClass("active");
-            $(".question_radio")
-              .siblings(".submit_btn__wrapper")
-              .find(".submit_btn")
-              .css(
-                "background-color",
-                FollowAnalyticsParams.general_next_button.color
-              );
+            let submitButton = _event.target.parentNode.parentNode.lastChild;
+            submitButton.classList.add("active");
+            submitButton.children[0].style.backgroundColor =
+              FollowAnalyticsParams.general_next_button.color;
 
             // if positive flow
             let newSizePages = lastPage;
@@ -431,19 +419,23 @@ function questionPageGenerator(questions, typeFlow) {
         (element.question.type == "rating" || element.question.type == "range"
           ? "active"
           : "") +
-        '"><input type="submit"' +
-        ' value="' +
-        FollowAnalyticsParams.general_next_button.text +
-        '" class="submit_btn" ' +
+        '" />'
+    );
+
+    const nextBtn = $(
+      '<button type="submit"' +
+        ' class="submit_btn" ' +
         (element.question.type == "rating" || element.question.type == "range"
           ? ' style="background-color: ' +
             FollowAnalyticsParams.general_next_button.color +
             ';"'
           : "") +
-        " /></div>"
+        " >" +
+        FollowAnalyticsParams.general_next_button.text +
+        "</button>"
     );
 
-    nextBtnContainer.on("click", (_event) => {
+    nextBtn.on("click", (_event) => {
       let key = "Q" + index + typeFlow;
       let log = {};
       switch (element.question.type) {
@@ -459,7 +451,11 @@ function questionPageGenerator(questions, typeFlow) {
               answers.push(label);
             }
           });
-
+          if (answers.length == 0) {
+            _event.target.parentNode.classList.remove("active");
+            _event.target.style.backgroundColor = "#CCCCCC";
+            return;
+          }
           log["question_page"] = key;
           log["answer"] = answers;
           break;
@@ -475,10 +471,16 @@ function questionPageGenerator(questions, typeFlow) {
           break;
 
         case "textarea":
-          log["question_page"] = key;
-          log["answer"] = $(
+          let textValue = $(
             "#questionBody" + index + typeFlow + " textarea"
           ).val();
+          if (textValue.length == 0) {
+            _event.target.parentNode.classList.remove("active");
+            _event.target.style.backgroundColor = "#CCCCCC";
+            return;
+          }
+          log["question_page"] = key;
+          log["answer"] = textValue;
           break;
 
         case "rating":
@@ -504,6 +506,7 @@ function questionPageGenerator(questions, typeFlow) {
       setActivePage(++currentPage);
     });
 
+    nextBtnContainer.append(nextBtn);
     questionBody.append(nextBtnContainer);
 
     questionBlock.append(questionTitle);
