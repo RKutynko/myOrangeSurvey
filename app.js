@@ -65,6 +65,7 @@ $(window).on("load", () => {
     const greetingPage = $('<div class="message__wrapper" />');
 
     const greetingTextContainer = $('<div class="message_text__wrapper" />');
+
     const greetingTitle = $('<p class="message_title" />');
     greetingTitle.text(start_params.greeting_title);
     greetingTitle.css({
@@ -103,8 +104,12 @@ $(window).on("load", () => {
       });
     }
     imageGreetingContainer.append(imageGreeting);
-    greetingPage.append(imageGreetingContainer);
-    greetingPage.append(greetingTextContainer);
+    //for flex displaying
+    const greetingImageMessageContainer = $('<div class="message_image__wrapper" />');
+    greetingImageMessageContainer.append(imageGreetingContainer);
+    greetingImageMessageContainer.append(greetingTextContainer);
+    
+    greetingPage.append(greetingImageMessageContainer);
     greetingPage.append(greetingButtonContainer);
 
     startPageContainer.append(greetingPage);
@@ -118,7 +123,7 @@ $(window).on("load", () => {
     const endPageContainer = $(
       '<div class="pageContainer" id="page-' + lastPage + '" />'
     );
-    const goodbyePage = $('<div class="message__wrapper" />');
+    const goodbyePage = $('<div class="message__wrapper message__wrapper__block" />');
 
     const goodbyeTextContainer = $('<div class="message_text__wrapper" />');
     const goodbyeTitle = $('<p class="message_title" />');
@@ -243,14 +248,6 @@ function questionPageGenerator(questions, typeFlow) {
                   "background-color",
                   FollowAnalyticsParams.general_next_button.color
                 );
-            } else {
-              $(".question_checkbox")
-                .siblings(".submit_btn__wrapper")
-                .removeClass("active");
-              $(".question_checkbox")
-                .siblings(".submit_btn__wrapper")
-                .find(".submit_btn")
-                .css("background-color", "#CCCCCC");
             }
           });
           let checkboxLabel = $(

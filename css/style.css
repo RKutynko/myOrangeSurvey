@@ -11,7 +11,22 @@
 }
 
 .message__wrapper {
-    min-height: 100vh;
+    box-sizing: border-box;
+    display: flex;
+    flex-flow: row wrap;
+    flex: 1 1 100%;
+    height: auto;
+    overflow-y: auto;
+    /* min-height: 100vh; */
+    width: 100vw;
+}
+
+.message__wrapper__block {
+    display: block;
+}
+
+.message_image__wrapper {
+    flex: 100%;
 }
 
 .message_text__wrapper {
@@ -19,7 +34,7 @@
     background: #DDDDDD;
     border-radius: 6px;
     position: relative;
-    margin: 0 0 20px;
+    margin: 33px 0 20px;
 }
 
 .message_text__wrapper::before {
@@ -34,8 +49,8 @@
 }
 
 .message_avatar__wrapper {
+    width: 100%;
     text-align: center;
-    margin: 12px 12px 30px;
 }
 
 .message_avatar {
@@ -67,7 +82,14 @@
 }
 
 .submit_btn__wrapper {
-    margin: 13px 0 0;
+    margin: 43px 0 0;
+    width: 100%;
+    align-items: center;
+    display: flex;
+    flex: 100%;
+    flex-direction: row-reverse;
+    justify-content: center;
+    flex-wrap: wrap;
 }
 
 .submit_btn {
@@ -90,8 +112,9 @@
 }
 
 .question__wrapper {
-    width: 100vw;
+    width: 100%;
     height: 100vh;
+    overflow-y: auto;
 }
 
 .question_label {
@@ -104,6 +127,7 @@
 }
 
 .question_title {
+    word-break: break-all;
     color: #000000;
     font-family: "HelveticaNeue-Bold";
     font-size: 18px;
@@ -418,7 +442,9 @@
     margin: 0 0 10px;
 }
 
-.warning_block__wrapper {}
+.warning_block__wrapper {
+    margin: 24px 0 10px 0;
+}
 
 .warning_block {
     color: #000000;
