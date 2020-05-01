@@ -1,7 +1,7 @@
 import $ from "jquery";
 import _ from "lodash";
 import "ion-rangeslider";
-import "ion-rangeslider/css/ion.rangeSlider.min.css"
+import "ion-rangeslider/css/ion.rangeSlider.min.css";
 import "./css/main.css";
 import "./css/style.css";
 import { handleConsoleMessage } from "./lib/utils";
@@ -239,7 +239,7 @@ function questionPageGenerator(questions, typeFlow) {
     switch (element.question.type) {
       case "checkbox":
         _.forEach(element.options, (option, optionIndex) => {
-          let checkboxContainer = $('<div class="question_checkbox"></div>');
+          let checkboxContainer = $('<div class="question_checkbox" />');
           let checkboxInput = $(
             '<input type="checkbox" name="question' +
               index +
@@ -360,6 +360,18 @@ function questionPageGenerator(questions, typeFlow) {
             '" maxlength="700">' +
             "</textarea>"
         );
+        textareaContainer.on("keydown", (_event) => {
+          let submitButton = _event.target.nextElementSibling;
+          if (_event.target.value.length > 0) {
+            submitButton.classList.add("active");
+            submitButton.children[0].style.backgroundColor =
+              FollowAnalyticsParams.general_next_button.color;
+          } else {
+            submitButton.classList.remove("active");
+            submitButton.children[0].style.backgroundColor = "#CCCCCC";
+          }
+        });
+
         questionBody.append(textareaContainer);
         break;
       case "rating":
@@ -416,18 +428,18 @@ function questionPageGenerator(questions, typeFlow) {
       '<div data-bgcolor="' +
         FollowAnalyticsParams.general_next_button.color +
         '" class="submit_btn__wrapper' +
-        (element.question.type == "checkbox" || element.question.type == "radio"
-          ? ""
-          : " active") +
+        (element.question.type == "rating" || element.question.type == "range"
+          ? "active"
+          : "") +
         '"><input type="submit"' +
         ' value="' +
         FollowAnalyticsParams.general_next_button.text +
         '" class="submit_btn" ' +
-        (element.question.type == "checkbox" || element.question.type == "radio"
-          ? ""
-          : ' style="background-color: ' +
+        (element.question.type == "rating" || element.question.type == "range"
+          ? ' style="background-color: ' +
             FollowAnalyticsParams.general_next_button.color +
-            ';"') +
+            ';"'
+          : "") +
         " /></div>"
     );
 
@@ -487,7 +499,7 @@ function questionPageGenerator(questions, typeFlow) {
           ).val();
           break;
       }
-      
+
       FollowAnalytics.logEvent("Survey_Analytics", log);
       setActivePage(++currentPage);
     });
