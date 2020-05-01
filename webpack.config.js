@@ -81,7 +81,7 @@ module.exports = {
         use: {
           loader: "file-loader",
           options: {
-            esModule : false,
+            esModule: false,
             // outputPath: "assets/fonts",
             name: "[hash].[ext]",
           },
@@ -92,7 +92,7 @@ module.exports = {
         use: {
           loader: "file-loader",
           options: {
-            esModule : false,
+            esModule: false,
             // outputPath: "assets/images",
             name: "[name].[ext]",
           },
@@ -103,7 +103,7 @@ module.exports = {
         use: {
           loader: "file-to-string-loader",
           options: {
-            esModule : false,
+            esModule: false,
             // outputPath: "assets/images",
             name: "[hash].[ext]",
             limit: 1000,

@@ -3,9 +3,9 @@ import _ from "lodash";
 import "ion-rangeslider";
 import "./css/main.css";
 import "./css/style.css";
-import "./js/range/ion.rangeSlider.min.css";
-import "./js/range/ion.rangeSlider.min.js";
-import "./js/script.js";
+// import "./js/range/ion.rangeSlider.min.css";
+// import "./js/range/ion.rangeSlider.min.js";
+// import "./js/script.js";
 import { handleConsoleMessage } from "./lib/utils";
 import { FollowAnalyticsWrapper } from "./lib/FollowAnalyticsWrapper";
 
@@ -59,18 +59,7 @@ $(window).on("load", () => {
       _.size(FollowAnalyticsParams.negative_questions) +
       2;
 
-    /*----------------------------GENERAL CONFIGS-----------------------------*/
-    //handling image
-    const imageContainer = $('<div class="message_avatar__wrapper" />');
-    const image = $('<div class="message_avatar" />');
-    if (!!FollowAnalyticsParams.general_image.image) {
-      image.css({
-        backgroundImage: `url(${FollowAnalyticsParams.general_image.image})`,
-      });
-    }
-    imageContainer.append(image);
-
-    /*--------------------------START PAGE--------------------------*/
+    // start page
     let start_params = FollowAnalyticsParams.start_params;
     const startPageContainer = $('<div class="pageContainer" id="page-1" />');
     const greetingPage = $('<div class="message__wrapper" />');
@@ -95,7 +84,9 @@ $(window).on("load", () => {
       '<div class="submit_btn__wrapper active" />'
     );
     const greetingButton = $(
-      '<button class="submit_btn" id="greetingButton">' +
+      '<button class="submit_btn" id="greetingButton" style="background-color: ' +
+        FollowAnalyticsParams.general_next_button.color +
+        ';">' +
         start_params.greeting_button_text +
         "</button>"
     );
@@ -104,7 +95,15 @@ $(window).on("load", () => {
     });
     greetingButtonContainer.append(greetingButton);
 
-    greetingPage.append(imageContainer);
+    const imageGreetingContainer = $('<div class="message_avatar__wrapper" />');
+    const imageGreeting = $('<div class="message_avatar" />');
+    if (FollowAnalyticsParams.general_image.image !== null) {
+      imageGreeting.css({
+        backgroundImage: `url(${FollowAnalyticsParams.general_image.image})`,
+      });
+    }
+    imageGreetingContainer.append(imageGreeting);
+    greetingPage.append(imageGreetingContainer);
     greetingPage.append(greetingTextContainer);
     greetingPage.append(greetingButtonContainer);
 
@@ -114,8 +113,8 @@ $(window).on("load", () => {
 
     questionPageGenerator(FollowAnalyticsParams.questions, "");
 
+    //end page
     let end_params = FollowAnalyticsParams.end_params;
-
     const endPageContainer = $(
       '<div class="pageContainer" id="page-' + lastPage + '" />'
     );
@@ -137,7 +136,17 @@ $(window).on("load", () => {
     goodbyeTextContainer.append(goodbyeTitle);
     goodbyeTextContainer.append(goodbyeText);
 
-    goodbyePage.append(imageContainer);
+    // dont remove because it works
+    const imageGoodbyeContainer = $('<div class="message_avatar__wrapper" />');
+    const imageGoodbye = $('<div class="message_avatar" />');
+    if (FollowAnalyticsParams.general_image.image !== null) {
+      imageGoodbye.css({
+        backgroundImage: `url(${FollowAnalyticsParams.general_image.image})`,
+      });
+    }
+    imageGoodbyeContainer.append(imageGoodbye);
+
+    goodbyePage.append(imageGoodbyeContainer);
     goodbyePage.append(goodbyeTextContainer);
 
     const goodbyeInputContainer = $('<div class="message_input__wrapper" />');
@@ -159,7 +168,9 @@ $(window).on("load", () => {
       '<div class="submit_btn__wrapper active" />'
     );
     const goodbyeButton = $(
-      '<button class="submit_btn" id="goodbyeButton">' +
+      '<button class="submit_btn" id="goodbyeButton" style="background-color: ' +
+        FollowAnalyticsParams.general_next_button.color +
+        ';">' +
         end_params.goodbye_button_text +
         "</button>"
     );
@@ -190,14 +201,16 @@ $(window).on("load", () => {
 
 function questionPageGenerator(questions, typeFlow) {
   _.forEach(questions, (element, index) => {
-    console.log("typeFlow", typeFlow);
     const pageContainer = $(
       `<div id="page-${counter}" class="pageContainer" data-flow=${typeFlow} />`
     );
     const questionContainer = $('<div class="question__wrapper" />');
     const questionLabel = $(
-      //переделать , неправильно выводит
-      `<p class="question_label">Question ${counter - 1} / ${lastPage - 2}</p>`
+      '<p class="question_label">Question ' +
+        (counter - 1) +
+        "/" +
+        (lastPage - 2) +
+        "</p>"
     );
     const questionBlock = $('<div class="" />');
     const questionTitle = $('<p class="question_title" />');
@@ -207,24 +220,50 @@ function questionPageGenerator(questions, typeFlow) {
     switch (element.question.type) {
       case "checkbox":
         _.forEach(element.options, (option, optionIndex) => {
-          let checkboxContainer = $(
-            '<div class="question_checkbox">' +
-              '<input type="checkbox" name="question' +
+          let checkboxContainer = $('<div class="question_checkbox"></div>');
+          let checkboxInput = $(
+            '<input type="checkbox" name="question' +
               index +
               '" id="question' +
               index +
               "_" +
               optionIndex +
-              '" value="" />' +
-              '<label for="question' +
+              '" value="" />'
+          );
+          // make "next" button disable if not checked
+          checkboxInput.on("change", (_event) => {
+            if (_event.target.checked) {
+              $(".question_checkbox")
+                .siblings(".submit_btn__wrapper")
+                .addClass("active");
+              $(".question_checkbox")
+                .siblings(".submit_btn__wrapper")
+                .find(".submit_btn")
+                .css(
+                  "background-color",
+                  FollowAnalyticsParams.general_next_button.color
+                );
+            } else {
+              $(".question_checkbox")
+                .siblings(".submit_btn__wrapper")
+                .removeClass("active");
+              $(".question_checkbox")
+                .siblings(".submit_btn__wrapper")
+                .find(".submit_btn")
+                .css("background-color", "#CCCCCC");
+            }
+          });
+          let checkboxLabel = $(
+            '<label for="question' +
               index +
               "_" +
               optionIndex +
               '" class="question_checkbox_label">' +
               option.text +
-              "</label>" +
-              "</div>"
+              "</label>"
           );
+          checkboxContainer.append(checkboxInput);
+          checkboxContainer.append(checkboxLabel);
           questionBody.append(checkboxContainer);
         });
         break;
@@ -253,8 +292,19 @@ function questionPageGenerator(questions, typeFlow) {
           );
           // этот странный код - "развилка" для positive и negative flow, также перестраивает структуру шаблона
           radioInput.on("change", (_event) => {
-            console.log("click on radio", _event.target.value == 0);
-            console.log("lastPage", lastPage);
+            // make "next" button able if checked
+
+            $(".question_radio")
+              .siblings(".submit_btn__wrapper")
+              .addClass("active");
+            $(".question_radio")
+              .siblings(".submit_btn__wrapper")
+              .find(".submit_btn")
+              .css(
+                "background-color",
+                FollowAnalyticsParams.general_next_button.color
+              );
+
             // if positive flow
             let newSizePages = lastPage;
             if (_event.target.value == 0) {
@@ -320,12 +370,28 @@ function questionPageGenerator(questions, typeFlow) {
       case "range":
         let rangeContainer = $(
           '<div class="feedback_wrapper range_wrapper">' +
-            '<div class="question_range__wrapper">' +
-            "</div>" +
-            '<input type="text" class="js-range-slider question_range"' +
-            'name="my_range" value="" />' +
-            '<input type="text" value="5" id="questionRangeValue" />' +
-            '<div class="question_range_label__wrapper">' +
+            '<div class="question_range__wrapper"></div></div>'
+        );
+
+        let rangeSlider = $(
+          '<input type="text" class="js-range-slider question_range"' +
+            'name="my_range" value="" />'
+        );
+        rangeSlider.ionRangeSlider({
+          min: 0,
+          max: 10,
+          from: 5,
+          onChange: function (data) {
+            $("#questionRangeValue").val(data.from);
+          },
+        });
+
+        let rangeInput = $(
+          '<input type="text" value="5" id="questionRangeValue" />'
+        );
+
+        let rangelabel = $(
+          '<div class="question_range_label__wrapper">' +
             '<span class="question_range_label">' +
             FollowAnalyticsParams.general_params_for_inputs
               .text_range_label_from +
@@ -334,24 +400,32 @@ function questionPageGenerator(questions, typeFlow) {
             FollowAnalyticsParams.general_params_for_inputs
               .text_range_label_to +
             "</span>" +
-            "</div>" +
             "</div>"
         );
+        rangeContainer.append(rangeSlider);
+        rangeContainer.append(rangeInput);
+        rangeContainer.append(rangelabel);
         questionBody.append(rangeContainer);
         break;
     }
 
     const nextBtnContainer = $(
-      '<div class="submit_btn__wrapper' +
+      '<div data-bgcolor="' +
+        FollowAnalyticsParams.general_next_button.color +
+        '" class="submit_btn__wrapper' +
         (element.question.type == "checkbox" || element.question.type == "radio"
           ? ""
           : " active") +
         '"><input type="submit"' +
         ' value="' +
         FollowAnalyticsParams.general_next_button.text +
-        '" class="submit_btn" style="background-color: ' +
-        FollowAnalyticsParams.general_next_button.color +
-        ';" /></div>'
+        '" class="submit_btn" ' +
+        (element.question.type == "checkbox" || element.question.type == "radio"
+          ? ""
+          : ' style="background-color: ' +
+            FollowAnalyticsParams.general_next_button.color +
+            ';"') +
+        " /></div>"
     );
 
     nextBtnContainer.on("click", (_event) => {

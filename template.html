@@ -440,8 +440,21 @@
       </div>
     </div>
   </body>
+  
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/js/ion.rangeSlider.min.js"></script>
   <script type="text/javascript" src="fa-sdk.js"></script>
   <script src="./js/script.js"></script>
+  <script>
+    $(document).ready(function () {
+      $(".js-range-slider").ionRangeSlider({
+        min: 0,
+        max: 10,
+        from: 5,
+        onChange: function (data) {
+          $("#questionRangeValue").val(data.from);
+        },
+      });
+    });
+  </script>
 </html>

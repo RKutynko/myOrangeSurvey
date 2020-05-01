@@ -10,7 +10,6 @@
     src: url("../assets/fonts/HelveticaNeue-55-Roman/HelveticaNeue-55-Roman.eot?#iefix") format("embedded-opentype"), url("../assets/fonts/HelveticaNeue-55-Roman/HelveticaNeue-55-Roman.woff2") format("woff2"), url("../assets/fonts/HelveticaNeue-55-Roman/HelveticaNeue-55-Roman.woff") format("woff"), url("../assets/fonts/HelveticaNeue-55-Roman/HelveticaNeue-55-Roman.ttf") format("truetype"), url("../assets/fonts/HelveticaNeue-55-Roman/HelveticaNeue-55-Roman.svg#HelveticaNeue-55-Roman") format("svg");
 }
 
-
 .message__wrapper {
     min-height: 100vh;
 }
@@ -89,10 +88,12 @@
     background-color: #F16E00;
     pointer-events: auto;
 }
+
 .question__wrapper {
     width: 100vw;
     height: 100vh;
 }
+
 .question_label {
     font-family: "HelveticaNeue-Bold";
     color: #666666;
