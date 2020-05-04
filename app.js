@@ -296,41 +296,13 @@ function questionPageGenerator(questions, typeFlow) {
               option.text +
               "</label>"
           );
-          // этот странный код - "развилка" для positive и negative flow, также перестраивает структуру шаблона
+
           radioInput.on("change", (_event) => {
             // make "next" button able if checked
             let submitButton = _event.target.parentNode.parentNode.lastChild;
             submitButton.classList.add("active");
             submitButton.children[0].style.backgroundColor =
               FollowAnalyticsParams.general_next_button.color;
-
-            // if positive flow
-            let newSizePages = lastPage;
-            if (_event.target.value == 0) {
-              $('.pageContainer[data-flow="B"]').remove();
-              newSizePages =
-                _.size(FollowAnalyticsParams.questions) +
-                _.size(FollowAnalyticsParams.positive_questions) +
-                2;
-            } else {
-              $('.pageContainer[data-flow="A"]').remove();
-              newSizePages =
-                _.size(FollowAnalyticsParams.questions) +
-                _.size(FollowAnalyticsParams.negative_questions) +
-                2;
-            }
-            $(`#page-${lastPage}`).attr("id", `#page-${newSizePages}`);
-            lastPage = newSizePages;
-            let newPageNumber = 1;
-            $(".pageContainer").each(function () {
-              $(this).attr("id", `page-${newPageNumber}`);
-              newPageNumber++;
-            });
-            let newQuestionNumber = 1;
-            $(".question_label").each(function () {
-              $(this).text(`Question ${newQuestionNumber}/${lastPage - 2}`);
-              newQuestionNumber++;
-            });
           });
           radioContainer.append(radioInput);
           radioContainer.append(radioLabel);
@@ -460,14 +432,47 @@ function questionPageGenerator(questions, typeFlow) {
           log["answer"] = answers;
           break;
         case "radio":
+          let radionValue;
           $("#questionBody" + index + typeFlow + " .question_radio input").each(
             function () {
               if ($(this).is(":checked")) {
                 log["question_page"] = key;
                 log["answer"] = $(this).val();
+                radionValue = $(this).val();
               }
             }
           );
+
+          // этот странный код - "развилка" для positive и negative flow, также перестраивает структуру шаблона
+          // if positive flow
+          let newSizePages = lastPage;
+          console.log("radionValue", radionValue);
+          if (radionValue == 0) {
+            $('.pageContainer[data-flow="B"]').remove();
+            newSizePages =
+              _.size(FollowAnalyticsParams.questions) +
+              _.size(FollowAnalyticsParams.positive_questions) +
+              2;
+          } else {
+            $('.pageContainer[data-flow="A"]').remove();
+            newSizePages =
+              _.size(FollowAnalyticsParams.questions) +
+              _.size(FollowAnalyticsParams.negative_questions) +
+              2;
+          }
+          $(`#page-${lastPage}`).attr("id", `#page-${newSizePages}`);
+          lastPage = newSizePages;
+          let newPageNumber = 1;
+          $(".pageContainer").each(function () {
+            $(this).attr("id", `page-${newPageNumber}`);
+            newPageNumber++;
+          });
+          let newQuestionNumber = 1;
+          $(".question_label").each(function () {
+            $(this).text(`Question ${newQuestionNumber}/${lastPage - 2}`);
+            newQuestionNumber++;
+          });
+
           break;
 
         case "textarea":
