@@ -252,11 +252,26 @@ function questionPageGenerator(questions, typeFlow) {
 
           // make "next" button disable if not checked
           checkboxInput.on("change", (_event) => {
+            let submitButton = _event.target.parentNode.parentNode.lastChild;
             if (_event.target.checked) {
-              let submitButton = _event.target.parentNode.parentNode.lastChild;
               submitButton.classList.add("active");
               submitButton.children[0].style.backgroundColor =
                 FollowAnalyticsParams.general_next_button.color;
+            } else {
+              let checkArr = [];
+              _event.target.parentNode.parentNode.childNodes.forEach(
+                (checkbox) => {
+                  if (checkbox.childNodes[0].checked) {
+                    checkArr.push(true);
+                  } else {
+                    checkArr.push(false);
+                  }
+                }
+              );
+              if (!checkArr.includes(true)) {
+                submitButton.classList.remove("active");
+                submitButton.children[0].style.backgroundColor = "#CCCCCC";
+              }
             }
           });
           let checkboxLabel = $(
