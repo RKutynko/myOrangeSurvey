@@ -196,7 +196,10 @@ $(window).on("load", () => {
       FollowAnalytics.logEvent("Survey_Analytics", {
         name: $("input#name").val(),
         mobile: $("input#phone").val(),
-      });
+	  });
+
+	  FollowAnalytics.CurrentCampaign.close();
+	  $('#popupTemplate').removeClass('backdrop');
     });
     goodbyeButtonContainer.append(goodbyeButton);
     goodbyePage.append(goodbyeButtonContainer);
