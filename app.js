@@ -12,6 +12,8 @@ const CURRENT_PAGE_KEY = "currentPage";
 let currentPage = 1;
 let lastPage = 0;
 let counter = 2;
+let positiveQuestionSize = 0;
+let negativeQuestionSize = 0;
 
 const setActivePage = (index) => {
   $(".pageContainer").each((_idx, node) => {
@@ -62,10 +64,29 @@ $(window).on("load", () => {
         message: "Missing template parameters, shutting down.",
       };
     }
+
+    if (
+      _.size(FollowAnalyticsParams.positive_questions) == 1 &&
+      FollowAnalyticsParams.positive_questions[0].question.text.length == 0
+    ) {
+      positiveQuestionSize = 0;
+    } else {
+      positiveQuestionSize = _.size(FollowAnalyticsParams.positive_questions);
+    }
+
+    if (
+      _.size(FollowAnalyticsParams.negative_questions) == 1 &&
+      FollowAnalyticsParams.negative_questions[0].question.text.length == 0
+    ) {
+      negativeQuestionSize = 0;
+    } else {
+      negativeQuestionSize = _.size(FollowAnalyticsParams.negative_questions);
+    }
+
     lastPage =
       _.size(FollowAnalyticsParams.questions) +
-      _.size(FollowAnalyticsParams.positive_questions) +
-      _.size(FollowAnalyticsParams.negative_questions) +
+      positiveQuestionSize +
+      negativeQuestionSize +
       2;
 
     // start page
@@ -196,10 +217,10 @@ $(window).on("load", () => {
       FollowAnalytics.logEvent("Survey_Analytics", {
         name: $("input#name").val(),
         mobile: $("input#phone").val(),
-	  });
+      });
 
-	  FollowAnalytics.CurrentCampaign.close();
-	  $('#popupTemplate').removeClass('backdrop');
+      FollowAnalytics.CurrentCampaign.close();
+      $("#popupTemplate").removeClass("backdrop");
     });
     goodbyeButtonContainer.append(goodbyeButton);
     goodbyePage.append(goodbyeButtonContainer);
@@ -464,7 +485,6 @@ function questionPageGenerator(questions, typeFlow) {
           // этот странный код - "развилка" для positive и negative flow, также перестраивает структуру шаблона
           // if positive flow
           let newSizePages = lastPage;
-          console.log("radionValue", radionValue);
           if (radionValue == 0) {
             $('.pageContainer[data-flow="B"]').remove();
             newSizePages =
@@ -544,8 +564,12 @@ function questionPageGenerator(questions, typeFlow) {
 
     counter++;
     if (element.question.type == "radio") {
-      questionPageGenerator(FollowAnalyticsParams.positive_questions, "A");
-      questionPageGenerator(FollowAnalyticsParams.negative_questions, "B");
+      if (positiveQuestionSize != 0) {
+        questionPageGenerator(FollowAnalyticsParams.positive_questions, "A");
+      }
+      if (negativeQuestionSize != 0) {
+        questionPageGenerator(FollowAnalyticsParams.negative_questions, "B");
+      }
     }
   });
 }
