@@ -51,7 +51,7 @@ $(window).on("load", () => {
       const savedPage = FollowAnalytics.CurrentCampaign.getData(
         CURRENT_PAGE_KEY
       );
-      currentPage = savedPage || 0;
+      currentPage = savedPage || 1;
       if (!_.isUndefined(savedPage)) {
         console.log(`Fetched saved page: ${savedPage}`);
       }
@@ -196,7 +196,10 @@ $(window).on("load", () => {
       FollowAnalytics.logEvent("Survey_Analytics", {
         name: $("input#name").val(),
         mobile: $("input#phone").val(),
-      });
+	  });
+
+	  FollowAnalytics.CurrentCampaign.close();
+	  $('#popupTemplate').removeClass('backdrop');
     });
     goodbyeButtonContainer.append(goodbyeButton);
     goodbyePage.append(goodbyeButtonContainer);
