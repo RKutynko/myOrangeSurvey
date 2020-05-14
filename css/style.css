@@ -127,7 +127,6 @@
 }
 
 .question_title {
-    word-break: break-all;
     color: #000000;
     font-family: "HelveticaNeue-Bold";
     font-size: 18px;

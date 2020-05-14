@@ -1,7 +1,7 @@
 {
   "$schema": "https://api.follow-apps.com/json-schemas/inapp-templates/v1_0_0.json",
   "template_options": {
-    "technical_name": "survey_fullscreen_template",
+    "technical_name": "myorange_fullscreen_template",
     "title": {
       "en": "Survey InApp",
       "fr": "InApp questionnaire"
@@ -10,7 +10,7 @@
       "en": "",
       "fr": ""
     },
-    "version": "1.0.0",
+    "version": "1.0.4",
     "author": "FollowAnalytics"
   },
   "sdk_options": {

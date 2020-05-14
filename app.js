@@ -214,10 +214,10 @@ $(window).on("load", () => {
         "</button>"
     );
     goodbyeButton.on("click", (_event) => {
-      FollowAnalytics.logEvent("Survey_Analytics", {
+      FollowAnalytics.logEvent("Survey_Analytics", JSON.stringify({
         name: $("input#name").val(),
         mobile: $("input#phone").val(),
-      });
+      }));
 
       FollowAnalytics.CurrentCampaign.close();
       $("#popupTemplate").removeClass("backdrop");
@@ -545,7 +545,7 @@ function questionPageGenerator(questions, typeFlow) {
           break;
       }
 
-      FollowAnalytics.logEvent("Survey_Analytics", log);
+      FollowAnalytics.logEvent("Survey_Analytics", JSON.stringify(log));
       setActivePage(++currentPage);
     });
 
